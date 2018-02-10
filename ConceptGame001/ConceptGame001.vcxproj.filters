@@ -1,75 +1,132 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\main">
-      <UniqueIdentifier>{2fd2a074-4377-457f-b7f0-26a9b0a922f1}</UniqueIdentifier>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{eaba7afb-249e-4ef5-a60f-a2e7771f33fd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\debug">
+    <Filter Include="Engine\Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Engine\Header Files\debug">
       <UniqueIdentifier>{4cc9f2de-ef45-46f2-81d8-18066d4581e3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\settings">
+    <Filter Include="Engine\Header Files\settings">
       <UniqueIdentifier>{3e32e412-b737-4cd5-834b-1e4cce6f3c59}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\game_states">
-      <UniqueIdentifier>{2dda7be3-8d78-4e78-a55a-72904d4c9046}</UniqueIdentifier>
+    <Filter Include="Engine\Header Files\input">
+      <UniqueIdentifier>{64a24802-9f17-48c1-b902-3f9c08f35ffb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\input">
+    <Filter Include="Engine\Header Files\main">
+      <UniqueIdentifier>{1eac5f42-e4bf-421e-ab3a-570ead4ad49c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Header Files\game_states">
+      <UniqueIdentifier>{ce1a0c23-89b4-4906-bfc0-6a2e118f22f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Header Files\physics">
+      <UniqueIdentifier>{f4a334ad-3c5e-4e97-9284-ab0580646ec6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Header Files\game_objects">
+      <UniqueIdentifier>{ac52fc13-2997-4bdf-a4fd-401e32dded38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Engine\Source Files\main">
+      <UniqueIdentifier>{2fd2a074-4377-457f-b7f0-26a9b0a922f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Source Files\input">
       <UniqueIdentifier>{4d97fb00-1557-4d56-9b8a-24933b809932}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\input">
-      <UniqueIdentifier>{64a24802-9f17-48c1-b902-3f9c08f35ffb}</UniqueIdentifier>
+    <Filter Include="Engine\Source Files\physics">
+      <UniqueIdentifier>{9d563ff8-baa3-41c1-af75-ba4fccaa4975}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Source Files\game_objects">
+      <UniqueIdentifier>{ec542f3b-2a0c-4f4e-8534-f5dd1b53fbab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{cb2c2e91-9dea-4492-951c-17e61a1332ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Header Files">
+      <UniqueIdentifier>{5cbbc923-c0be-4b0e-8ad7-4a9932f8011a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Source Filed">
+      <UniqueIdentifier>{6a289766-f1a3-4418-a93b-94986417ba74}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
-      <Filter>Source Files\main</Filter>
+      <Filter>Engine\Source Files\main</Filter>
     </ClCompile>
     <ClCompile Include="Source.cpp">
-      <Filter>Source Files\main</Filter>
+      <Filter>Engine\Source Files\main</Filter>
     </ClCompile>
     <ClCompile Include="Display.cpp">
-      <Filter>Source Files\main</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayingState.cpp">
-      <Filter>Source Files\game_states</Filter>
+      <Filter>Engine\Source Files\main</Filter>
     </ClCompile>
     <ClCompile Include="Input.cpp">
-      <Filter>Source Files\input</Filter>
+      <Filter>Engine\Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsEngine.cpp">
+      <Filter>Engine\Source Files\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Engine\Source Files\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBody.cpp">
+      <Filter>Engine\Source Files\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Engine\Source Files\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayingState.cpp">
+      <Filter>Game\Source Filed</Filter>
+    </ClCompile>
+    <ClCompile Include="MainCharacter.cpp">
+      <Filter>Game\Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug.h">
-      <Filter>Header Files\debug</Filter>
-    </ClInclude>
-    <ClInclude Include="Application.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Display.h">
-      <Filter>Header Files</Filter>
+      <Filter>Engine\Header Files\debug</Filter>
     </ClInclude>
     <ClInclude Include="GameSettings.h">
-      <Filter>Header Files\settings</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayingState.h">
-      <Filter>Header Files</Filter>
+      <Filter>Engine\Header Files\settings</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
-      <Filter>Header Files\input</Filter>
+      <Filter>Engine\Header Files\input</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Engine\Header Files\main</Filter>
+    </ClInclude>
+    <ClInclude Include="Display.h">
+      <Filter>Engine\Header Files\main</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Engine\Header Files\game_states</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsEngine.h">
+      <Filter>Engine\Header Files\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Engine\Header Files\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Engine\Header Files\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBody.h">
+      <Filter>Engine\Header Files\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayingState.h">
+      <Filter>Game\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainCharacter.h">
+      <Filter>Game\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

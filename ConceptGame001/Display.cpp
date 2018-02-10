@@ -1,5 +1,4 @@
 #include "Display.h"
-#include "Display.h"
 #include <memory>
 #include <iostream>
 

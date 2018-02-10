@@ -2,7 +2,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 namespace Display {
-	constexpr uint16_t HEIGHT = 400;
+	constexpr uint16_t HEIGHT = 600;
 	constexpr uint16_t WIDTH = (uint16_t)HEIGHT * 16.f / 9.f;
 	const std::string TITLE = "Concept game";
 

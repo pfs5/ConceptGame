@@ -59,7 +59,6 @@ void Application::runMainLoop() {
 		accumulator += clock.restart();
 
 		while (accumulator > dt) {
-			bool collision = false;
 			m_gameStates.top()->update(dt.asSeconds());
 
 			accumulator -= dt;
