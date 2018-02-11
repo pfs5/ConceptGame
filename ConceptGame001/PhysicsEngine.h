@@ -22,5 +22,8 @@ public:
 	// Collider factory
 	Collider * createCollider(GameObject * _gameObject);
 	RigidBody * createRigidBody(Collider * _collider);
+
+private:
+	void collisionDetection();
 };
 

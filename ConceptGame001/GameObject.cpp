@@ -14,6 +14,10 @@ void GameObject::setRigidBody(RigidBody * _rb) {
 	m_rigidBody = _rb;
 }
 
+RigidBody * GameObject::getRigidBody() {
+	return m_rigidBody;
+}
+
 void GameObject::addCollider(Collider * _c) {
 	m_colliders.push_back(_c);
 }

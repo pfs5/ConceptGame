@@ -5,6 +5,6 @@ namespace GameSettings {
 	const bool SHOW_COLLIDERS = true;
 
 	// Physics
-	const float GLOBAL_SCALE = 5 * 1e3;	// how many meters is one unit in the game (screen)
+	const float GLOBAL_SCALE = 1e2;	// how many meters is one unit in the game (screen)
 	const float GRAVITY = 9.81f * GLOBAL_SCALE;
 }

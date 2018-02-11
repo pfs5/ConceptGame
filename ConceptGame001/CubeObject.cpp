@@ -1,0 +1,41 @@
+#include "CubeObject.h"
+
+CubeObject::CubeObject(sf::Vector2f _size, sf::Vector2f _position, bool _static, bool _gravity) {
+	m_shape.setFillColor(sf::Color::Yellow);
+	m_shape.setSize(_size);
+
+	// Create rigid body
+	Collider * collider = PhysicsEngine::getInstance().createCollider(this);
+	collider->setSize(m_shape.getSize());
+	collider->setStatic(_static);
+
+	m_colliders.push_back(collider);
+
+	m_rigidBody = PhysicsEngine::getInstance().createRigidBody(collider);
+	m_rigidBody->setGravity(_gravity);
+	collider->setTrigger(false, m_rigidBody);
+
+	setPosition(_position);
+}
+
+CubeObject::~CubeObject() {
+}
+
+void CubeObject::update(float _dt) {
+}
+
+void CubeObject::draw() {
+	Display::draw(m_shape);
+}
+
+void CubeObject::onCollision() {
+}
+
+void CubeObject::setPosition(sf::Vector2f _pos) {
+	m_position = _pos;
+	m_shape.setPosition(_pos);
+
+	for (Collider * c : m_colliders) {
+		c->setPosition(_pos);
+	}
+}

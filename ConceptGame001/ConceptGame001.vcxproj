@@ -127,6 +127,7 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="CubeObject.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -139,6 +140,7 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="CubeObject.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="GameObject.h" />
@@ -149,6 +151,7 @@
     <ClInclude Include="PhysicsEngine.h" />
     <ClInclude Include="PlayingState.h" />
     <ClInclude Include="RigidBody.h" />
+    <ClInclude Include="VectorOperations.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

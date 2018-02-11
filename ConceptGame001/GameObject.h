@@ -6,6 +6,8 @@ class Collider;
 
 class GameObject {
 protected:
+	std::string m_objectTag = "";
+
 	// Transform
 	sf::Vector2f m_position;
 	
@@ -23,12 +25,16 @@ public:
 
 	// Phyics
 	void setRigidBody(RigidBody *_rb);
+	RigidBody * getRigidBody();
 	void addCollider(Collider *_c);
 
 	virtual void onCollision() = 0;
 
 	void move(sf::Vector2f _delta);
+	
 	virtual void setPosition(sf::Vector2f _pos) = 0;
 	inline sf::Vector2f getPosition() { return m_position; };
+
+	inline std::string getObjectTag() { return m_objectTag; };
 };
 

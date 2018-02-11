@@ -55,8 +55,11 @@
     <Filter Include="Game\Header Files">
       <UniqueIdentifier>{5cbbc923-c0be-4b0e-8ad7-4a9932f8011a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Source Filed">
+    <Filter Include="Game\Source Files">
       <UniqueIdentifier>{6a289766-f1a3-4418-a93b-94986417ba74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Header Files\vector_opererations">
+      <UniqueIdentifier>{85b68377-6004-4bc8-8d9a-5a2077f9086e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -85,10 +88,13 @@
       <Filter>Engine\Source Files\game_objects</Filter>
     </ClCompile>
     <ClCompile Include="PlayingState.cpp">
-      <Filter>Game\Source Filed</Filter>
+      <Filter>Game\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MainCharacter.cpp">
-      <Filter>Game\Header Files</Filter>
+      <Filter>Game\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeObject.cpp">
+      <Filter>Game\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +133,12 @@
     </ClInclude>
     <ClInclude Include="MainCharacter.h">
       <Filter>Game\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeObject.h">
+      <Filter>Game\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorOperations.h">
+      <Filter>Engine\Header Files\vector_opererations</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
