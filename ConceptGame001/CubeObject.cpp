@@ -7,6 +7,8 @@ CubeObject::CubeObject(sf::Vector2f _size, sf::Vector2f _position, bool _static,
 	// Create rigid body
 	Collider * collider = PhysicsEngine::getInstance().createCollider(this);
 	collider->setSize(m_shape.getSize());
+	m_shape.setOrigin(m_shape.getSize() / 2.f);
+
 	collider->setStatic(_static);
 
 	m_colliders.push_back(collider);
@@ -38,4 +40,8 @@ void CubeObject::setPosition(sf::Vector2f _pos) {
 	for (Collider * c : m_colliders) {
 		c->setPosition(_pos);
 	}
+}
+
+GameObject * CubeObject::clone() {
+	return nullptr;
 }

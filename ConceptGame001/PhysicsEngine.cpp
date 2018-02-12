@@ -14,6 +14,10 @@ PhysicsEngine::~PhysicsEngine() {
 void PhysicsEngine::update(float _dt) {
 	// Move rigid bodies
 	for (RigidBody * rb : m_rigidBodies) {
+		if (!rb->getGameObject()->isActive()) {
+			continue;
+		}
+
 		sf::Vector2f gravity = { 0.f, rb->hasGravity() ? GameSettings::GRAVITY : 0.f};
 
 		sf::Vector2f movement = rb->getVelocity() * _dt + 0.5f * (rb->getAcceleration() + gravity) * powf(_dt, 2);
@@ -30,7 +34,9 @@ void PhysicsEngine::draw() {
 	// Draw colliders
 	if (GameSettings::SHOW_COLLIDERS) {
 		for (Collider * c : m_colliders) {
-			Display::draw(c->getDrawable());
+			if (c->getGameObject()->isActive()) {
+				Display::draw(c->getDrawable());
+			}
 		}
 	}
 }
@@ -56,18 +62,23 @@ void PhysicsEngine::collisionDetection() {
 		Collider * c1 = m_colliders[i];
 
 		sf::Vector2f position1 = c1->getPosition();
-		sf::Vector2f size1 = c1->getSize();
+		sf::Vector2f halfSize1 = c1->getSize() / 2.f;
 
 		for (int j = i + 1; j < m_colliders.size(); ++j) {
 			Collider * c2 = m_colliders[j];
 
-			sf::Vector2f position2 = c2->getPosition();
-			sf::Vector2f size2 = c2->getSize();
+			// Check if any object is inactive
+			if (!c1->getGameObject()->isActive() || !c2->getGameObject()->isActive()) {
+				continue;
+			}
 
-			float topDiffX = position1.x - (position2.x + size2.x);
-			float botDiffX = position2.x - (position1.x + size1.x);
-			float topDiffY = position1.y - (position2.y + size2.y);
-			float botDiffY = position2.y - (position1.y + size1.y);
+			sf::Vector2f position2 = c2->getPosition();
+			sf::Vector2f halfSize2 = c2->getSize() / 2.f;
+
+			float topDiffX = position1.x - halfSize1.x - (position2.x + halfSize2.x);
+			float botDiffX = position2.x - halfSize2.x - (position1.x + halfSize1.x);
+			float topDiffY = position1.y - halfSize1.y - (position2.y + halfSize2.y);
+			float botDiffY = position2.y - halfSize2.y - (position1.y + halfSize1.y);
 
 			bool directionX = topDiffX > botDiffX;
 			bool directionY = topDiffY > botDiffY;
@@ -82,7 +93,7 @@ void PhysicsEngine::collisionDetection() {
 			// Collision
 			if (finalDiff < 0.f) {
 				// Collision response - both colliders not triggers
-				if (!c1->isTrigger() && !c2->isTrigger()) {
+				if (!c1->isTrigger() && !c2->isTrigger() ) {
 					// ## Move object out of collision ##
 					sf::Vector2f axisVector{static_cast<float>(1 - collisionAxis), static_cast<float>(collisionAxis)};
 

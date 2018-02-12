@@ -6,8 +6,12 @@ class MainCharacter : public GameObject {
 	// Visuals
 	sf::RectangleShape m_shape;
 
+	GameObject * m_arrow;
+
+	int m_direction = 0;
+
 public:
-	MainCharacter();
+	MainCharacter(GameObject * arrow);
 	~MainCharacter();
 
 	// Inherited via GameObject
@@ -17,5 +21,11 @@ public:
 
 	// Inherited via GameObject
 	virtual void setPosition(sf::Vector2f _pos) override;
+
+	// Inherited via GameObject
+	virtual GameObject * clone() override;
+
+private:
+	void shoot(int _direction);
 };
 

@@ -5,7 +5,6 @@
 #include "GameState.h"
 
 class Application {
-	std::stack<GameState*> m_gameStates;
 public:
 	Application();
 	~Application();

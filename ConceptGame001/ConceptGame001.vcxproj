@@ -126,10 +126,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CubeObject.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="MainCharacter.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
@@ -139,6 +141,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Arrow.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CubeObject.h" />
     <ClInclude Include="Debug.h" />
@@ -146,6 +149,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameSettings.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="MainCharacter.h" />
     <ClInclude Include="PhysicsEngine.h" />

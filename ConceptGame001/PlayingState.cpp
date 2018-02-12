@@ -3,6 +3,8 @@
 #include "Input.h"
 #include "MainCharacter.h"
 #include "CubeObject.h"
+#include "Arrow.h"
+#include "GameStateManager.h"
 
 #include <SFML/Window.hpp>
 
@@ -12,19 +14,22 @@ void createCube(sf::Vector2i _pos, std::vector<GameObject*> &_gameObjects) {
 }
 
 PlayingState::PlayingState() {
-	// Create main character
-	GameObject * mainChar = new MainCharacter();
+	// ### Create main character ###
+	GameObject * arrow = new Arrow();
+	arrow->setActive(false);
+
+	GameObject * mainChar = new MainCharacter(arrow);
 	m_gameObjects.push_back(mainChar);
 
 	// Dummy objects
 	//GameObject * cube = new CubeObject(sf::Vector2f{ 100, 100 }, sf::Vector2f{ 200, 200 }, false, true);
 	//m_gameObjects.push_back(cube);
 
-	GameObject * wallR = new CubeObject(sf::Vector2f{ 100, 400 }, sf::Vector2f{ 500, 100 }, true);
+	GameObject * wallR = new CubeObject(sf::Vector2f{ 100, 400 }, sf::Vector2f{ 500, 300 }, true);
 	m_gameObjects.push_back(wallR);
 
 	// Floor
-	GameObject * floor = new CubeObject(sf::Vector2f{ 1000, 50 }, sf::Vector2f{ 0, 500 }, true);
+	GameObject * floor = new CubeObject(sf::Vector2f{ 1000, 50 }, sf::Vector2f{ 500, 500 }, true);
 	m_gameObjects.push_back(floor);
 }
 
@@ -37,23 +42,33 @@ PlayingState::~PlayingState() {
 }
 
 void PlayingState::update(float _dt) {
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-		while (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-		}
-		createCube(sf::Mouse::getPosition(Display::getWindow()), m_gameObjects);
-
-	}
 	for (GameObject * g : m_gameObjects) {
-		g->update(_dt);
+		if (g->isActive()) {
+			g->update(_dt);
+		}
 	}
 
 	PhysicsEngine::getInstance().update(_dt);
+
+	// Add new objects
+	GameObject * newObj = nullptr;
+	while (newObj = GameStateManager::popNewGameObject()) {
+		m_gameObjects.push_back(newObj);
+	}
 }
 
 void PlayingState::draw() {
 	for (GameObject * g : m_gameObjects) {
-		g->draw();
+		if (g->isActive()) {
+			g->draw();
+		}
 	}
 
 	PhysicsEngine::getInstance().draw();
+}
+
+GameObject * PlayingState::instantiateObject(GameObject * _gameObject) {
+	GameObject * newInstance = _gameObject->clone();
+
+	return newInstance;
 }

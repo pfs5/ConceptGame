@@ -3,6 +3,7 @@
 #include "Display.h"
 #include "GameSettings.h"
 #include "Input.h"
+#include "GameStateManager.h"
 
 #include <SFML/System/Clock.hpp>
 
@@ -31,11 +32,6 @@ Application::Application() {
 
 
 Application::~Application() {
-	// Clear game states
-	while (!m_gameStates.empty()) {
-		delete m_gameStates.top();
-		m_gameStates.pop();
-	}
 }
 
 void Application::runMainLoop() {
@@ -49,7 +45,7 @@ void Application::runMainLoop() {
 		Display::clear();
 
 		// Exit if stack empty
-		if (m_gameStates.empty()) {
+		if (!GameStateManager::activeGameState()) {
 			return;
 		}
 
@@ -59,13 +55,13 @@ void Application::runMainLoop() {
 		accumulator += clock.restart();
 
 		while (accumulator > dt) {
-			m_gameStates.top()->update(dt.asSeconds());
+			GameStateManager::activeGameState()->update(dt.asSeconds());
 
 			accumulator -= dt;
 		}
 
 		// Rendering
-		m_gameStates.top()->draw();	
+		GameStateManager::activeGameState()->draw();
 
 		calculateFPS(GameSettings::PRINT_FPS);
 		Display::display();
@@ -73,5 +69,5 @@ void Application::runMainLoop() {
 }
 
 void Application::addGameState(GameState * _gameState) {
-	m_gameStates.push(_gameState);
+	GameStateManager::pushGameState(_gameState);
 }

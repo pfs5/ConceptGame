@@ -13,5 +13,8 @@ public:
 	// Inherited via GameState
 	virtual void update(float _dt) override;
 	virtual void draw() override;
+
+	// Inherited via GameState
+	virtual GameObject *  instantiateObject(GameObject * _gameObject) override;
 };
 

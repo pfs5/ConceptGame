@@ -5,6 +5,7 @@ Collider::Collider(GameObject * _gameObject, sf::Vector2f _position, sf::Vector2
 	m_shape.setOutlineColor(COLLIDER_COLOR);
 	m_shape.setFillColor(sf::Color::Transparent);
 	m_shape.setOutlineThickness(m_lineThickness);
+
 	updateShape();
 }
 
@@ -27,4 +28,5 @@ void Collider::setTrigger(bool _trigger, RigidBody * _rb) {
 void Collider::updateShape() {
 	m_shape.setPosition(m_position + sf::Vector2f(m_lineThickness, m_lineThickness));
 	m_shape.setSize(m_size - sf::Vector2f(m_lineThickness, m_lineThickness) * 2.f);
+	m_shape.setOrigin(m_shape.getSize() / 2.f);
 }
