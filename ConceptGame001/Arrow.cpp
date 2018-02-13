@@ -2,6 +2,7 @@
 
 Arrow::Arrow() {
 	m_objectTag = "Arrow";
+	setObjectLayer("Arrow");
 
 	m_shape.setSize(sf::Vector2f{ 80, 10 });
 	m_shape.setOrigin(m_shape.getSize() / 2.f);
@@ -19,13 +20,27 @@ Arrow::Arrow() {
 }
 
 void Arrow::update(float _dt) {
+	if (m_timeAlive > 0) {
+		m_timeAlive--;
+	}
 }
 
 void Arrow::draw() {
 	Display::draw(m_shape);
 }
 
-void Arrow::onCollision() {
+void Arrow::onCollision(Collider * _other) {
+	if (_other->getGameObject()->getObjectLayer() == getObjectLayer()) {
+		// Ignore arrow to arrow collision
+		return;
+	}
+
+	// If collision too early, delete
+	if (m_timeAlive > 0) {
+		setActive(false);
+	}
+
+
 	// Freeze
 	m_rigidBody->setGravity(false);
 	m_rigidBody->setVelocity(sf::Vector2f{ 0.f, 0.f });

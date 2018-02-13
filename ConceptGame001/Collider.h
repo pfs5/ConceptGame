@@ -42,9 +42,9 @@ public:
 	inline void setStatic(bool _s) { m_isStatic = _s; };
 
 	inline void setRigidBody(RigidBody * _rb) { m_rigidBody = _rb; };
-	inline RigidBody * getRigidBody() { return m_rigidBody; };
+	inline RigidBody * getRigidBody() const { return m_rigidBody; };
 
-	inline GameObject * getGameObject() { return m_gameObject; };
+	inline GameObject * getGameObject() const { return m_gameObject; };
 private:
 	void updateShape();
 };

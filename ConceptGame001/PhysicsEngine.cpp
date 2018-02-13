@@ -1,4 +1,5 @@
 #include "PhysicsEngine.h"
+#include "PhysicsLayers.h"
 #include "GameSettings.h"
 #include "Display.h"
 #include "Debug.h"
@@ -57,6 +58,12 @@ RigidBody * PhysicsEngine::createRigidBody(Collider * _collider) {
 	return newRb;
 }
 
+bool PhysicsEngine::areColliding(const Collider & _c1, const Collider & _c2) {
+	//std::pair<std::string, std::string> pair = std::make_pair<std::string, std::string>(_c1.getGameObject()->getObjectTag(), _c2.getGameObject()->getObjectTag());
+	return true;
+	//return COLLISION_IGNORE_MAP.find(pair) == COLLISION_IGNORE_MAP.end();
+}
+
 void PhysicsEngine::collisionDetection() {
 	for (int i = 0; i < m_colliders.size(); ++i) {
 		Collider * c1 = m_colliders[i];
@@ -93,7 +100,7 @@ void PhysicsEngine::collisionDetection() {
 			// Collision
 			if (finalDiff < 0.f) {
 				// Collision response - both colliders not triggers
-				if (!c1->isTrigger() && !c2->isTrigger() ) {
+				if (!c1->isTrigger() && !c2->isTrigger() && !PhysicsLayers::layerIgnoreMatrix[c1->getGameObject()->getLayerNumber()][c2->getGameObject()->getLayerNumber()]) {
 					// ## Move object out of collision ##
 					sf::Vector2f axisVector{static_cast<float>(1 - collisionAxis), static_cast<float>(collisionAxis)};
 
@@ -132,8 +139,8 @@ void PhysicsEngine::collisionDetection() {
 				}
 
 				// Callback method for collisions - called after collision response
-				c1->getGameObject()->onCollision();
-				c2->getGameObject()->onCollision();
+				c1->getGameObject()->onCollision(c2);
+				c2->getGameObject()->onCollision(c1);
 			}
 		}
 	}

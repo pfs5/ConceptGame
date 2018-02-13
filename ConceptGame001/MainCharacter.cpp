@@ -63,7 +63,7 @@ void MainCharacter::draw() {
 	Display::draw(m_shape);
 }
 
-void MainCharacter::onCollision() {
+void MainCharacter::onCollision(Collider * _other) {
 }
 
 void MainCharacter::setPosition(sf::Vector2f _pos) {

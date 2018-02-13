@@ -12,7 +12,7 @@ public:
 	// Inherited via GameObject
 	virtual void update(float _dt) override;
 	virtual void draw() override;
-	virtual void onCollision() override;
+	virtual void onCollision(Collider * _other) override;
 	virtual void setPosition(sf::Vector2f _pos) override;
 
 	// Inherited via GameObject

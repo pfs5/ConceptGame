@@ -1,12 +1,14 @@
 #pragma once
 #include "RigidBody.h"
 #include "Collider.h"
+#include "PhysicsLayers.h"
 
 class Collider;
 
 class GameObject {
 protected:
 	std::string m_objectTag = "";
+	int m_physicsLayer = 0;
 
 	// Transform
 	sf::Vector2f m_position;
@@ -30,7 +32,7 @@ public:
 	RigidBody * getRigidBody();
 	void addCollider(Collider *_c);
 
-	virtual void onCollision() = 0;
+	virtual void onCollision(Collider * _other) = 0;
 
 	void move(sf::Vector2f _delta);
 	
@@ -38,7 +40,11 @@ public:
 	virtual GameObject * clone() = 0;
 
 #pragma region Getters and setters
-	inline std::string getObjectTag() { return m_objectTag; };
+	inline std::string getObjectTag() const { return m_objectTag; };
+
+	void setObjectLayer(std::string layer);
+	std::string getObjectLayer();
+	int getLayerNumber();
 
 	virtual void setPosition(sf::Vector2f _pos) = 0;
 	inline sf::Vector2f getPosition() { return m_position; };

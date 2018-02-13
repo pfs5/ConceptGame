@@ -108,6 +108,9 @@
     <ClCompile Include="Arrow.cpp">
       <Filter>Game\Source Files\objects</Filter>
     </ClCompile>
+    <ClCompile Include="PhysicsLayers.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug.h">
@@ -157,6 +160,9 @@
     </ClInclude>
     <ClInclude Include="Arrow.h">
       <Filter>Game\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsLayers.h">
+      <Filter>Engine\Header Files\physics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
