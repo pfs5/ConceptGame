@@ -3,7 +3,7 @@
 Arrow::Arrow() {
 	m_objectTag = "Arrow";
 
-	m_shape.setSize(sf::Vector2f{ 50, 20 });
+	m_shape.setSize(sf::Vector2f{ 80, 10 });
 	m_shape.setOrigin(m_shape.getSize() / 2.f);
 	m_shape.setFillColor(sf::Color::Red);
 
