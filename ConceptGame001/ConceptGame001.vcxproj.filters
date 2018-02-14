@@ -67,6 +67,15 @@
     <Filter Include="Game\Source Files\objects">
       <UniqueIdentifier>{921adfc7-ffe4-478e-baee-aab59791b464}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Source Files\states">
+      <UniqueIdentifier>{43549cc3-dac5-455c-a533-03b2564d2adf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Header Files\resource_management">
+      <UniqueIdentifier>{4aa0feb7-8f42-42b6-9e97-bc5617d2db2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Source Files\resource_management">
+      <UniqueIdentifier>{23a43df4-d85a-4a0f-aa67-c792fe454545}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -93,9 +102,6 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Engine\Source Files\game_objects</Filter>
     </ClCompile>
-    <ClCompile Include="PlayingState.cpp">
-      <Filter>Game\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameStateManager.cpp">
       <Filter>Engine\Source Files\game_states</Filter>
     </ClCompile>
@@ -108,7 +114,16 @@
     <ClCompile Include="Arrow.cpp">
       <Filter>Game\Source Files\objects</Filter>
     </ClCompile>
+    <ClCompile Include="PlayingState.cpp">
+      <Filter>Game\Source Files\states</Filter>
+    </ClCompile>
     <ClCompile Include="PhysicsLayers.cpp">
+      <Filter>Engine\Source Files\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseState.cpp">
+      <Filter>Game\Source Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -163,6 +178,12 @@
     </ClInclude>
     <ClInclude Include="PhysicsLayers.h">
       <Filter>Engine\Header Files\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseState.h">
+      <Filter>Game\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Engine\Header Files\resource_management</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

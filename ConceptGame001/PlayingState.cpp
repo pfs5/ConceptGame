@@ -5,6 +5,7 @@
 #include "CubeObject.h"
 #include "Arrow.h"
 #include "GameStateManager.h"
+#include "PauseState.h"
 
 #include <SFML/Window.hpp>
 
@@ -54,6 +55,11 @@ void PlayingState::update(float _dt) {
 	GameObject * newObj = nullptr;
 	while (newObj = GameStateManager::popNewGameObject()) {
 		m_gameObjects.push_back(newObj);
+	}
+
+	// Pause game
+	if (Input::getKeyDown(Input::P)) {
+		GameStateManager::pushGameState(new PauseState());
 	}
 }
 

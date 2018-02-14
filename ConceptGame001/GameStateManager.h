@@ -17,6 +17,6 @@ public:
 	static GameObject * popNewGameObject();
 
 	static void pushGameState(GameState *_state);
-	static GameState * popGameState();
+	static void popGameState();
 	static GameState * activeGameState();
 };

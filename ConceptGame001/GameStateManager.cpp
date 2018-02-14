@@ -25,8 +25,8 @@ void GameStateManager::pushGameState(GameState * _state) {
 	m_gameStates.push(_state);
 }
 
-GameState * GameStateManager::popGameState() {
-	return m_gameStates.top();
+void GameStateManager::popGameState() {
+	delete m_gameStates.top();
 	m_gameStates.pop();
 }
 

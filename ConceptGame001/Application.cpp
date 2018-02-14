@@ -71,3 +71,7 @@ void Application::runMainLoop() {
 void Application::addGameState(GameState * _gameState) {
 	GameStateManager::pushGameState(_gameState);
 }
+
+void Application::popGameState() {
+	GameStateManager::popGameState();
+}
