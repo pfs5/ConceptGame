@@ -1,7 +1,6 @@
 # Game Concept #001
 ### Current jobs
 ##### Engine
-* Physics layers and collision ignoring
 * Object deletion and memory/reference handling
 ##### Game
 * Arrow chain mechanics
