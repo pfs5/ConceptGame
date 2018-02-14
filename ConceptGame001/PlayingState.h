@@ -3,9 +3,13 @@
 #include "PhysicsEngine.h"
 
 class PlayingState : public GameState {
-
 	std::vector<GameObject*> m_gameObjects;
 
+	GameObject * m_centeredObject; // Object to be "followed" by the view
+	sf::View m_view;
+	sf::Vector2f m_viewOffset;
+
+	const float VERTICAL_VIEW_OFFSET = 200.f;
 public:
 	PlayingState();
 	~PlayingState();

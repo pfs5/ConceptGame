@@ -9,6 +9,7 @@
 
 | Date | Job |
 | ------------ | --------------------------------------------------------------	|
+| Feb 14, 2018 | Impemented camera movement (view) |
 | Feb 14, 2018 | Added pause state. |
 | Feb 14, 2018 | Implemented resource manager. Added font management. |
 | Feb 13, 2018 | Physics layers and collision ignoring. Modified OnCollision.	|
