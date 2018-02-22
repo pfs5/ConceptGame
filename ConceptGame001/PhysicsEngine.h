@@ -7,7 +7,6 @@
 class PhysicsEngine {
 	std::vector<Collider*> m_colliders;
 	std::vector<RigidBody*> m_rigidBodies;
-
 private:
 	PhysicsEngine();
 	~PhysicsEngine();

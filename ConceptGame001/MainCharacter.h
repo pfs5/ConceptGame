@@ -1,10 +1,12 @@
 #pragma once
 #include "GameObject.h"
 #include "Display.h"
+#include "AnimationController.h"
 
 class MainCharacter : public GameObject {
 	// Visuals
 	sf::RectangleShape m_shape;
+	AnimationController m_animationController;
 
 	GameObject * m_arrow;
 

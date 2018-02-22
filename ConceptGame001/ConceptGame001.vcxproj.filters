@@ -76,6 +76,12 @@
     <Filter Include="Engine\Source Files\resource_management">
       <UniqueIdentifier>{23a43df4-d85a-4a0f-aa67-c792fe454545}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Source Files\animations">
+      <UniqueIdentifier>{3f7399db-1979-4421-b847-709d15020e11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Header Files\animations">
+      <UniqueIdentifier>{3ee9c807-82a3-4534-9332-dbaff7941b97}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -124,6 +130,12 @@
       <Filter>Game\Source Files\states</Filter>
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
+      <Filter>Engine\Source Files\resource_management</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Engine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationController.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -184,6 +196,12 @@
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
       <Filter>Engine\Header Files\resource_management</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationController.h">
+      <Filter>Engine\Header Files\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Engine\Header Files\animations</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

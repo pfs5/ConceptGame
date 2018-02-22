@@ -5,6 +5,9 @@
 #include "GameStateManager.h"
 
 PauseState::PauseState() {
+	m_view.reset(sf::FloatRect(0.f, 0.f, Display::getWindow().getSize().x, Display::getWindow().getSize().y));
+	Display::getWindow().setView(m_view);
+
 	m_textObject.setString(m_pauseText);
 	m_textObject.setFillColor(sf::Color::White);
 	m_textObject.setFont(*ResourceManager::getInstance().getFont("atwriter"));

@@ -9,6 +9,10 @@ namespace Debug {
 		std::cout << _s << std::endl;
 	}
 
+	inline void logError(const std::string &_s) {
+		std::cerr << _s << std::endl;
+	 }
+
 	inline void log(const char * _s) {
 		log(std::string(_s));
 	}
@@ -18,6 +22,11 @@ namespace Debug {
 	}
 
 	inline void log(const sf::Vector2f &_v) {
+		std::string s = "V2f: " + std::to_string(_v.x) + " " + std::to_string(_v.y);
+		log(s);
+	}
+
+	inline void log(const sf::Vector2u &_v) {
 		std::string s = "V2f: " + std::to_string(_v.x) + " " + std::to_string(_v.y);
 		log(s);
 	}

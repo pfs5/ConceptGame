@@ -8,6 +8,7 @@ class PauseState : public GameState{
 	const std::string m_pauseText = "Paused";
 	sf::Text m_textObject;
 
+	sf::View m_view;
 public:
 	PauseState();
 	~PauseState();

@@ -9,9 +9,12 @@ MainCharacter::MainCharacter(GameObject * arrow) {
 	m_arrow = arrow;
 
 	// Init shape
-	m_shape.setSize(sf::Vector2f{ 50.f, 50.f });
+	m_shape.setSize(sf::Vector2f{ 100.f, 100.f });
 	m_shape.setOrigin(m_shape.getSize() / 2.f);
 	m_shape.setFillColor(sf::Color::Blue);
+
+	// Animation controller
+	m_animationController.load("mainCharacter");
 
 	// Create rigid body
 	Collider * collider = PhysicsEngine::getInstance().createCollider(this);
@@ -20,7 +23,7 @@ MainCharacter::MainCharacter(GameObject * arrow) {
 
 	m_rigidBody = PhysicsEngine::getInstance().createRigidBody(collider);
 	m_rigidBody->setGravity(true);
-	m_rigidBody->setBounceFactor(.15f);
+	m_rigidBody->setBounceFactor(0.1f);
 	collider->setTrigger(false, m_rigidBody);
 
 	// Init transform
@@ -31,6 +34,9 @@ MainCharacter::~MainCharacter() {
 }
 
 void MainCharacter::update(float _dt) {
+	// Animations
+	m_animationController.update(_dt);
+
 	// Movement
 	float speed = 5.f;
 	float dx = 0.f;
@@ -60,7 +66,7 @@ void MainCharacter::update(float _dt) {
 }
 
 void MainCharacter::draw() {
-	Display::draw(m_shape);
+	m_animationController.draw();
 }
 
 void MainCharacter::onCollision(Collider * _other) {
@@ -69,6 +75,7 @@ void MainCharacter::onCollision(Collider * _other) {
 void MainCharacter::setPosition(sf::Vector2f _pos) {
 	m_position = _pos;
 	m_shape.setPosition(_pos);
+	m_animationController.setPosition(_pos);
 
 	for (Collider * c : m_colliders) {
 		c->setPosition(_pos);
