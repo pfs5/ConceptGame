@@ -82,6 +82,9 @@
     <Filter Include="Engine\Header Files\animations">
       <UniqueIdentifier>{3ee9c807-82a3-4534-9332-dbaff7941b97}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Header Files\utility">
+      <UniqueIdentifier>{31e686c4-bc71-4d41-982f-cae335baf2e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -202,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Engine\Header Files\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="json.h">
+      <Filter>Engine\Header Files\utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

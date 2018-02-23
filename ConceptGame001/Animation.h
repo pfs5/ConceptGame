@@ -18,7 +18,7 @@ class Animation {
 	sf::Sprite m_sprite;
 	sf::Texture *m_texture;
 public:
-	Animation(std::string _name, int _numberOfFrames, const std::vector<int> &_frameLengths);
+	Animation(std::string _name, int _numberOfFrames, const std::vector<int> &_frameLengths, int _scale);
 	~Animation();
 
 	void play();

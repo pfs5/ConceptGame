@@ -4,8 +4,8 @@
 #include "VectorOperations.h"
 #include "Debug.h"
 
-Animation::Animation(std::string _name, int _numberOfFrames, const std::vector<int> &_frameLengths) :
-	m_name (_name) , m_isPlaying(false), m_currentFrame(0), m_numberOfFrames(_numberOfFrames), m_frameLengths(_frameLengths) {
+Animation::Animation(std::string _name, int _numberOfFrames, const std::vector<int> &_frameLengths, int _scale) :
+	m_name (_name) , m_isPlaying(false), m_currentFrame(0), m_numberOfFrames(_numberOfFrames), m_frameLengths(_frameLengths), m_scale(_scale) {
 
 	m_frameTime = m_frameLengths[m_currentFrame];
 

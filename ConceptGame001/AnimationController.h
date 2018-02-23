@@ -5,7 +5,7 @@
 
 class AnimationController {
 	const std::string RESOURCE_FOLDER = "resources/animation_controllers/";
-	const std::string EXTENSION = ".actrl";
+	const std::string EXTENSION = ".json";
 
 	sf::Vector2f m_position;
 

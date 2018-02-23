@@ -1,5 +1,6 @@
 #include "AnimationController.h"
 #include "Debug.h"
+#include "json.h"
 #include <fstream>
 #include <sstream>
 
@@ -46,33 +47,19 @@ std::vector<std::string> splitString(std::string _string, char _delimiter) {
 	return tokens;
 }
 
-void loadAnimation(std::vector<std::string> _data, std::vector<Animation *> &_container) {
-	std::string name = _data[0];
-	int frames = stoi(_data[1]);
-
-	std::vector<int> frameLengths;
-	for (int i = 2; i < 2 + frames; ++i) {
-		frameLengths.push_back(stoi(_data[i]));
-	}
-
-	_container.push_back(new Animation(name, frames, frameLengths));
-}
-
 bool AnimationController::loadFromFile(std::string _path) {
 	std::ifstream file{ _path };
 	if (file.is_open()) {
-		std::string line;
-		while (getline(file, line)) {
-			// Parse
-			char type = line[0];
+		nlohmann::json data;
+		file >> data;
 
-			switch (type) {
-				// animation
-				case 'a':
-					std::vector<std::string> data = splitString(line.substr(2), ',');
-					loadAnimation(data, m_animations);
-					break;
-			}
+		// Animations
+		for (auto &a : data["animations"]) {
+			std::string name = a["name"];
+			std::vector<int> frames = a["frames"];
+			int scale = a["scale"];
+
+			m_animations.push_back(new Animation(name, frames.size(), frames, scale));
 		}
 	} else {
 		return false;
