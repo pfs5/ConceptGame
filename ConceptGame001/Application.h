@@ -4,6 +4,9 @@
 
 #include "GameState.h"
 
+/**
+	Main application class holding the whole game and game loop.
+**/
 class Application {
 public:
 	Application();

@@ -1,7 +1,9 @@
 #pragma once
-
 #include <SFML/Window.hpp>
 
+/**
+	Class handles all out-of-game inputs. Provides static methods for accessing user inputs.
+**/
 class Input {
 public:
 	static const int NUMBER_OF_KEYS = 256;

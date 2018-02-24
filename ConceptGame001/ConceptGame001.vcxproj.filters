@@ -209,5 +209,8 @@
     <ClInclude Include="json.h">
       <Filter>Engine\Header Files\utility</Filter>
     </ClInclude>
+    <ClInclude Include="AnimationObserver.h">
+      <Filter>Engine\Header Files\animations</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

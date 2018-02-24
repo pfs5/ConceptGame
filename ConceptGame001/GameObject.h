@@ -5,6 +5,10 @@
 
 class Collider;
 
+/**
+	Generic game object for the engine. All objects in the game inherit the class
+	in order to work with the engine and game.
+**/
 class GameObject {
 protected:
 	std::string m_objectTag = "";
@@ -13,6 +17,7 @@ protected:
 	// Transform
 	sf::Vector2f m_position;
 
+	// State
 	bool m_isActive = true;
 	
 	// Physics
@@ -34,12 +39,14 @@ public:
 
 	virtual void onCollision(Collider * _other) = 0;
 
+	// Transform
 	void move(sf::Vector2f _delta);
 	
-	// Prototype pattern allows cloning of gameobject "prefab"
+	// Prototype pattern allows cloning of gameobjects = prefab mechanism
 	virtual GameObject * clone() = 0;
 
-#pragma region Getters and setters
+	#pragma region Getters and setters
+public:
 	inline std::string getObjectTag() const { return m_objectTag; };
 
 	void setObjectLayer(std::string layer);
@@ -51,6 +58,6 @@ public:
 
 	inline void setActive(bool _a) { m_isActive = _a; };
 	inline bool isActive() { return m_isActive; };
-#pragma endregion
+	#pragma endregion
 };
 

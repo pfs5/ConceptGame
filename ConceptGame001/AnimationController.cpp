@@ -27,7 +27,7 @@ void AnimationController::draw() {
 void AnimationController::playAnimation(std::string _animation, bool _playInstantly) {
 	for (int i = 0; i < m_animations.size(); ++i) {
 		if (_animation == m_animations[i]->getName()) {
-			// TODO non instant switching
+			m_currentAnimation = _playInstantly ? i : m_currentAnimation;
 			m_nextAnimation = i;
 			break;
 		}
@@ -59,9 +59,17 @@ bool AnimationController::loadFromFile(std::string _path) {
 			std::vector<int> frames = a["frames"];
 			int scale = a["scale"];
 
-			m_animations.push_back(new Animation(name, frames.size(), frames, scale));
+			Animation *a = new Animation(name, frames.size(), frames, scale);
+			m_animations.push_back(a);
+			a->attachObserver(this);
 		}
 	} else {
 		return false;
 	}
+}
+
+void AnimationController::onAnimationEnd() {
+	// Switch to next animation
+	m_currentAnimation = m_nextAnimation;
+	m_animations[m_currentAnimation]->play();
 }

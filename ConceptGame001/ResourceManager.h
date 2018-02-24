@@ -3,6 +3,11 @@
 #include <map>
 #include <SFML/Graphics.hpp>
 
+/**
+	Manages all "heavy" external resources for the game and allows easy access by name using the singleton pattern.
+
+	Handles images, fonts, ...
+**/
 class ResourceManager {
 	// Folders
 	const std::string FONT_FOLDER = "resources/fonts/";

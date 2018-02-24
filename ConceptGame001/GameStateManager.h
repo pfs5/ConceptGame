@@ -4,6 +4,11 @@
 
 #include <stack>
 
+/**
+	Handles all game state operations including adding and removing.
+	Works with a stack mechanism. Also handles object instantiation by delegating 
+	to the active state.
+**/
 class GameStateManager {
 	static std::stack<GameState *> m_gameStates;
 	static std::stack<GameObject*> m_newObjectsStack;

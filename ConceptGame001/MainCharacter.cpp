@@ -38,7 +38,7 @@ void MainCharacter::update(float _dt) {
 	m_animationController.update(_dt);
 
 	// Movement
-	float speed = 5.f;
+	float speed = 100.f;
 	float dx = 0.f;
 
 	if (Input::getKey(Input::A)) {
@@ -50,6 +50,8 @@ void MainCharacter::update(float _dt) {
 		dx += speed;
 		m_direction = 1;
 	}
+
+	dx *= _dt;
 
 	move(sf::Vector2f{ dx, 0.f });
 

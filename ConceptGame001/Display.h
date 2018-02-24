@@ -1,6 +1,10 @@
 #pragma once
 #pragma once
 #include <SFML/Graphics.hpp>
+
+/**
+	Handles all display operations including window management and drawing
+**/
 namespace Display {
 	constexpr uint16_t HEIGHT = 600;
 	constexpr uint16_t WIDTH = (uint16_t)HEIGHT * 16.f / 9.f;

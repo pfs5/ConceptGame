@@ -32,7 +32,7 @@ PlayingState::PlayingState() {
 	//GameObject * cube = new CubeObject(sf::Vector2f{ 100, 100 }, sf::Vector2f{ 200, 200 }, false, true);
 	//m_gameObjects.push_back(cube);
 
-	GameObject * wallL = new CubeObject(sf::Vector2f{ 100, 400 }, sf::Vector2f{ 500, 300 }, true);
+	GameObject * wallL = new CubeObject(sf::Vector2f{ 100, 400 }, sf::Vector2f{ 200, 177 }, true);
 	m_gameObjects.push_back(wallL);
 
 	GameObject * wallR = new CubeObject(sf::Vector2f{ 100, 400 }, sf::Vector2f{ 1500, 300 }, true);

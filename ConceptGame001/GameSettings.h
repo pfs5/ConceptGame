@@ -1,4 +1,8 @@
 #pragma once
+
+/**
+	Holds global game settings and parameters.
+**/
 namespace GameSettings {
 	// Debug outputs
 	const bool PRINT_FPS = true;

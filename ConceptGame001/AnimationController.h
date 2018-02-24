@@ -3,7 +3,11 @@
 
 #include <vector>
 
-class AnimationController {
+/**
+	Class servers as a container for animations. Handles animation switching.
+	Used by a single object that is to be animated.
+**/
+class AnimationController : public AnimationObserver{
 	const std::string RESOURCE_FOLDER = "resources/animation_controllers/";
 	const std::string EXTENSION = ".json";
 
@@ -18,14 +22,20 @@ public:
 	
 	void load(std::string _name);
 
-	// Base methods
+	// Base engine methods
 	void update(float _dt);
 	void draw();
 
 	// Controller methods
 	void playAnimation(std::string _animation, bool _playInstantly = true);
 
+	// Animation observer
+	virtual void onAnimationEnd() override;
+private:
+	bool loadFromFile(std::string _path);
+
 #pragma region Getters and setters
+public:
 	inline sf::Vector2f getPosition() { return m_position; };
 	inline void setPosition(const sf::Vector2f &_pos) { 
 		m_position = _pos; 
@@ -35,6 +45,5 @@ public:
 	};
 
 #pragma endregion
-private:
-	bool loadFromFile(std::string _path);
+
 };

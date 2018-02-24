@@ -4,6 +4,9 @@
 
 #include <SFML/Graphics.hpp>
 
+/**
+	Namespace for debuging. Provides printout methods for various objects.
+**/
 namespace Debug {
 	inline void log(const std::string &_s) {
 		std::cout << _s << std::endl;

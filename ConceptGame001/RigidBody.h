@@ -5,6 +5,12 @@
 
 class GameObject;
 
+/**
+	Implements the rigid body concept and enables physics to be applied to objects
+	including gravity, applying forces, velocity and acceleration concepts and collision response (bounce, ...)
+	
+	Added to game objects to enable phyics.
+**/
 class RigidBody {
 	sf::Vector2f m_velocity;
 	sf::Vector2f m_acceleration;

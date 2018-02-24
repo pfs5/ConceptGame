@@ -1,6 +1,9 @@
 #pragma once
 class GameObject;
 
+/**
+	Generic game state interface
+**/
 class GameState {
 public:
 	virtual ~GameState() {};
