@@ -143,6 +143,7 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="TexturedCubeObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -167,6 +168,7 @@
     <ClInclude Include="PlayingState.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="RigidBody.h" />
+    <ClInclude Include="TexturedCubeObject.h" />
     <ClInclude Include="VectorOperations.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

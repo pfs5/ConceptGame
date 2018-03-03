@@ -1,7 +1,7 @@
 #include "CubeObject.h"
 
-CubeObject::CubeObject(sf::Vector2f _size, sf::Vector2f _position, bool _static, bool _gravity) {
-	m_shape.setFillColor(sf::Color(200,200,200));
+CubeObject::CubeObject(sf::Vector2f _size, sf::Vector2f _position, bool _static, bool _gravity, sf::Color _color) {
+	m_shape.setFillColor(_color);
 	m_shape.setSize(_size);
 
 	// Create rigid body

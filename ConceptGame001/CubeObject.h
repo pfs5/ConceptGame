@@ -6,7 +6,7 @@
 class CubeObject : public GameObject{
 	sf::RectangleShape m_shape;
 public:
-	CubeObject(sf::Vector2f _size, sf::Vector2f _position, bool _static = false, bool _gravity = false);
+	CubeObject(sf::Vector2f _size, sf::Vector2f _position, bool _static = false, bool _gravity = false, sf::Color _color = sf::Color::Red);
 	~CubeObject();
 
 	// Inherited via GameObject

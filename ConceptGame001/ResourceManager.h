@@ -10,6 +10,7 @@
 **/
 class ResourceManager {
 	// Folders
+	const std::string RESOURCE_MANAGER_DATA = "resources/resource_manager.json";
 	const std::string FONT_FOLDER = "resources/fonts/";
 	const std::string TEXTURE_FOLDER = "resources/textures/";
 

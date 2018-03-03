@@ -9,7 +9,7 @@ MainCharacter::MainCharacter(GameObject * arrow) {
 	m_arrow = arrow;
 
 	// Init shape
-	m_shape.setSize(sf::Vector2f{ 100.f, 100.f });
+	m_shape.setSize(sf::Vector2f{ 200.f, 200.f });
 	m_shape.setOrigin(m_shape.getSize() / 2.f);
 	m_shape.setFillColor(sf::Color::Blue);
 
@@ -28,6 +28,9 @@ MainCharacter::MainCharacter(GameObject * arrow) {
 
 	// Init transform
 	setPosition(sf::Vector2f{ 10.f, 20.f });
+
+	// Parameters
+	m_speed = 600.f / 2;
 }
 
 MainCharacter::~MainCharacter() {
@@ -38,17 +41,20 @@ void MainCharacter::update(float _dt) {
 	m_animationController.update(_dt);
 
 	// Movement
-	float speed = 100.f;
 	float dx = 0.f;
 
 	if (Input::getKey(Input::A)) {
-		dx += -speed;
+		dx += -m_speed;
 		m_direction = -1;
+
+		m_animationController.playAnimation("archer_walk_left");
 	}
 
 	if (Input::getKey(Input::D)) {
-		dx += speed;
+		dx += m_speed;
 		m_direction = 1;
+
+		m_animationController.playAnimation("archer_walk_right");
 	}
 
 	dx *= _dt;

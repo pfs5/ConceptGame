@@ -1,5 +1,8 @@
 #include "ResourceManager.h"
 #include "Debug.h"
+#include "json.h"
+
+#include <fstream>
 
 sf::Font * ResourceManager::getFont(std::string _fontName) {
 	try {
@@ -21,7 +24,16 @@ std::map<std::string, sf::Font*> ResourceManager::loadFonts() {
 	std::map<std::string, sf::Font*> fonts;
 
 	// Load fonts
-	fonts.emplace("atwriter", loadFont("atwriter.ttf"));
+	std::ifstream file{ RESOURCE_MANAGER_DATA };
+	if (file.is_open()) {
+		nlohmann::json data;
+		file >> data;
+		for (auto font : data["fonts"]) {
+			fonts.emplace(font["name"], loadFont(font["path"]));
+		}
+
+		file.close();
+	}
 
 	return fonts;
 }
@@ -39,8 +51,16 @@ std::map<std::string, sf::Texture*> ResourceManager::loadTextures() {
 	std::map<std::string, sf::Texture*> textures;
 
 	// Load textures
-	textures.emplace("test", loadTexture("test.png"));
+	std::ifstream file{ RESOURCE_MANAGER_DATA };
+	if (file.is_open()) {
+		nlohmann::json data;
+		file >> data;
+		for (auto tex : data["textures"]) {
+			textures.emplace(tex["name"], loadTexture(tex["path"]));
+		}
 
+		file.close();
+	}
 
 	return textures;
 }

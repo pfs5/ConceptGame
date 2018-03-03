@@ -1,9 +1,15 @@
 {
 	"animations": [
 		{
-			"name" : "test",
-			"frames" : [1,1,1,1],
-			"scale" : 10
+			"name" : "archer_walk_right",
+			"frames" : [1,1,1,1,1,1,1,1,1,1,1,1,1],
+			"scale" : 2
+		},
+
+		{
+			"name" : "archer_walk_left",
+			"frames" : [1,1,1,1,1,1,1,1,1,1,1,1,1],
+			"scale" : 2
 		}
 	]
 }

@@ -136,10 +136,13 @@
       <Filter>Engine\Source Files\resource_management</Filter>
     </ClCompile>
     <ClCompile Include="Animation.cpp">
-      <Filter>Engine\Source Files</Filter>
+      <Filter>Engine\Source Files\animations</Filter>
     </ClCompile>
     <ClCompile Include="AnimationController.cpp">
-      <Filter>Engine\Source Files</Filter>
+      <Filter>Engine\Source Files\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="TexturedCubeObject.cpp">
+      <Filter>Game\Source Files\objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -211,6 +214,9 @@
     </ClInclude>
     <ClInclude Include="AnimationObserver.h">
       <Filter>Engine\Header Files\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="TexturedCubeObject.h">
+      <Filter>Game\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

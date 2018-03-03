@@ -12,6 +12,8 @@ class MainCharacter : public GameObject {
 
 	int m_direction = 0;
 
+	// Parameters
+	float m_speed;
 public:
 	MainCharacter(GameObject * arrow);
 	~MainCharacter();

@@ -42,7 +42,7 @@ void Application::runMainLoop() {
 
 	while (Display::isOpen()) {
 		Display::checkWindowEvents();
-		Display::clear();
+		Display::clear(sf::Color{200, 200, 200});
 
 		// Exit if stack empty
 		if (!GameStateManager::activeGameState()) {

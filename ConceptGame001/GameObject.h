@@ -26,7 +26,7 @@ protected:
 
 public:
 	GameObject();
-	~GameObject();
+	virtual ~GameObject();
 
 	// Game core
 	virtual void update(float _dt) = 0;
