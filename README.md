@@ -10,6 +10,10 @@
 
 | Date | Job |
 | ------------ | ------------------------------------------------------------------ |
+| Mar 04, 2018 | Added new animations to main character movement.					|
+| Mar 04, 2018 | Added trigger functionality to animation controllers.				|
+| Mar 02, 2018 | Added basic main character animations.								|
+| Mar 02, 2018 | Switched resource loading to json. 								|
 | Feb 24, 2018 | Code refactoring for the engine. Added comments and explanations	|
 | Feb 23, 2018 | Implemented animations. Added json loading of animation data 		|
 | Feb 14, 2018 | Implemented camera movement (view) 								|
