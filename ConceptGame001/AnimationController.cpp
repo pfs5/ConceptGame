@@ -25,26 +25,16 @@ void AnimationController::draw() {
 }
 
 void AnimationController::playAnimation(std::string _animation, bool _playInstantly) {
-	for (int i = 0; i < m_animations.size(); ++i) {
-		if (_animation == m_animations[i]->getName()) {
-			m_currentAnimation = _playInstantly ? i : m_currentAnimation;
-			m_nextAnimation = i;
-			break;
+	try {
+		int animationIndex =  m_animationIndices.at(_animation);
+		
+		m_nextAnimation = animationIndex;
+		if (_playInstantly) {
+			playNextAnimation();
 		}
+	} catch (std::out_of_range e) {
+		return;
 	}
-}
-
-std::vector<std::string> splitString(std::string _string, char _delimiter) {
-	std::vector<std::string> tokens;
-	
-	std::stringstream ss(_string);
-	std::string token;
-	
-	while (std::getline(ss, token, _delimiter)) {
-		tokens.push_back(token);
-	}
-
-	return tokens;
 }
 
 bool AnimationController::loadFromFile(std::string _path) {
@@ -58,18 +48,45 @@ bool AnimationController::loadFromFile(std::string _path) {
 			std::string name = a["name"];
 			std::vector<int> frames = a["frames"];
 			int scale = a["scale"];
+			bool isLooping = a["looping"];
 
-			Animation *a = new Animation(name, frames.size(), frames, scale);
+			Animation *a = new Animation(name, frames.size(), frames, scale, isLooping);
 			m_animations.push_back(a);
+			m_transitions.push_back(-1);
 			a->attachObserver(this);
+
+			m_animationIndices.emplace(name, m_animations.size() - 1);
 		}
+
+		// Transitions
+		for (auto &t : data["transitions"]) {
+			std::string from = t["from"];
+			std::string to = t["to"];
+
+			int fromIndex = m_animationIndices[from];
+			int toIndex = m_animationIndices[to];
+
+			m_transitions[fromIndex] = toIndex;
+		}
+
 	} else {
 		return false;
 	}
 }
 
-void AnimationController::onAnimationEnd() {
-	// Switch to next animation
+void AnimationController::playNextAnimation() {
+	m_animations[m_currentAnimation]->reset();
 	m_currentAnimation = m_nextAnimation;
 	m_animations[m_currentAnimation]->play();
+
+	if (m_transitions[m_currentAnimation] != -1) {
+		m_nextAnimation = m_transitions[m_currentAnimation];
+	}
+}
+
+void AnimationController::onAnimationEnd() {
+	// Switch to next animation
+	if (m_nextAnimation != m_currentAnimation || m_animations[m_currentAnimation]->isLooping()) {
+		playNextAnimation();
+	}
 }

@@ -2,6 +2,7 @@
 #include "Animation.h"
 
 #include <vector>
+#include <map>
 
 /**
 	Class servers as a container for animations. Handles animation switching.
@@ -16,6 +17,10 @@ class AnimationController : public AnimationObserver{
 	std::vector<Animation*> m_animations;
 	int m_currentAnimation;
 	int m_nextAnimation;
+
+	std::map<std::string, int> m_animationIndices;
+
+	std::vector<int> m_transitions;
 public:
 	AnimationController();
 	~AnimationController();
@@ -33,7 +38,7 @@ public:
 	virtual void onAnimationEnd() override;
 private:
 	bool loadFromFile(std::string _path);
-
+	void playNextAnimation();
 #pragma region Getters and setters
 public:
 	inline sf::Vector2f getPosition() { return m_position; };

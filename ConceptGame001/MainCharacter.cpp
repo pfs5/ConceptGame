@@ -46,15 +46,25 @@ void MainCharacter::update(float _dt) {
 	if (Input::getKey(Input::A)) {
 		dx += -m_speed;
 		m_direction = -1;
-
-		m_animationController.playAnimation("archer_walk_left");
 	}
 
 	if (Input::getKey(Input::D)) {
 		dx += m_speed;
 		m_direction = 1;
+	}
 
-		m_animationController.playAnimation("archer_walk_right");
+	// Animations
+	if (Input::getKeyDown(Input::A)) {
+		m_animationController.playAnimation("archer_idle_to_walk_left");
+	}
+	if (Input::getKeyDown(Input::D)) {
+		m_animationController.playAnimation("archer_idle_to_walk_right");
+	}
+	if (Input::getKeyUp(Input::A)) {
+		m_animationController.playAnimation("archer_walk_to_idle_left");
+	}
+	if (Input::getKeyUp(Input::D)) {
+		m_animationController.playAnimation("archer_walk_to_idle_right");
 	}
 
 	dx *= _dt;

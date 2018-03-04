@@ -1,15 +1,78 @@
 {
 	"animations": [
 		{
+			"name" : "archer_idle_right",
+			"frames" : [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+			"scale" : 5,
+			"looping" : true
+		},
+
+		{
+			"name" : "archer_idle_left",
+			"frames" : [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+			"scale" : 5,
+			"looping" : true
+		},
+
+		{
 			"name" : "archer_walk_right",
 			"frames" : [1,1,1,1,1,1,1,1,1,1,1,1,1],
-			"scale" : 2
+			"scale" : 2,
+			"looping" : true
 		},
 
 		{
 			"name" : "archer_walk_left",
 			"frames" : [1,1,1,1,1,1,1,1,1,1,1,1,1],
-			"scale" : 2
+			"scale" : 2,
+			"looping" : true
+		},
+
+		{
+			"name" : "archer_idle_to_walk_right",
+			"frames" : [1,1,1],
+			"scale" : 2,
+			"looping" : false
+		},
+
+		{
+			"name" : "archer_walk_to_idle_right",
+			"frames" : [1,1,1],
+			"scale" : 2,
+			"looping" : false
+		},
+
+		{
+			"name" : "archer_idle_to_walk_left",
+			"frames" : [1,1,1],
+			"scale" : 2,
+			"looping" : false
+		},
+
+		{
+			"name" : "archer_walk_to_idle_left",
+			"frames" : [1,1,1],
+			"scale" : 2,
+			"looping" : false
+		}
+	],
+
+	"transitions": [
+		{
+			"from": "archer_idle_to_walk_right",
+			"to": "archer_walk_right"
+		},
+		{
+			"from": "archer_walk_to_idle_right",
+			"to": "archer_idle_right"
+		},
+				{
+			"from": "archer_idle_to_walk_left",
+			"to": "archer_walk_left"
+		},
+		{
+			"from": "archer_walk_to_idle_left",
+			"to": "archer_idle_left"
 		}
 	]
 }

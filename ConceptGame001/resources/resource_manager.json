@@ -18,6 +18,36 @@
 		},
 
 		{
+			"name": "archer_idle_right",
+			"path": "archer_idle_right.png"
+		},
+
+		{
+			"name": "archer_idle_left",
+			"path": "archer_idle_left.png"
+		},
+
+		{
+			"name": "archer_idle_to_walk_right",
+			"path": "archer_idle_to_walk_right.png"
+		},
+
+		{
+			"name": "archer_walk_to_idle_right",
+			"path": "archer_walk_to_idle_right.png"
+		},
+
+		{
+			"name": "archer_idle_to_walk_left",
+			"path": "archer_idle_to_walk_left.png"
+		},
+
+		{
+			"name": "archer_walk_to_idle_left",
+			"path": "archer_walk_to_idle_left.png"
+		},
+
+		{
 			"name": "debug_texture",
 			"path": "debug_texture.png"
 		}

@@ -51,5 +51,7 @@ public:
 
 	inline sf::Vector2f getPosition() { return m_sprite.getPosition(); };
 	inline void setPosition(const sf::Vector2f &_pos) { m_sprite.setPosition(_pos); };
+
+	inline bool isLooping() { return m_isLooping; };
 #pragma endregion
 };
