@@ -128,7 +128,6 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationController.cpp" />
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CubeObject.cpp" />
     <ClCompile Include="Display.cpp" />
@@ -150,7 +149,6 @@
     <ClInclude Include="AnimationController.h" />
     <ClInclude Include="AnimationObserver.h" />
     <ClInclude Include="Application.h" />
-    <ClInclude Include="Arrow.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CubeObject.h" />
     <ClInclude Include="Debug.h" />

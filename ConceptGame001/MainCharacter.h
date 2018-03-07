@@ -6,16 +6,14 @@
 class MainCharacter : public GameObject {
 	// Visuals
 	sf::RectangleShape m_shape;
-	AnimationController m_animationController;
 
-	GameObject * m_arrow;
-
+	// Movement
 	int m_direction = 0;
 
 	// Parameters
 	float m_speed;
 public:
-	MainCharacter(GameObject * arrow);
+	MainCharacter();
 	~MainCharacter();
 
 	// Inherited via GameObject

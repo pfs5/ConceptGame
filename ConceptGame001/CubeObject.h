@@ -3,7 +3,7 @@
 #include "PhysicsEngine.h"
 #include "Display.h"
 
-class CubeObject : public GameObject{
+class CubeObject : public GameObject {
 	sf::RectangleShape m_shape;
 public:
 	CubeObject(sf::Vector2f _size, sf::Vector2f _position, bool _static = false, bool _gravity = false, sf::Color _color = sf::Color::Red);
@@ -18,4 +18,3 @@ public:
 	// Inherited via GameObject
 	virtual GameObject * clone() override;
 };
-

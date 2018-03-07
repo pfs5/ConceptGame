@@ -3,10 +3,9 @@
 #include "Input.h"
 #include "MainCharacter.h"
 #include "CubeObject.h"
-#include "TexturedCubeObject.h"
-#include "Arrow.h"
 #include "GameStateManager.h"
 #include "PauseState.h"
+#include "TexturedCubeObject.h"
 
 #include <SFML/Window.hpp>
 
@@ -20,24 +19,11 @@ PlayingState::PlayingState() {
 	m_view.reset(sf::FloatRect(0.f, 0.f, Display::getWindow().getSize().x, Display::getWindow().getSize().y));
 
 	// ### Create main character ###
-	GameObject * arrow = new Arrow();
-	arrow->setActive(false);
-
-	GameObject * mainChar = new MainCharacter(arrow);
+	GameObject * mainChar = new MainCharacter();
 	m_gameObjects.push_back(mainChar);
 	m_centeredObject = mainChar;
 
 	m_viewOffset = sf::Vector2f{ 0.f, -1.f * Display::getWindow().getSize().y / 2.f + VERTICAL_VIEW_OFFSET};
-
-	// Dummy objects
-	//GameObject * cube = new CubeObject(sf::Vector2f{ 100, 100 }, sf::Vector2f{ 200, 200 }, false, true);
-	//m_gameObjects.push_back(cube);
-
-	//GameObject * wallL = new CubeObject(sf::Vector2f{ 100, 400 }, sf::Vector2f{ 200, 80 }, true);
-	//m_gameObjects.push_back(wallL);
-
-	//GameObject * wallR = new CubeObject(sf::Vector2f{ 100, 400 }, sf::Vector2f{ 1500, 300 }, true);
-	//m_gameObjects.push_back(wallR);
 
 	// Floor
 	GameObject * floor = new TexturedCubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ 500, 500 }, true, false, sf::Color{});

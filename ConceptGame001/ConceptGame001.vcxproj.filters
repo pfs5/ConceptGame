@@ -117,12 +117,6 @@
     <ClCompile Include="MainCharacter.cpp">
       <Filter>Game\Source Files\objects</Filter>
     </ClCompile>
-    <ClCompile Include="CubeObject.cpp">
-      <Filter>Game\Source Files\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Arrow.cpp">
-      <Filter>Game\Source Files\objects</Filter>
-    </ClCompile>
     <ClCompile Include="PlayingState.cpp">
       <Filter>Game\Source Files\states</Filter>
     </ClCompile>
@@ -140,6 +134,9 @@
     </ClCompile>
     <ClCompile Include="AnimationController.cpp">
       <Filter>Engine\Source Files\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeObject.cpp">
+      <Filter>Game\Source Files\objects</Filter>
     </ClCompile>
     <ClCompile Include="TexturedCubeObject.cpp">
       <Filter>Game\Source Files\objects</Filter>
@@ -182,17 +179,11 @@
     <ClInclude Include="MainCharacter.h">
       <Filter>Game\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CubeObject.h">
-      <Filter>Game\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="VectorOperations.h">
       <Filter>Engine\Header Files\vector_opererations</Filter>
     </ClInclude>
     <ClInclude Include="GameStateManager.h">
       <Filter>Engine\Header Files\game_states</Filter>
-    </ClInclude>
-    <ClInclude Include="Arrow.h">
-      <Filter>Game\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsLayers.h">
       <Filter>Engine\Header Files\physics</Filter>
@@ -215,11 +206,14 @@
     <ClInclude Include="AnimationObserver.h">
       <Filter>Engine\Header Files\animations</Filter>
     </ClInclude>
-    <ClInclude Include="TexturedCubeObject.h">
-      <Filter>Game\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FloatOperations.h">
       <Filter>Engine\Header Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeObject.h">
+      <Filter>Game\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TexturedCubeObject.h">
+      <Filter>Engine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
