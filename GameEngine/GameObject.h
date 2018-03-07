@@ -47,6 +47,7 @@ public:
 
 	#pragma region Getters and setters
 public:
+	inline void setObjectTag(std::string _tag) { m_objectTag = _tag; };
 	inline std::string getObjectTag() const { return m_objectTag; };
 
 	void setObjectLayer(std::string layer);

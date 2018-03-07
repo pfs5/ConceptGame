@@ -4,8 +4,12 @@
 #include "Input.h"
 #include "GameStateManager.h"
 #include "FloatOperations.h"
+#include "GameSettings.h"
 
-MainCharacter::MainCharacter() {
+MainCharacter::MainCharacter():
+	m_characterState {CHARACTER_STATE::IDLE},
+	m_additionalGravityMultiplier { 0.f } {
+
 	m_objectTag = "Main";
 
 	// Init shape
@@ -25,16 +29,42 @@ MainCharacter::MainCharacter() {
 
 	// Init transform
 	setPosition(sf::Vector2f{ 10.f, 20.f });
-
-	// Parameters
-	m_speed = 600.f / 2;
 }
 
 MainCharacter::~MainCharacter() {
 }
 
 void MainCharacter::update(float _dt) {
-	// Movement
+	movement(_dt);
+	extraGravity(_dt);
+	jump(_dt);
+}
+
+void MainCharacter::draw() {
+	Display::draw(m_shape);
+}
+
+void MainCharacter::onCollision(Collider * _other) {
+	if (_other->getGameObject()->getObjectTag() == "Floor") {
+		m_characterState = CHARACTER_STATE::IDLE;
+		m_additionalGravityMultiplier = 0.f;
+	}
+}
+
+void MainCharacter::setPosition(sf::Vector2f _pos) {
+	m_position = _pos;
+	m_shape.setPosition(_pos);
+
+	for (Collider * c : m_colliders) {
+		c->setPosition(_pos);
+	}
+}
+
+GameObject * MainCharacter::clone() {
+	return nullptr;
+}
+
+void MainCharacter::movement(float _dt) {
 	float dx = 0.f;
 
 	if (Input::getKey(Input::A)) {
@@ -50,32 +80,29 @@ void MainCharacter::update(float _dt) {
 	dx *= _dt;
 
 	move(sf::Vector2f{ dx, 0.f });
+}
 
-	// Jump
-	float jumpPower = 5 * 1e2;
-	if (Input::getKeyDown(Input::SPACE)) {
-		m_rigidBody->setVelocity(sf::Vector2f{ 0.f, -jumpPower });
+void MainCharacter::extraGravity(float _dt) {
+	// Apply extra gravity to character
+	sf::Vector2f vel = m_rigidBody->getVelocity();
+	vel.y += GameSettings::GRAVITY * m_additionalGravityMultiplier * _dt;
+	m_rigidBody->setVelocity(vel);
+}
+
+void MainCharacter::jump(float _dt) {
+	if (m_characterState == CHARACTER_STATE::IDLE) {
+		if (Input::getKeyDown(Input::SPACE)) {
+			m_rigidBody->setVelocity(sf::Vector2f{ 0.f, -m_jumpVelocity });
+			m_characterState = CHARACTER_STATE::JUMPING;
+		}
 	}
-}
-
-void MainCharacter::draw() {
-	Display::draw(m_shape);
-}
-
-void MainCharacter::onCollision(Collider * _other) {
-}
-
-void MainCharacter::setPosition(sf::Vector2f _pos) {
-	m_position = _pos;
-	m_shape.setPosition(_pos);
-
-	for (Collider * c : m_colliders) {
-		c->setPosition(_pos);
+	
+	// Landing
+	if (m_characterState == CHARACTER_STATE::JUMPING) {
+		if (Input::getKeyUp(Input::SPACE) || m_rigidBody->getVelocity().y > 0) {
+			m_additionalGravityMultiplier = m_landingGravityMultiplier;
+		}
 	}
-}
-
-GameObject * MainCharacter::clone() {
-	return nullptr;
 }
 
 void MainCharacter::shoot(int _direction) {

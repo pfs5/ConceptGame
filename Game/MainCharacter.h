@@ -4,14 +4,26 @@
 #include "AnimationController.h"
 
 class MainCharacter : public GameObject {
+	// Character state
+	enum CHARACTER_STATE {
+		IDLE,
+		JUMPING
+	};
+
 	// Visuals
 	sf::RectangleShape m_shape;
 
 	// Movement
 	int m_direction = 0;
 
+	// State
+	CHARACTER_STATE m_characterState;
+	float m_additionalGravityMultiplier;
+
 	// Parameters
-	float m_speed;
+	const float m_speed = 500.f;
+	const float m_jumpVelocity = 600.f;
+	const float m_landingGravityMultiplier = 2.f;
 public:
 	MainCharacter();
 	~MainCharacter();
@@ -28,6 +40,9 @@ public:
 	virtual GameObject * clone() override;
 
 private:
+	void movement(float _dt);
+	void extraGravity(float _dt);
+	void jump(float _dt);
 	void shoot(int _direction);
 };
 

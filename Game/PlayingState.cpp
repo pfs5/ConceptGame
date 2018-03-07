@@ -27,7 +27,17 @@ PlayingState::PlayingState() {
 
 	// Floor
 	GameObject * floor = new TexturedCubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ 500, 500 }, true, false, sf::Color{});
+	floor->setObjectTag("Floor");
 	m_gameObjects.push_back(floor);
+
+	// Platforms
+	GameObject * plat1 = new TexturedCubeObject(sf::Vector2f{ 200, 50 }, sf::Vector2f{ 500, 200 }, true, false, sf::Color{});
+	plat1->setObjectTag("Floor");
+	m_gameObjects.push_back(plat1);
+
+	GameObject * plat2 = new TexturedCubeObject(sf::Vector2f{ 200, 50 }, sf::Vector2f{ 300, 320 }, true, false, sf::Color{});
+	plat2->setObjectTag("Floor");
+	m_gameObjects.push_back(plat2);
 }
 
 
@@ -47,8 +57,8 @@ void PlayingState::update(float _dt) {
 
 	PhysicsEngine::getInstance().update(_dt);
 
-	// Make view follow the centered object
-	m_view.setCenter(m_centeredObject->getPosition() + m_viewOffset);
+	// Make view follow the centered object. freeze y coordinate
+	m_view.setCenter((m_centeredObject->getPosition() + m_viewOffset).x, m_view.getCenter().y);
 
 	// Add new objects
 	GameObject * newObj = nullptr;
