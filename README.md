@@ -10,6 +10,8 @@
 
 | Date | Job |
 | ------------ | ------------------------------------------------------------------ |
+| Mar 07, 2018 | Refined basic character movement with jump							|
+| Mar 07, 2018 | Refactored visual studio solution. Separated engine as static lib.	|
 | Mar 04, 2018 | Added new animations to main character movement.					|
 | Mar 04, 2018 | Added trigger functionality to animation controllers.				|
 | Mar 02, 2018 | Added basic main character animations.								|
