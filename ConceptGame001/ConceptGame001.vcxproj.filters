@@ -218,5 +218,8 @@
     <ClInclude Include="TexturedCubeObject.h">
       <Filter>Game\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FloatOperations.h">
+      <Filter>Engine\Header Files\utility</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -25,10 +25,22 @@ void AnimationController::draw() {
 }
 
 void AnimationController::playAnimation(std::string _animation, bool _playInstantly) {
+	int animationIndex = m_animationIndices.at(_animation);
+	playAnimation(animationIndex, _playInstantly);
+}
+
+void AnimationController::setTrigger(std::string _trigger, bool _playInstantly) {
 	try {
-		int animationIndex =  m_animationIndices.at(_animation);
-		
-		m_nextAnimation = animationIndex;
+		int nextAnimation = m_triggerTransitions[m_currentAnimation].at(_trigger);
+		playAnimation(nextAnimation, _playInstantly);
+	} catch (std::out_of_range) {
+		return;
+	}
+}
+
+void AnimationController::playAnimation(int _animation, bool _playInstantly) {
+	try {
+		m_nextAnimation = _animation;
 		if (_playInstantly) {
 			playNextAnimation();
 		}
@@ -53,6 +65,8 @@ bool AnimationController::loadFromFile(std::string _path) {
 			Animation *a = new Animation(name, frames.size(), frames, scale, isLooping);
 			m_animations.push_back(a);
 			m_transitions.push_back(-1);
+			m_triggerTransitions.push_back(std::map<std::string, int>());
+
 			a->attachObserver(this);
 
 			m_animationIndices.emplace(name, m_animations.size() - 1);
@@ -60,13 +74,18 @@ bool AnimationController::loadFromFile(std::string _path) {
 
 		// Transitions
 		for (auto &t : data["transitions"]) {
+			std::string trigger = t["trigger"];
 			std::string from = t["from"];
 			std::string to = t["to"];
 
 			int fromIndex = m_animationIndices[from];
 			int toIndex = m_animationIndices[to];
 
-			m_transitions[fromIndex] = toIndex;
+			if (trigger == "default") {
+				m_transitions[fromIndex] = toIndex;
+			} else {
+				m_triggerTransitions[fromIndex].emplace(trigger, toIndex);
+			}
 		}
 
 	} else {

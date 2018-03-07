@@ -54,25 +54,100 @@
 			"frames" : [1,1,1],
 			"scale" : 2,
 			"looping" : false
+		},
+
+		{
+			"name" : "archer_idle_left_to_right",
+			"frames" : [1,1,1,1,1],
+			"scale" : 2,
+			"looping" : false
+		},
+
+		{
+			"name" : "archer_idle_right_to_left",
+			"frames" : [1,1,1,1,1],
+			"scale" : 2,
+			"looping" : false
 		}
 	],
 
 	"transitions": [
 		{
+			"trigger": "default",
 			"from": "archer_idle_to_walk_right",
 			"to": "archer_walk_right"
 		},
 		{
+			"trigger": "default",
 			"from": "archer_walk_to_idle_right",
 			"to": "archer_idle_right"
 		},
-				{
+		{
+			"trigger": "default",
 			"from": "archer_idle_to_walk_left",
 			"to": "archer_walk_left"
 		},
 		{
+			"trigger": "default",
 			"from": "archer_walk_to_idle_left",
 			"to": "archer_idle_left"
+		},
+		{
+			"trigger": "default",
+			"from": "archer_idle_left_to_right",
+			"to": "archer_idle_right"
+		},
+		{
+			"trigger": "default",
+			"from": "archer_idle_right_to_left",
+			"to": "archer_idle_left"
+		},
+
+		{
+			"trigger":"walk_right",
+			"from": "archer_idle_right",
+			"to": "archer_idle_to_walk_right"
+		},
+		{
+			"trigger":"walk_left",
+			"from": "archer_idle_left",
+			"to": "archer_idle_to_walk_left"
+		},
+
+		{
+			"trigger":"walk_left",
+			"from": "archer_walk_right",
+			"to": "archer_idle_right"
+		},
+
+		{
+			"trigger":"walk_right",
+			"from": "archer_walk_left",
+			"to": "archer_idle_left"
+		},
+
+		{
+			"trigger":"walk_left",
+			"from": "archer_idle_right",
+			"to": "archer_idle_right_to_left"
+		},
+
+		{
+			"trigger":"walk_right",
+			"from": "archer_idle_left",
+			"to": "archer_idle_left_to_right"
+		},
+
+		{
+			"trigger":"idle",
+			"from": "archer_walk_left",
+			"to": "archer_walk_to_idle_left"
+		},
+		{
+			"trigger":"idle",
+			"from": "archer_walk_right",
+			"to": "archer_walk_to_idle_right"
 		}
+
 	]
 }

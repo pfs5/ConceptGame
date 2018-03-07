@@ -21,6 +21,7 @@ class AnimationController : public AnimationObserver{
 	std::map<std::string, int> m_animationIndices;
 
 	std::vector<int> m_transitions;
+	std::vector<std::map<std::string, int>> m_triggerTransitions;
 public:
 	AnimationController();
 	~AnimationController();
@@ -33,10 +34,12 @@ public:
 
 	// Controller methods
 	void playAnimation(std::string _animation, bool _playInstantly = true);
+	void setTrigger(std::string _trigger, bool _playInstantly = true);
 
 	// Animation observer
 	virtual void onAnimationEnd() override;
 private:
+	void playAnimation(int _animation, bool _playInstantly = true);
 	bool loadFromFile(std::string _path);
 	void playNextAnimation();
 #pragma region Getters and setters

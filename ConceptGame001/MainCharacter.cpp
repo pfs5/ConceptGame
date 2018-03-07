@@ -3,6 +3,7 @@
 #include "PhysicsEngine.h"
 #include "Input.h"
 #include "GameStateManager.h"
+#include "FloatOperations.h"
 
 MainCharacter::MainCharacter(GameObject * arrow) {
 	m_objectTag = "Main";
@@ -54,17 +55,16 @@ void MainCharacter::update(float _dt) {
 	}
 
 	// Animations
-	if (Input::getKeyDown(Input::A)) {
-		m_animationController.playAnimation("archer_idle_to_walk_left");
+	if (dx > 0.f) {
+		m_animationController.setTrigger("walk_right");
 	}
-	if (Input::getKeyDown(Input::D)) {
-		m_animationController.playAnimation("archer_idle_to_walk_right");
+	
+	if (dx < 0.f) {
+		m_animationController.setTrigger("walk_left");
 	}
-	if (Input::getKeyUp(Input::A)) {
-		m_animationController.playAnimation("archer_walk_to_idle_left");
-	}
-	if (Input::getKeyUp(Input::D)) {
-		m_animationController.playAnimation("archer_walk_to_idle_right");
+
+	if (FloatOperations::compare(dx, 0.f) == 0) {
+		m_animationController.setTrigger("idle");
 	}
 
 	dx *= _dt;

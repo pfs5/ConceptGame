@@ -48,6 +48,14 @@
 		},
 
 		{
+			"name": "archer_idle_left_to_right",
+			"path": "archer_idle_left_to_right.png"
+		},
+		{
+			"name": "archer_idle_right_to_left",
+			"path": "archer_idle_right_to_left.png"
+		},
+		{
 			"name": "debug_texture",
 			"path": "debug_texture.png"
 		}
