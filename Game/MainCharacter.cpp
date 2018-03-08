@@ -6,9 +6,12 @@
 #include "FloatOperations.h"
 #include "GameSettings.h"
 
-MainCharacter::MainCharacter():
+MainCharacter::MainCharacter(GameObject *_projectile):
 	m_characterState {CHARACTER_STATE::IDLE},
-	m_additionalGravityMultiplier { 0.f } {
+	m_shootingState {SHOOTING_STATE::NOTHING},
+	m_currentShootingPower{ m_minShootingSpeed },
+	m_additionalGravityMultiplier { 0.f },
+	m_projectile{ _projectile }  {
 
 	m_objectTag = "Main";
 
@@ -38,6 +41,7 @@ void MainCharacter::update(float _dt) {
 	movement(_dt);
 	extraGravity(_dt);
 	jump(_dt);
+	shootCharge(_dt);
 }
 
 void MainCharacter::draw() {
@@ -45,7 +49,7 @@ void MainCharacter::draw() {
 }
 
 void MainCharacter::onCollision(Collider * _other) {
-	if (_other->getGameObject()->getObjectTag() == "Floor") {
+	if (_other->getGameObject()->getObjectTag() == "Floor" || _other->getGameObject()->getObjectTag() == "Arrow") {
 		m_characterState = CHARACTER_STATE::IDLE;
 		m_additionalGravityMultiplier = 0.f;
 	}
@@ -105,5 +109,29 @@ void MainCharacter::jump(float _dt) {
 	}
 }
 
-void MainCharacter::shoot(int _direction) {
+void MainCharacter::shootCharge(float _dt) {
+	if (Input::getKeyDown(Input::ENTER)) {
+		m_currentShootingPower = m_minShootingSpeed;
+		m_shootingState = SHOOTING_STATE::CHARGING;
+	}
+	
+	if (Input::getKeyUp(Input::ENTER)) {
+		shoot(m_direction, m_currentShootingPower);
+		m_shootingState = SHOOTING_STATE::NOTHING;
+	}
+
+	if (m_shootingState == SHOOTING_STATE::CHARGING) {
+		m_currentShootingPower = fminf(m_currentShootingPower + m_shootingChargeSpeed * _dt, m_maxShootingSpeed);
+	}
+}
+
+void MainCharacter::shoot(int _direction, float _velocity) {
+	GameObject * projectile = GameStateManager::instantiate(m_projectile, 1);
+	
+	sf::Vector2f projPos = m_position + sf::Vector2f{ m_shape.getSize().x * static_cast<float>(_direction), 0.f };
+	projectile->setPosition(projPos);
+
+	projectile->getRigidBody()->setVelocity(sf::Vector2f{_direction * _velocity, 0.f});
+
+	projectile->setActive(true);
 }

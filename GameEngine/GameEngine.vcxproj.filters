@@ -108,6 +108,9 @@
     <ClInclude Include="ResourceManager.h">
       <Filter>Header Files\resource_management</Filter>
     </ClInclude>
+    <ClInclude Include="Util.h">
+      <Filter>Header Files\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">

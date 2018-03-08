@@ -3,7 +3,7 @@
 #include "PhysicsEngine.h"
 
 class PlayingState : public GameState {
-	std::vector<GameObject*> m_gameObjects;
+	std::vector<std::vector<GameObject*>> m_gameObjects;
 
 	GameObject * m_centeredObject; // Object to be "followed" by the view
 	sf::View m_view;

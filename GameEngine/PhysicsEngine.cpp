@@ -94,13 +94,14 @@ void PhysicsEngine::collisionDetection() {
 			float diffY = fmaxf(topDiffY, botDiffY);
 
 			float finalDiff = fmaxf(diffX, diffY);
-			int collisionAxis = diffX > diffY ? 0 : 1;	// 0 - x axis, 1 - y axis
-			bool direction = diffX > diffY ? directionX : directionY;
 			
 			// Collision
 			if (finalDiff < 0.f) {
+				int collisionAxis = diffX > diffY ? 0 : 1;	// 0 - x axis, 1 - y axis
+				bool direction = diffX > diffY ? directionX : directionY;
+				
 				// Collision response - both colliders not triggers
-				if (!c1->isTrigger() && !c2->isTrigger() && !PhysicsLayers::layerIgnoreMatrix[c1->getGameObject()->getLayerNumber()][c2->getGameObject()->getLayerNumber()]) {
+				if (!c1->isTrigger() && !c2->isTrigger() && !PhysicsLayers::layerIgnoreMatrix[c1->getGameObject()->getLayerNumber()][c2->getGameObject()->getLayerNumber()]) {				
 					// ## Move object out of collision ##
 					sf::Vector2f axisVector{static_cast<float>(1 - collisionAxis), static_cast<float>(collisionAxis)};
 

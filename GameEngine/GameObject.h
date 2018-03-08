@@ -57,7 +57,7 @@ public:
 	virtual void setPosition(sf::Vector2f _pos) = 0;
 	inline sf::Vector2f getPosition() { return m_position; };
 
-	inline void setActive(bool _a) { m_isActive = _a; };
+	inline virtual void setActive(bool _a) { m_isActive = _a; };
 	inline bool isActive() { return m_isActive; };
 	#pragma endregion
 };

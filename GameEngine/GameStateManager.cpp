@@ -1,23 +1,23 @@
 #include "GameStateManager.h"
 
 std::stack<GameState *> GameStateManager::m_gameStates;
-std::stack<GameObject*> GameStateManager::m_newObjectsStack;
+std::vector<std::stack<GameObject*>> GameStateManager::m_newObjectsStacks(objectLayers);
 
 
-GameObject * GameStateManager::instantiate(GameObject * _gameObject) {
+GameObject * GameStateManager::instantiate(GameObject * _gameObject, int _layer) {
 	GameObject * o =  activeGameState()->instantiateObject(_gameObject);
-	m_newObjectsStack.push(o);
+	m_newObjectsStacks[_layer].push(o);
 
 	return o;
 }
 
-GameObject * GameStateManager::popNewGameObject() {
-	if (m_newObjectsStack.empty()) {
+GameObject * GameStateManager::popNewGameObject(int _layer) {
+	if (m_newObjectsStacks[_layer].empty()) {
 		return nullptr;
 	}
 
-	GameObject * o = m_newObjectsStack.top();
-	m_newObjectsStack.pop();
+	GameObject * o = m_newObjectsStacks[_layer].top();
+	m_newObjectsStacks[_layer].pop();
 	return o;
 }
 
