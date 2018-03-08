@@ -52,6 +52,11 @@ void Projectile::onCollision(Collider * _other) {
 	if (_other->getGameObject()->getObjectTag() == getObjectTag() && m_isStatic) {
 		destroyProjectile();
 	}
+
+	// Destroy if hit enemy
+	if (_other->getGameObject()->getObjectTag() == "Enemy") {
+		destroyProjectile();
+	}
 }
 
 GameObject * Projectile::clone() {
