@@ -1,15 +1,19 @@
 #pragma once
 #include "GameObject.h"
-class EnemyManager : public GameObject {
-	GameObject * m_enemy;
-	GameObject * m_rangedEnemy;
+class RangedEnemy : public GameObject{
+
+	sf::RectangleShape m_shape;
+
 	GameObject * m_player;
 
-	// Parameters
-	const std::vector<sf::Vector2f> m_spawnPositions = { sf::Vector2f{ -350, 350 }, sf::Vector2f{ 1000, 400 } };
+	// State
+	int m_numberOfHits;
+	bool m_died;
+
+	const int m_maxHits = 2;
 public:
-	EnemyManager(GameObject * _enemy, GameObject * _rangedEnemy, GameObject * _player);
-	~EnemyManager();
+	RangedEnemy();
+	~RangedEnemy();
 
 	// Inherited via GameObject
 	virtual void update(float _dt) override;
@@ -17,5 +21,10 @@ public:
 	virtual void onCollision(Collider * _other) override;
 	virtual GameObject * clone() override;
 	virtual void setPosition(sf::Vector2f _pos) override;
+
+#pragma region Getters and setters
+	inline void setPlayerRef(GameObject *_player) { m_player = _player; };
+#pragma endregion
+
 };
 

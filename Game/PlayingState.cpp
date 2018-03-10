@@ -9,6 +9,7 @@
 #include "Projectile.h"
 #include "EnemyManager.h"
 #include "BasicEnemy.h"
+#include "RangedEnemy.h"
 
 #include <SFML/Window.hpp>
 
@@ -36,7 +37,9 @@ PlayingState::PlayingState() {
 
 	// ### Enemies ###
 	GameObject *enemy = new BasicEnemy();
-	m_gameObjects[0].push_back(new EnemyManager(enemy, mainChar));
+	GameObject *rangedEnemy = new RangedEnemy();
+
+	m_gameObjects[0].push_back(new EnemyManager(enemy, rangedEnemy, mainChar));
 
 	// ### Environment ###
 	// Floor
@@ -45,7 +48,7 @@ PlayingState::PlayingState() {
 	m_gameObjects[0].push_back(floor);
 
 	// Walls
-	GameObject * wallLeft = new TexturedCubeObject(sf::Vector2f{ 200, 500 }, sf::Vector2f{ -500, 300 }, true, false, sf::Color{});
+	GameObject * wallLeft = new TexturedCubeObject(sf::Vector2f{ 200, 700 }, sf::Vector2f{ -500, 500 }, true, false, sf::Color{});
 	wallLeft->setObjectTag("Wall");
 	m_gameObjects[0].push_back(wallLeft);
 

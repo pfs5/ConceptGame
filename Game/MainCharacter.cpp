@@ -13,7 +13,9 @@ MainCharacter::MainCharacter(GameObject *_projectile):
 	m_additionalGravityMultiplier { 0.f },
 	m_projectile{ _projectile }  {
 
-	m_objectTag = "Main";
+	setObjectTag("Main");
+	setObjectLayer("Player");
+	
 
 	// Init shape
 	m_shape.setSize(sf::Vector2f{ 30.f, 50.f });

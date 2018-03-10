@@ -34,7 +34,7 @@ class MainCharacter : public GameObject {
 	const float m_landingGravityMultiplier = 2.f;
 
 	const float m_shootingChargeSpeed = 1000.f;
-	const float m_minShootingSpeed = 500.f;
+	const float m_minShootingSpeed = 100.f; // 500
 	const float m_maxShootingSpeed = 1500.f;
 
 	GameObject * m_projectile;
