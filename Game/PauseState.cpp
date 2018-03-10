@@ -34,3 +34,6 @@ void PauseState::draw() {
 GameObject * PauseState::instantiateObject(GameObject * _gameObject) {
 	return nullptr;
 }
+
+void PauseState::destroyObject(GameObject * _gameObject) {
+}

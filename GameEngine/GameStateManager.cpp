@@ -2,6 +2,7 @@
 
 std::stack<GameState *> GameStateManager::m_gameStates;
 std::vector<std::stack<GameObject*>> GameStateManager::m_newObjectsStacks(objectLayers);
+std::stack<GameObject *> GameStateManager::m_destroyedObjects;
 
 
 GameObject * GameStateManager::instantiate(GameObject * _gameObject, int _layer) {
@@ -11,6 +12,11 @@ GameObject * GameStateManager::instantiate(GameObject * _gameObject, int _layer)
 	return o;
 }
 
+void GameStateManager::destroyObject(GameObject * _gameObject) {
+	activeGameState()->destroyObject(_gameObject);
+	m_destroyedObjects.push(_gameObject);
+}
+
 GameObject * GameStateManager::popNewGameObject(int _layer) {
 	if (m_newObjectsStacks[_layer].empty()) {
 		return nullptr;
@@ -18,6 +24,16 @@ GameObject * GameStateManager::popNewGameObject(int _layer) {
 
 	GameObject * o = m_newObjectsStacks[_layer].top();
 	m_newObjectsStacks[_layer].pop();
+	return o;
+}
+
+GameObject * GameStateManager::popDestroyedGameObject() {
+	if (m_destroyedObjects.empty()) {
+		return nullptr;
+	}
+
+	GameObject * o = m_destroyedObjects.top();
+	m_destroyedObjects.pop();
 	return o;
 }
 

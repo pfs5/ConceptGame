@@ -3,11 +3,13 @@
 #include "GameState.h"
 
 #include <stack>
+#include <SFML/Graphics.hpp>
 
 /**
 	Main application class holding the whole game and game loop.
 **/
 class Application {
+	sf::Text m_fpsText;
 public:
 	Application();
 	~Application();
@@ -28,4 +30,7 @@ public:
 		Removes the last game state and switches to the previous one.
 	**/
 	void popGameState();
+
+private:
+	void calculateFPS(bool _printFPS = false);
 };

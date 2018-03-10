@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "BasicEnemy.h"
 #include "Debug.h"
+#include "GameStateManager.h"
 
 BasicEnemy::BasicEnemy() :
 	m_player{ nullptr },
@@ -41,7 +42,7 @@ void BasicEnemy::update(float _dt) {
 	if (m_state == ENEMY_STATE::ATTACKING) {
 		if (m_died) {
 			// Die
-			setActive(false);
+			GameStateManager::destroyObject(this);
 			return;
 		}
 
@@ -62,7 +63,7 @@ void BasicEnemy::update(float _dt) {
 		vel.x *= m_recoilSlowdown;
 		m_rigidBody->setVelocity(vel);
 
-		if (vel.x < m_recoilMinSpeed) {
+		if (fabsf(vel.x) < m_recoilMinSpeed) {
 			m_state = ENEMY_STATE::ATTACKING;
 		}
 	}

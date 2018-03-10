@@ -58,6 +58,21 @@ RigidBody * PhysicsEngine::createRigidBody(Collider * _collider) {
 	return newRb;
 }
 
+void PhysicsEngine::deleteCollider(Collider * _collider) {
+	auto colliderPos = std::find(m_colliders.begin(), m_colliders.end(), _collider);
+
+	if (colliderPos != m_colliders.end()) {
+		m_colliders.erase(colliderPos);
+	}
+}
+
+void PhysicsEngine::deleteRigidBody(RigidBody * _rigidbody) {
+	auto rbPos = std::find(m_rigidBodies.begin(), m_rigidBodies.end(), _rigidbody);
+	if (rbPos != m_rigidBodies.end()) {
+		m_rigidBodies.erase(rbPos);
+	}
+}
+
 bool PhysicsEngine::areColliding(const Collider & _c1, const Collider & _c2) {
 	//std::pair<std::string, std::string> pair = std::make_pair<std::string, std::string>(_c1.getGameObject()->getObjectTag(), _c2.getGameObject()->getObjectTag());
 	return true;

@@ -1,4 +1,5 @@
 #include "Collider.h"
+#include "PhysicsEngine.h"
 
 Collider::Collider(GameObject * _gameObject, sf::Vector2f _position, sf::Vector2f _size) : m_gameObject (_gameObject), m_position (_position), m_size (_size){
 	// Init shape
@@ -10,6 +11,7 @@ Collider::Collider(GameObject * _gameObject, sf::Vector2f _position, sf::Vector2
 }
 
 Collider::~Collider() {
+	PhysicsEngine::getInstance().deleteCollider(this);
 }
 
 const sf::Drawable & Collider::getDrawable() {

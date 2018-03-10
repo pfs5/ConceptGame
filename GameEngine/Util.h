@@ -2,8 +2,11 @@
 #include <ctime>
 #include <cstdlib>
 #include <iostream>
+#include <sstream>
+#include <iomanip>
+
 namespace Util {
-	bool isInitialized = false;
+	static bool isInitialized = false;
 	
 	inline float randomFloat() {
 		if (!isInitialized) {
@@ -23,5 +26,11 @@ namespace Util {
 		float num = _min + (_max - _min) * randomFloat();
 
 		return roundf(num);
+	}
+
+	inline std::string floatToString(const float &_f, const int &_digits) {
+		std::stringstream sstream;
+		sstream << std::fixed << std::setprecision(_digits) << _f;
+		return sstream.str();
 	}
 }

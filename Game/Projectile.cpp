@@ -2,6 +2,7 @@
 #include "PhysicsEngine.h"
 #include "Display.h"
 #include "Debug.h"
+#include "GameStateManager.h"
 
 Projectile::Projectile() {
 	m_objectTag = "Arrow";
@@ -27,6 +28,7 @@ Projectile::Projectile() {
 
 
 Projectile::~Projectile() {
+	 
 }
 
 void Projectile::update(float _dt) {
@@ -73,5 +75,6 @@ void Projectile::setPosition(sf::Vector2f _pos) {
 }
 
 void Projectile::destroyProjectile() {
-	setActive(false);
+	GameStateManager::destroyObject(this);
+	//setActive(false);
 }

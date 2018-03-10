@@ -17,5 +17,6 @@ public:
 	virtual void update(float _dt) override;
 	virtual void draw() override;
 	virtual GameObject * instantiateObject(GameObject * _gameObject) override;
+	virtual void destroyObject(GameObject * _gameObject) override;
 };
 

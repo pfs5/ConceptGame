@@ -20,5 +20,6 @@ public:
 
 	// Inherited via GameState
 	virtual GameObject *  instantiateObject(GameObject * _gameObject) override;
+	virtual void destroyObject(GameObject * _gameObject) override;
 };
 

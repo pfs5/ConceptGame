@@ -12,6 +12,7 @@
 #include "RangedEnemy.h"
 
 #include <SFML/Window.hpp>
+#include <algorithm>
 
 void createCube(sf::Vector2i _pos, std::vector<GameObject*> &_gameObjects) {
 	GameObject * cube = new CubeObject(sf::Vector2f{ 50, 50 }, sf::Vector2f{ static_cast<float>(_pos.x - 25), static_cast<float>(_pos.y - 25) }, false, true);
@@ -94,6 +95,16 @@ void PlayingState::update(float _dt) {
 			m_gameObjects[i].push_back(newObj);
 		}
 	}
+
+	// Destroy objects
+	GameObject * destrObj = nullptr;
+	while (destrObj = GameStateManager::popDestroyedGameObject()) {
+		for (auto &layer : m_gameObjects) {
+			layer.erase(std::remove(layer.begin(), layer.end(), destrObj), layer.end());
+		}
+		delete destrObj;
+	}
+
 	// Pause game
 	if (Input::getKeyDown(Input::P)) {
 		GameStateManager::pushGameState(new PauseState());
@@ -117,4 +128,8 @@ GameObject * PlayingState::instantiateObject(GameObject * _gameObject) {
 	GameObject * newInstance = _gameObject->clone();
 
 	return newInstance;
+}
+
+void PlayingState::destroyObject(GameObject * _gameObject) {
+	_gameObject->setActive(false);
 }

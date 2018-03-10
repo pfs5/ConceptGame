@@ -27,6 +27,9 @@ public:
 	Collider * createCollider(GameObject * _gameObject);
 	RigidBody * createRigidBody(Collider * _collider);
 
+	void deleteCollider(Collider * _collider);
+	void deleteRigidBody(RigidBody * _rigidbody);
+
 	// Collision settings
 	bool areColliding(const Collider &_c1, const Collider &_c2);
 private:

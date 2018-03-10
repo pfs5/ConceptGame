@@ -12,4 +12,5 @@ public:
 	virtual void draw() = 0;
 
 	virtual GameObject * instantiateObject(GameObject  * _gameObject) = 0;
+	virtual void destroyObject(GameObject * _gameObject) = 0;
 };

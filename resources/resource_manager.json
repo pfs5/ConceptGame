@@ -3,6 +3,22 @@
 		{
 			"name": "atwriter",
 			"path": "atwriter.ttf"
+		},
+		{
+			"name": "couriernew1",
+			"path": "cour.ttf"
+		},
+		{
+			"name": "couriernew2",
+			"path": "courbd.ttf"
+		},
+		{
+			"name": "couriernew3",
+			"path": "courbi.ttf"
+		},
+		{
+			"name": "couriernew4",
+			"path": "couri.ttf"
 		}
 	],
 
