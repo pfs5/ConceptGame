@@ -32,6 +32,11 @@ public:
 
 	// Collision settings
 	bool areColliding(const Collider &_c1, const Collider &_c2);
+
+	/**
+		Cast a ray from _start in given direction. Returns point where the ray hits a collider
+	**/
+	sf::Vector2f raycast(const sf::Vector2f &_start, const sf::Vector2f &_direction, const std::vector<std::string> &collisionLayers);
 private:
 	void collisionDetection();
 };

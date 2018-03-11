@@ -1,10 +1,12 @@
 #pragma once
 #include "GameObject.h"
+#include "Gunshot.h"
 class RangedEnemy : public GameObject{
 
 	sf::RectangleShape m_shape;
 
 	GameObject * m_player;
+	Gunshot * m_gunshotPrefab;
 
 	// State
 	int m_numberOfHits;
@@ -24,6 +26,7 @@ public:
 
 #pragma region Getters and setters
 	inline void setPlayerRef(GameObject *_player) { m_player = _player; };
+	inline void setGunshotPrefab(Gunshot * _gunshot) { m_gunshotPrefab = _gunshot; };
 #pragma endregion
 
 };

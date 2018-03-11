@@ -1,6 +1,9 @@
 #include "RangedEnemy.h"
 #include "PhysicsEngine.h"
 #include "Display.h"
+#include "Input.h"
+#include "GameStateManager.h"
+#include "Debug.h"
 
 RangedEnemy::RangedEnemy() :
 	m_player{ nullptr },
@@ -38,6 +41,13 @@ RangedEnemy::~RangedEnemy() {
 }
 
 void RangedEnemy::update(float _dt) {
+	if (Input::getKeyDown(Input::O)) {
+		// Shoot
+		auto gunshot = dynamic_cast<Gunshot*> (GameStateManager::instantiate(m_gunshotPrefab));
+		sf::Vector2f end = PhysicsEngine::getInstance().raycast(m_position, m_player->getPosition() - m_position, std::vector<std::string>{"Floor"});
+		Debug::log(end);
+		gunshot->setPositions(m_position, end);
+	}
 }
 
 void RangedEnemy::draw() {
@@ -45,10 +55,17 @@ void RangedEnemy::draw() {
 }
 
 void RangedEnemy::onCollision(Collider * _other) {
+	if (_other->getGameObject()->getObjectTag() == "Arrow") {
+		if (m_numberOfHits++ >= m_maxHits) {
+			GameStateManager::destroyObject(this);
+		}
+	}
 }
 
 GameObject * RangedEnemy::clone() {
-	return new RangedEnemy();
+	auto enemy = new RangedEnemy();
+	enemy->setGunshotPrefab(m_gunshotPrefab);
+	return enemy;
 }
 
 void RangedEnemy::setPosition(sf::Vector2f _pos) {

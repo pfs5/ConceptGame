@@ -4,6 +4,7 @@
 #include "Display.h"
 #include "Debug.h"
 #include "VectorOperations.h"
+#include "VectorOperations.h"
 
 PhysicsEngine::PhysicsEngine() {
 }
@@ -77,6 +78,70 @@ bool PhysicsEngine::areColliding(const Collider & _c1, const Collider & _c2) {
 	//std::pair<std::string, std::string> pair = std::make_pair<std::string, std::string>(_c1.getGameObject()->getObjectTag(), _c2.getGameObject()->getObjectTag());
 	return true;
 	//return COLLISION_IGNORE_MAP.find(pair) == COLLISION_IGNORE_MAP.end();
+}
+
+inline float calculateT(const sf::Vector2f &_v0, const sf::Vector2f &_v10, const sf::Vector2f &_start, const sf::Vector2f &_direction) {
+	return (_v0.y * _direction.x - _start.y * _direction.x - _v0.x * _direction.y + _start.x * _direction.y) /
+		(_v10.x * _direction.y - _v10.y * _direction.x);
+}
+
+inline sf::Vector2f calculatePoint(const sf::Vector2f _v0, const sf::Vector2f &_v10, float &_t) {
+	return _v0 + _v10 * _t;
+}
+
+sf::Vector2f PhysicsEngine::raycast(const sf::Vector2f & _start, const sf::Vector2f & _direction, const std::vector<std::string> &collisionLayers) {
+	sf::Vector2f collisionPoint;
+	float currentDistance = std::numeric_limits<float>::max();
+
+	for (auto &c : m_colliders) {
+		if (c->getGameObject()->isActive()) {
+			bool colliderInLayer = false;
+			for (auto layer : collisionLayers) {
+				if (c->getGameObject()->getObjectTag() == layer) {
+					colliderInLayer = true;
+					break;
+				}
+			}
+
+			if (!colliderInLayer) {
+				continue;
+			}
+
+			// ## Find collision points with collider ##
+			sf::Vector2f v0;
+			sf::Vector2f v10;
+			for (int i = 0; i < 4; ++i) {
+				switch (i) {
+				case 0:
+					v0 = c->getPosition() - c->getSize() / 2.f;
+					v10 = sf::Vector2f{ 0.f, c->getSize().y };
+					break;
+				case 1:
+					v10 = sf::Vector2f{ c->getSize().x, 0.f };
+					break;
+				case 2:
+					v0 = c->getPosition() - c->getSize() / 2.f;
+					v10 = sf::Vector2f{ 0.f, c->getSize().y };
+					break;
+				case 3: 
+					v10 = sf::Vector2f{ c->getSize().x, 0.f };
+					break;
+				}
+
+				float t = calculateT(v0, v10, _start, _direction);
+				if (t >= 0 && t <= 1) {
+					sf::Vector2f point = calculatePoint(v0, v10, t);
+					float distance = VectorOperations::squaredNorm(point - _start);
+					if (distance < currentDistance) {
+						currentDistance = distance;
+						collisionPoint = point;
+					}
+				}
+			}
+		}
+	}
+	
+	return collisionPoint;
 }
 
 void PhysicsEngine::collisionDetection() {

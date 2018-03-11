@@ -5,6 +5,8 @@
 #include <sstream>
 #include <iomanip>
 
+#define PI 3.14159265359f
+
 namespace Util {
 	static bool isInitialized = false;
 	
@@ -32,5 +34,9 @@ namespace Util {
 		std::stringstream sstream;
 		sstream << std::fixed << std::setprecision(_digits) << _f;
 		return sstream.str();
+	}
+
+	inline float radianToDegree(const float &_radians) {
+		return _radians * 180.f / PI;
 	}
 }

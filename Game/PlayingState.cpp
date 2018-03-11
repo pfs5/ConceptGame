@@ -10,6 +10,7 @@
 #include "EnemyManager.h"
 #include "BasicEnemy.h"
 #include "RangedEnemy.h"
+#include "Gunshot.h"
 
 #include <SFML/Window.hpp>
 #include <algorithm>
@@ -37,8 +38,11 @@ PlayingState::PlayingState() {
 	m_viewOffset = sf::Vector2f{ 0.f, -1.f * Display::getWindow().getSize().y / 2.f + VERTICAL_VIEW_OFFSET};
 
 	// ### Enemies ###
-	GameObject *enemy = new BasicEnemy();
-	GameObject *rangedEnemy = new RangedEnemy();
+	auto enemy = new BasicEnemy();
+
+	auto gunshot = new Gunshot(sf::Vector2f{ -350, 350 }, sf::Vector2f{ -250, 400 });
+	auto rangedEnemy = new RangedEnemy();
+	rangedEnemy->setGunshotPrefab(gunshot);
 
 	m_gameObjects[0].push_back(new EnemyManager(enemy, rangedEnemy, mainChar));
 
