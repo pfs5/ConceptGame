@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "BasicEnemy.h"
 #include "Debug.h"
 #include "GameStateManager.h"
@@ -12,7 +11,7 @@ BasicEnemy::BasicEnemy() :
 	setObjectTag("Enemy");
 	setObjectLayer("Enemy");
 
-	m_shape.setFillColor(sf::Color::Cyan);
+	m_shape.setFillColor(m_baseColor);
 	m_shape.setOutlineColor(sf::Color::Black);
 	m_shape.setOutlineThickness(5.f);
 	m_shape.setSize(sf::Vector2f{ 50, 50 });
@@ -64,6 +63,8 @@ void BasicEnemy::update(float _dt) {
 		m_rigidBody->setVelocity(vel);
 
 		if (fabsf(vel.x) < m_recoilMinSpeed) {
+			m_shape.setFillColor(m_baseColor);
+
 			m_state = ENEMY_STATE::ATTACKING;
 		}
 	}
@@ -85,6 +86,8 @@ void BasicEnemy::onCollision(Collider * _other) {
 			m_died = true;
 		}
 
+		m_shape.setFillColor(m_hitColor);
+
 		m_state = ENEMY_STATE::HIT;
 	}
 }
@@ -100,4 +103,12 @@ void BasicEnemy::setPosition(sf::Vector2f _pos) {
 	for (Collider * c : m_colliders) {
 		c->setPosition(_pos);
 	}
+}
+
+void BasicEnemy::pull(sf::Vector2f _pullVector) {
+	getRigidBody()->setVelocity(_pullVector * 1000.f);
+
+	m_shape.setFillColor(m_hitColor);
+
+	m_state = ENEMY_STATE::HIT;
 }

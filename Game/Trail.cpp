@@ -1,11 +1,11 @@
-#include "Gunshot.h"
+#include "Trail.h"
 #include "VectorOperations.h"
 #include "Display.h"
 #include "Debug.h"
 #include "Util.h"
 #include "GameStateManager.h"
 
-Gunshot::Gunshot(const sf::Vector2f & _start, const sf::Vector2f & _end) :
+Trail::Trail(const sf::Vector2f & _start, const sf::Vector2f & _end) :
 	m_start{ _start },
 	m_end{ _end },
 	m_timer{} {
@@ -13,30 +13,28 @@ Gunshot::Gunshot(const sf::Vector2f & _start, const sf::Vector2f & _end) :
 	initShape();
 }
 
-Gunshot::~Gunshot() {
+Trail::~Trail() {
 }
 
-void Gunshot::update(float _dt) {
-	if (m_timer.getElapsedTime().asSeconds() > m_duration) {
-		GameStateManager::destroyObject(this);
-	}
+void Trail::update(float _dt) {
+	
 }
 
-void Gunshot::draw() {
+void Trail::draw() {
 	Display::draw(m_shape);
 }
 
-void Gunshot::onCollision(Collider * _other) {
+void Trail::onCollision(Collider * _other) {
 }
 
-GameObject * Gunshot::clone() {
-	return new Gunshot();
+GameObject * Trail::clone() {
+	return new Trail();
 }
 
-void Gunshot::setPosition(sf::Vector2f _pos) {
+void Trail::setPosition(sf::Vector2f _pos) {
 }
 
-void Gunshot::initShape() {
+void Trail::initShape() {
 	m_shape.setFillColor(sf::Color::Red);
 
 	sf::Vector2f distance = m_end - m_start;

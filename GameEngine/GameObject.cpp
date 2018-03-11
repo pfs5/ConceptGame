@@ -1,10 +1,14 @@
 #include "GameObject.h"
 
-GameObject::GameObject() {
+GameObject::GameObject() :
+	m_rigidBody{nullptr} {
 }
 
 GameObject::~GameObject() {
-	delete m_rigidBody;
+	if (m_rigidBody != nullptr) {
+		delete m_rigidBody;
+	}
+
 	for (Collider * c : m_colliders) {
 		delete c;
 	}

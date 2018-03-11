@@ -10,7 +10,7 @@
 #include "EnemyManager.h"
 #include "BasicEnemy.h"
 #include "RangedEnemy.h"
-#include "Gunshot.h"
+#include "Trail.h"
 
 #include <SFML/Window.hpp>
 #include <algorithm>
@@ -30,8 +30,7 @@ PlayingState::PlayingState() {
 	m_view.reset(sf::FloatRect(0.f, 0.f, Display::getWindow().getSize().x, Display::getWindow().getSize().y));
 
 	// ### Create main character ###
-	GameObject * projectile = new Projectile();
-	GameObject * mainChar = new MainCharacter(projectile);
+	GameObject * mainChar = new MainCharacter();
 	m_gameObjects[0].push_back(mainChar);
 	m_centeredObject = mainChar;
 
@@ -40,9 +39,7 @@ PlayingState::PlayingState() {
 	// ### Enemies ###
 	auto enemy = new BasicEnemy();
 
-	auto gunshot = new Gunshot(sf::Vector2f{ -350, 350 }, sf::Vector2f{ -250, 400 });
 	auto rangedEnemy = new RangedEnemy();
-	rangedEnemy->setGunshotPrefab(gunshot);
 
 	m_gameObjects[0].push_back(new EnemyManager(enemy, rangedEnemy, mainChar));
 
@@ -65,6 +62,10 @@ PlayingState::PlayingState() {
 	GameObject * plat2 = new TexturedCubeObject(sf::Vector2f{ 200, 50 }, sf::Vector2f{ 300, 320 }, true, false, sf::Color{});
 	plat2->setObjectTag("Floor");
 	m_gameObjects[0].push_back(plat2);
+
+	GameObject * plat3 = new TexturedCubeObject(sf::Vector2f{ 200, 50 }, sf::Vector2f{ 100, 180 }, true, false, sf::Color{});
+	plat3->setObjectTag("Floor");
+	m_gameObjects[0].push_back(plat3);
 }
 
 

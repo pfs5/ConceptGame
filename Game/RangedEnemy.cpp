@@ -13,7 +13,7 @@ RangedEnemy::RangedEnemy() :
 	setObjectTag("Enemy");
 	setObjectLayer("Enemy");
 
-	m_shape.setFillColor(sf::Color::Magenta);
+	m_shape.setFillColor(m_baseColor);
 	m_shape.setOutlineColor(sf::Color::Black);
 	m_shape.setOutlineThickness(5.f);
 	m_shape.setSize(sf::Vector2f{ 50, 50 });
@@ -41,12 +41,20 @@ RangedEnemy::~RangedEnemy() {
 }
 
 void RangedEnemy::update(float _dt) {
+	if (m_hitTimer.getElapsedTime().asSeconds() > m_stunDuration) {
+		m_shape.setFillColor(m_baseColor);
+	}
+
+	// Drag
+	auto velocity = getRigidBody()->getVelocity();
+	velocity *= m_moveDrag;
+	getRigidBody()->setVelocity(velocity);
+
 	if (Input::getKeyDown(Input::O)) {
 		// Shoot
-		auto gunshot = dynamic_cast<Gunshot*> (GameStateManager::instantiate(m_gunshotPrefab));
-		sf::Vector2f end = PhysicsEngine::getInstance().raycast(m_position, m_player->getPosition() - m_position, std::vector<std::string>{"Floor"});
-		Debug::log(end);
-		gunshot->setPositions(m_position, end);
+		auto trail = dynamic_cast<Trail*> (GameStateManager::instantiate(&Trail()));
+		sf::Vector2f end = PhysicsEngine::getInstance().raycast(m_position, m_player->getPosition() - m_position, std::vector<std::string>{"Floor", "Wall", "Main"});
+		trail->setPositions(m_position, end);
 	}
 }
 
@@ -56,15 +64,22 @@ void RangedEnemy::draw() {
 
 void RangedEnemy::onCollision(Collider * _other) {
 	if (_other->getGameObject()->getObjectTag() == "Arrow") {
-		if (m_numberOfHits++ >= m_maxHits) {
-			GameStateManager::destroyObject(this);
+		sf::Vector2f vel = m_rigidBody->getVelocity();
+		vel.x = _other->getGameObject()->getRigidBody()->getVelocity().x;
+		m_rigidBody->setVelocity(vel);
+
+		if (++m_numberOfHits >= m_maxHits) {
+			// Die after delay
+			m_died = true;
 		}
+
+		m_shape.setFillColor(m_hitColor);
+		m_hitTimer.restart();
 	}
 }
 
 GameObject * RangedEnemy::clone() {
 	auto enemy = new RangedEnemy();
-	enemy->setGunshotPrefab(m_gunshotPrefab);
 	return enemy;
 }
 
@@ -75,4 +90,11 @@ void RangedEnemy::setPosition(sf::Vector2f _pos) {
 	for (Collider * c : m_colliders) {
 		c->setPosition(_pos);
 	}
+}
+
+void RangedEnemy::pull(sf::Vector2f _pullVector) {
+	getRigidBody()->setVelocity(_pullVector * 300.f);
+
+	m_shape.setFillColor(m_hitColor);
+	m_hitTimer.restart();
 }

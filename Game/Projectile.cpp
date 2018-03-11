@@ -76,5 +76,4 @@ void Projectile::setPosition(sf::Vector2f _pos) {
 
 void Projectile::destroyProjectile() {
 	GameStateManager::destroyObject(this);
-	//setActive(false);
 }

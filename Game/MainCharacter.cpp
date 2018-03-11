@@ -5,13 +5,16 @@
 #include "GameStateManager.h"
 #include "FloatOperations.h"
 #include "GameSettings.h"
+#include "Projectile.h"
+#include "ChainedProjectile.h"
+#include "VectorOperations.h"
 
-MainCharacter::MainCharacter(GameObject *_projectile):
+MainCharacter::MainCharacter():
 	m_characterState {CHARACTER_STATE::IDLE},
 	m_shootingState {SHOOTING_STATE::NOTHING},
+	m_chain {nullptr},
 	m_currentShootingPower{ m_minShootingSpeed },
-	m_additionalGravityMultiplier { 0.f },
-	m_projectile{ _projectile }  {
+	m_additionalGravityMultiplier { 0.f }  {
 
 	setObjectTag("Main");
 	setObjectLayer("Player");
@@ -83,9 +86,15 @@ void MainCharacter::movement(float _dt) {
 		m_direction = 1;
 	}
 
-	dx *= _dt;
+	// Add pull velocity
+	dx += m_currentPullSpeed.x;
+	m_currentPullSpeed *= m_pullSpeedDecay;
 
-	move(sf::Vector2f{ dx, 0.f });
+	sf::Vector2f delta { dx, m_currentPullSpeed.y };
+
+	delta *= _dt;
+
+	move(delta);
 }
 
 void MainCharacter::extraGravity(float _dt) {
@@ -113,27 +122,79 @@ void MainCharacter::jump(float _dt) {
 
 void MainCharacter::shootCharge(float _dt) {
 	if (Input::getKeyDown(Input::ENTER)) {
-		m_currentShootingPower = m_minShootingSpeed;
-		m_shootingState = SHOOTING_STATE::CHARGING;
+		if (m_shootingState == SHOOTING_STATE::NOTHING) {
+			m_currentShootingPower = m_minShootingSpeed;
+			m_shootingState = SHOOTING_STATE::CHARGING_NORMAL;
+		}
+		
+		if (m_shootingState == SHOOTING_STATE::CHAINED) {
+			breakChain();
+			m_shootingState = SHOOTING_STATE::NOTHING;
+		}
 	}
 	
-	if (Input::getKeyUp(Input::ENTER)) {
+	if (Input::getKeyDown(Input::RSHIFT)) {
+		if (m_shootingState == SHOOTING_STATE::NOTHING) {
+			m_currentShootingPower = m_minShootingSpeed;
+			m_shootingState = SHOOTING_STATE::CHARGING_CHAINED;
+		}
+
+		if (m_shootingState == SHOOTING_STATE::CHAINED) {
+			if (m_chain->isStatic()) {
+				m_shootingState = SHOOTING_STATE::NOTHING;
+				pullChain();
+			}
+		}
+	}
+
+	if (Input::getKeyUp(Input::ENTER) && m_shootingState == SHOOTING_STATE::CHARGING_NORMAL) {
 		shoot(m_direction, m_currentShootingPower);
 		m_shootingState = SHOOTING_STATE::NOTHING;
 	}
 
-	if (m_shootingState == SHOOTING_STATE::CHARGING) {
+	if (Input::getKeyUp(Input::RSHIFT) && m_shootingState == SHOOTING_STATE::CHARGING_CHAINED) {
+		shootChain(m_direction, m_currentShootingPower);
+		m_shootingState = SHOOTING_STATE::CHAINED;
+	}
+
+	if (m_shootingState == SHOOTING_STATE::CHARGING_NORMAL || m_shootingState == SHOOTING_STATE::CHARGING_CHAINED) {
 		m_currentShootingPower = fminf(m_currentShootingPower + m_shootingChargeSpeed * _dt, m_maxShootingSpeed);
 	}
 }
 
 void MainCharacter::shoot(int _direction, float _velocity) {
-	GameObject * projectile = GameStateManager::instantiate(m_projectile, 1);
-	
+	GameObject * projectile = GameStateManager::instantiate(&Projectile(), 1);
+
 	sf::Vector2f projPos = m_position + sf::Vector2f{ m_shape.getSize().x * static_cast<float>(_direction), 0.f };
 	projectile->setPosition(projPos);
 
 	projectile->getRigidBody()->setVelocity(sf::Vector2f{_direction * _velocity, 0.f});
 
 	projectile->setActive(true);
+}
+
+void MainCharacter::shootChain(int _direction, float _velocity) {
+	m_chain = dynamic_cast<ChainedProjectile*> (GameStateManager::instantiate(&ChainedProjectile(), 1));
+
+	m_chain->setPlayerRef(this);
+
+	sf::Vector2f projPos = m_position + sf::Vector2f{ m_shape.getSize().x * static_cast<float>(_direction), 0.f };
+	m_chain->setPosition(projPos);
+
+	m_chain->getRigidBody()->setVelocity(sf::Vector2f{ _direction * _velocity, 0.f });
+
+	m_chain->setActive(true);
+}
+
+void MainCharacter::pullChain() {
+	sf::Vector2f pullDirection = m_chain->getPosition() - getPosition();
+	pullDirection /= VectorOperations::norm(pullDirection);
+
+	m_currentPullSpeed = m_pullSpeed * pullDirection;
+
+	m_chain->pullChain(-pullDirection);
+}
+
+void MainCharacter::breakChain() {
+	m_chain->destroyChain();
 }

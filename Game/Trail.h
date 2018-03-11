@@ -4,7 +4,7 @@
 
 #include <SFML/Graphics.hpp>
 
-class Gunshot : public GameObject{
+class Trail : public GameObject{
 	sf::Vector2f m_start;
 	sf::Vector2f m_end;
 
@@ -16,8 +16,8 @@ class Gunshot : public GameObject{
 	// Parameters
 	const float m_duration = 2.f;
 public:
-	Gunshot(const sf::Vector2f & _start = sf::Vector2f{ 0, 0 }, const sf::Vector2f & _end = sf::Vector2f{ 0, 0 });
-	~Gunshot();
+	Trail(const sf::Vector2f & _start = sf::Vector2f{ 0, 0 }, const sf::Vector2f & _end = sf::Vector2f{ 0, 0 });
+	~Trail();
 
 	// Inherited via GameObject
 	virtual void update(float _dt) override;

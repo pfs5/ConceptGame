@@ -15,7 +15,7 @@ class GameStateManager {
 	static std::vector<std::stack<GameObject*>> m_newObjectsStacks;
 	static std::stack<GameObject*> m_destroyedObjects;
 public:
-	static const int objectLayers = 2;
+	static const int objectLayers = 5;
 
 	// Static methods
 	/**

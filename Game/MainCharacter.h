@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Display.h"
 #include "AnimationController.h"
+#include "ChainedProjectile.h"
 
 class MainCharacter : public GameObject {
 	// Character state
@@ -12,7 +13,9 @@ class MainCharacter : public GameObject {
 
 	enum SHOOTING_STATE {
 		NOTHING,
-		CHARGING
+		CHARGING_NORMAL,
+		CHARGING_CHAINED,
+		CHAINED
 	};
 
 	// Visuals
@@ -28,6 +31,10 @@ class MainCharacter : public GameObject {
 	SHOOTING_STATE m_shootingState;
 	float m_currentShootingPower;
 
+	sf::Vector2f m_currentPullSpeed;
+
+	ChainedProjectile * m_chain;
+
 	// Parameters
 	const float m_speed = 500.f;
 	const float m_jumpVelocity = 600.f;
@@ -37,9 +44,11 @@ class MainCharacter : public GameObject {
 	const float m_minShootingSpeed = 100.f; // 500
 	const float m_maxShootingSpeed = 1500.f;
 
-	GameObject * m_projectile;
+	const float m_pullSpeed = 1000.f;
+	const float m_pullSpeedDecay = 0.9f;
+
 public:
-	MainCharacter(GameObject *_projectile);
+	MainCharacter();
 	~MainCharacter();
 
 	// Inherited via GameObject
@@ -59,5 +68,8 @@ private:
 	void jump(float _dt);
 	void shootCharge(float _dt);
 	void shoot(int _direction, float _velocity = 0.f);
+	void shootChain(int _direction, float _velocity = 0.f);
+	void pullChain();
+	void breakChain();
 };
 

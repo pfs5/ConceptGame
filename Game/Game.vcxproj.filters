@@ -54,7 +54,13 @@
     <ClInclude Include="RangedEnemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Gunshot.h">
+    <ClInclude Include="ChainedProjectile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Trail.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PullableEnemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -89,7 +95,10 @@
     <ClCompile Include="RangedEnemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Gunshot.cpp">
+    <ClCompile Include="ChainedProjectile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Trail.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
