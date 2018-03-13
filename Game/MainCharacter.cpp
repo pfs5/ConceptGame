@@ -21,9 +21,11 @@ MainCharacter::MainCharacter():
 	
 
 	// Init shape
-	m_shape.setSize(sf::Vector2f{ 30.f, 50.f });
+	m_shape.setSize(sf::Vector2f{ 40.f, 80.f });
 	m_shape.setOrigin(m_shape.getSize() / 2.f);
 	m_shape.setFillColor(sf::Color::Blue);
+
+	m_animationController.load("archer_guy");
 
 	// Create rigid body
 	Collider * collider = PhysicsEngine::getInstance().createCollider(this);
@@ -36,13 +38,15 @@ MainCharacter::MainCharacter():
 	collider->setTrigger(false, m_rigidBody);
 
 	// Init transform
-	setPosition(sf::Vector2f{ 10.f, 20.f });
+	setPosition(sf::Vector2f{ 500.f, 20.f });
 }
 
 MainCharacter::~MainCharacter() {
 }
 
 void MainCharacter::update(float _dt) {
+	m_animationController.update(_dt);
+
 	movement(_dt);
 	extraGravity(_dt);
 	jump(_dt);
@@ -50,7 +54,8 @@ void MainCharacter::update(float _dt) {
 }
 
 void MainCharacter::draw() {
-	Display::draw(m_shape);
+	m_animationController.draw();
+	//Display::draw(m_shape);
 }
 
 void MainCharacter::onCollision(Collider * _other) {
@@ -63,6 +68,7 @@ void MainCharacter::onCollision(Collider * _other) {
 void MainCharacter::setPosition(sf::Vector2f _pos) {
 	m_position = _pos;
 	m_shape.setPosition(_pos);
+	m_animationController.setPosition(_pos);
 
 	for (Collider * c : m_colliders) {
 		c->setPosition(_pos);
@@ -90,11 +96,31 @@ void MainCharacter::movement(float _dt) {
 	dx += m_currentPullSpeed.x;
 	m_currentPullSpeed *= m_pullSpeedDecay;
 
-	sf::Vector2f delta { dx, m_currentPullSpeed.y };
+	sf::Vector2f delta{ dx, m_currentPullSpeed.y };
 
 	delta *= _dt;
 
 	move(delta);
+
+	// Animations
+
+	std::string moveTrigger = "";
+	int comp = FloatOperations::compare(dx, 0.f);
+
+	switch (comp) {
+	case 1:
+		moveTrigger = "run_right";
+		break;
+	case -1:
+		moveTrigger = "run_left";
+		break;
+	}
+
+	if (moveTrigger != "") {
+		int o = 0;
+	}
+
+	m_animationController.setTrigger(moveTrigger);
 }
 
 void MainCharacter::extraGravity(float _dt) {

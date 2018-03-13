@@ -1,0 +1,51 @@
+{
+	"animations": [
+		{
+			"name" : "idle_left",
+			"frames" : [2,2,1,1,1,1,1,1,1,1,2,2],
+			"scale" : 10,
+			"looping" : true
+		},
+		{
+			"name" : "idle_right",
+			"frames" : [2,2,1,1,1,1,1,1,1,1,2,2],
+			"scale" : 10,
+			"looping" : true
+		},
+		{
+			"name" : "idle_switch_lr",
+			"frames" : [1, 2],
+			"scale" : 2,
+			"looping" : false
+		},
+		{
+			"name" : "idle_switch_rl",
+			"frames" : [1, 2],
+			"scale" : 2,
+			"looping" : false
+		}
+	],
+
+	"transitions": [
+		{
+			"trigger": "run_left",
+			"from": "idle_right",
+			"to": "idle_switch_rl"
+		},
+		{
+			"trigger": "run_right",
+			"from": "idle_left",
+			"to": "idle_switch_lr"
+		},
+		{
+			"trigger": "default",
+			"from": "idle_switch_rl",
+			"to": "idle_left"
+		},
+		{
+			"trigger": "default",
+			"from": "idle_switch_lr",
+			"to": "idle_right"
+		}
+	]
+}

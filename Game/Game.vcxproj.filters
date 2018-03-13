@@ -19,11 +19,14 @@
     <Filter Include="Header Files\states">
       <UniqueIdentifier>{265d1d91-34c5-4768-98d5-0466c760f940}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\enemies">
+      <UniqueIdentifier>{4b355a45-9709-4c12-a67d-67bed4bd4dc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\level">
+      <UniqueIdentifier>{5a25591d-1472-4628-8935-571c5c35d731}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="targetver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CubeObject.h">
       <Filter>Header Files\objects</Filter>
     </ClInclude>
@@ -39,29 +42,32 @@
     <ClInclude Include="PlayingState.h">
       <Filter>Header Files\states</Filter>
     </ClInclude>
-    <ClInclude Include="BasicEnemy.h">
-      <Filter>Header Files\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyManager.h">
-      <Filter>Header Files\objects</Filter>
-    </ClInclude>
     <ClInclude Include="Projectile.h">
       <Filter>Header Files\objects</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="BasicEnemy.h">
+      <Filter>Header Files\enemies</Filter>
     </ClInclude>
-    <ClInclude Include="RangedEnemy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ChainedProjectile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Trail.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>Header Files\enemies</Filter>
     </ClInclude>
     <ClInclude Include="PullableEnemy.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="RangedEnemy.h">
+      <Filter>Header Files\enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="ChainedProjectile.h">
+      <Filter>Header Files\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Trail.h">
+      <Filter>Header Files\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Header Files\level</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicMap.h">
+      <Filter>Header Files\level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -99,6 +105,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Trail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

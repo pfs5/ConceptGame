@@ -11,7 +11,7 @@ AnimationController::~AnimationController() {
 }
 
 void AnimationController::load(std::string _name) {
-	if (!loadFromFile(RESOURCE_FOLDER + _name + EXTENSION)) {
+	if (!loadFromFile(_name)) {
 		Debug::logError("[AnimationController] Error loading " + _name);
 	}
 }
@@ -49,8 +49,9 @@ void AnimationController::playAnimation(int _animation, bool _playInstantly) {
 	}
 }
 
-bool AnimationController::loadFromFile(std::string _path) {
-	std::ifstream file{ _path };
+bool AnimationController::loadFromFile(std::string _name) {
+	std::string path = RESOURCE_FOLDER + _name + EXTENSION;
+	std::ifstream file{ path };
 	if (file.is_open()) {
 		nlohmann::json data;
 		file >> data;
@@ -62,7 +63,7 @@ bool AnimationController::loadFromFile(std::string _path) {
 			int scale = a["scale"];
 			bool isLooping = a["looping"];
 
-			Animation *a = new Animation(name, frames.size(), frames, scale, isLooping);
+			Animation *a = new Animation(_name + "_" + name, frames.size(), frames, scale, isLooping);
 			m_animations.push_back(a);
 			m_transitions.push_back(-1);
 			m_triggerTransitions.push_back(std::map<std::string, int>());

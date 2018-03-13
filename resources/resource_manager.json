@@ -24,52 +24,28 @@
 
 	"textures" : [
 		{
-			"name": "archer_walk_right",
-			"path": "archer_walk_right.png"
-		},
-
-		{
-			"name": "archer_walk_left",
-			"path": "archer_walk_left.png"
-		},
-
-		{
-			"name": "archer_idle_right",
-			"path": "archer_idle_right.png"
-		},
-
-		{
-			"name": "archer_idle_left",
-			"path": "archer_idle_left.png"
-		},
-
-		{
-			"name": "archer_idle_to_walk_right",
-			"path": "archer_idle_to_walk_right.png"
-		},
-
-		{
-			"name": "archer_walk_to_idle_right",
-			"path": "archer_walk_to_idle_right.png"
-		},
-
-		{
-			"name": "archer_idle_to_walk_left",
-			"path": "archer_idle_to_walk_left.png"
-		},
-
-		{
-			"name": "archer_walk_to_idle_left",
-			"path": "archer_walk_to_idle_left.png"
-		},
-
-		{
-			"name": "archer_idle_left_to_right",
-			"path": "archer_idle_left_to_right.png"
+			"name": "forest_level_bg",
+			"path": "forest_level_bg.png"
 		},
 		{
-			"name": "archer_idle_right_to_left",
-			"path": "archer_idle_right_to_left.png"
+			"name": "forest_level_fg",
+			"path": "forest_level_fg.png"
+		},
+		{
+			"name": "archer_guy_idle_left",
+			"path": "archer_guy_idle_left.png"
+		},
+		{
+			"name": "archer_guy_idle_right",
+			"path": "archer_guy_idle_right.png"
+		},
+		{
+			"name": "archer_guy_idle_switch_lr",
+			"path": "archer_guy_idle_switch_lr.png"
+		},
+		{
+			"name": "archer_guy_idle_switch_rl",
+			"path": "archer_guy_idle_switch_rl.png"
 		},
 		{
 			"name": "debug_texture",

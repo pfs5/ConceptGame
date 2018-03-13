@@ -11,6 +11,7 @@
 #include "BasicEnemy.h"
 #include "RangedEnemy.h"
 #include "Trail.h"
+#include "BasicMap.h"
 
 #include <SFML/Window.hpp>
 #include <algorithm>
@@ -25,6 +26,9 @@ PlayingState::PlayingState() {
 	for (int i = 0; i < GameStateManager::objectLayers; ++i) {
 		m_gameObjects.push_back(std::vector<GameObject*>());
 	}
+
+	// ### Map setup ###
+	m_map = new BasicMap();
 
 	// ### View setup ###
 	m_view.reset(sf::FloatRect(0.f, 0.f, Display::getWindow().getSize().x, Display::getWindow().getSize().y));
@@ -45,27 +49,22 @@ PlayingState::PlayingState() {
 
 	// ### Environment ###
 	// Floor
-	GameObject * floor = new TexturedCubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ 500, 500 }, true, false, sf::Color{});
+	GameObject * floor = new TexturedCubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ 500, 800 }, true, false, sf::Color{});
 	floor->setObjectTag("Floor");
 	m_gameObjects[0].push_back(floor);
 
-	// Walls
-	GameObject * wallLeft = new TexturedCubeObject(sf::Vector2f{ 200, 700 }, sf::Vector2f{ -500, 500 }, true, false, sf::Color{});
-	wallLeft->setObjectTag("Wall");
-	m_gameObjects[0].push_back(wallLeft);
-
 	// Platforms
-	GameObject * plat1 = new TexturedCubeObject(sf::Vector2f{ 200, 50 }, sf::Vector2f{ 500, 200 }, true, false, sf::Color{});
+	GameObject * plat1 = new TexturedCubeObject(sf::Vector2f{ 200, 50 }, sf::Vector2f{ 600, 600 }, true, false, sf::Color{});
 	plat1->setObjectTag("Floor");
 	m_gameObjects[0].push_back(plat1);
 
-	GameObject * plat2 = new TexturedCubeObject(sf::Vector2f{ 200, 50 }, sf::Vector2f{ 300, 320 }, true, false, sf::Color{});
+	/*GameObject * plat2 = new TexturedCubeObject(sf::Vector2f{ 200, 50 }, sf::Vector2f{ 300, 320 }, true, false, sf::Color{});
 	plat2->setObjectTag("Floor");
 	m_gameObjects[0].push_back(plat2);
 
 	GameObject * plat3 = new TexturedCubeObject(sf::Vector2f{ 200, 50 }, sf::Vector2f{ 100, 180 }, true, false, sf::Color{});
 	plat3->setObjectTag("Floor");
-	m_gameObjects[0].push_back(plat3);
+	m_gameObjects[0].push_back(plat3);*/
 }
 
 
@@ -77,6 +76,8 @@ PlayingState::~PlayingState() {
 		}
 	}
 
+	// Delete map
+	delete m_map;
 }
 
 void PlayingState::update(float _dt) {
@@ -91,7 +92,7 @@ void PlayingState::update(float _dt) {
 	PhysicsEngine::getInstance().update(_dt);
 
 	// Make view follow the centered object. freeze y coordinate
-	m_view.setCenter((m_centeredObject->getPosition() + m_viewOffset).x, m_view.getCenter().y);
+	//m_view.setCenter((m_centeredObject->getPosition() + m_viewOffset).x, m_view.getCenter().y);
 
 	// Add new objects
 	GameObject * newObj = nullptr;
@@ -117,6 +118,10 @@ void PlayingState::update(float _dt) {
 }
 
 void PlayingState::draw() {
+	// Level background
+	m_map->drawBackground();
+
+	// Objects
 	Display::getWindow().setView(m_view);
 	for (int i = m_gameObjects.size() - 1; i >= 0; --i) {
 		for (GameObject * g : m_gameObjects[i]) {
@@ -126,6 +131,10 @@ void PlayingState::draw() {
 		}
 	}
 
+	// Level foreground
+	m_map->drawForeground();
+
+	// Engine debug
 	PhysicsEngine::getInstance().draw();
 }
 

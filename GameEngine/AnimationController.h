@@ -11,7 +11,7 @@
 	Used by a single object that is to be animated.
 **/
 class AnimationController : public AnimationObserver{
-	const std::string RESOURCE_FOLDER = "resources/animation_controllers/";
+	const std::string RESOURCE_FOLDER = "../resources/animation_controllers/";
 	const std::string EXTENSION = ".json";
 
 	sf::Vector2f m_position;
@@ -42,7 +42,7 @@ public:
 	virtual void onAnimationEnd() override;
 private:
 	void playAnimation(int _animation, bool _playInstantly = true);
-	bool loadFromFile(std::string _path);
+	bool loadFromFile(std::string _name);
 	void playNextAnimation();
 #pragma region Getters and setters
 public:
