@@ -54,9 +54,13 @@ PlayingState::PlayingState() {
 	m_gameObjects[0].push_back(floor);
 
 	// Platforms
-	GameObject * plat1 = new TexturedCubeObject(sf::Vector2f{ 200, 50 }, sf::Vector2f{ 600, 600 }, true, false, sf::Color{});
+	GameObject * plat1 = new TexturedCubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ 600, 600 }, true, false, sf::Color{});
 	plat1->setObjectTag("Floor");
 	m_gameObjects[0].push_back(plat1);
+
+	GameObject * plat2 = new TexturedCubeObject(sf::Vector2f{ 100, 1000 }, sf::Vector2f{ 200, 200 }, true, false, sf::Color{});
+	plat2->setObjectTag("Wall");
+	m_gameObjects[0].push_back(plat2);
 
 	/*GameObject * plat2 = new TexturedCubeObject(sf::Vector2f{ 200, 50 }, sf::Vector2f{ 300, 320 }, true, false, sf::Color{});
 	plat2->setObjectTag("Floor");

@@ -10,7 +10,9 @@
 #include "VectorOperations.h"
 
 MainCharacter::MainCharacter():
+	m_direction {-1},
 	m_characterState {CHARACTER_STATE::IDLE},
+	m_chainState {CHAIN_STATE::UNCHAINED},
 	m_shootingState {SHOOTING_STATE::NOTHING},
 	m_chain {nullptr},
 	m_currentShootingPower{ m_minShootingSpeed },
@@ -25,7 +27,8 @@ MainCharacter::MainCharacter():
 	m_shape.setOrigin(m_shape.getSize() / 2.f);
 	m_shape.setFillColor(sf::Color::Blue);
 
-	m_animationController.load("archer_guy");
+	m_bodyController.load("archer_guy");
+	m_bowController.load("archer_guy_bow", false);
 
 	// Create rigid body
 	Collider * collider = PhysicsEngine::getInstance().createCollider(this);
@@ -45,7 +48,8 @@ MainCharacter::~MainCharacter() {
 }
 
 void MainCharacter::update(float _dt) {
-	m_animationController.update(_dt);
+	m_bodyController.update(_dt);
+	m_bowController.update(_dt);
 
 	movement(_dt);
 	extraGravity(_dt);
@@ -54,7 +58,9 @@ void MainCharacter::update(float _dt) {
 }
 
 void MainCharacter::draw() {
-	m_animationController.draw();
+	m_bodyController.draw();
+	m_bowController.draw();
+
 	//Display::draw(m_shape);
 }
 
@@ -68,7 +74,9 @@ void MainCharacter::onCollision(Collider * _other) {
 void MainCharacter::setPosition(sf::Vector2f _pos) {
 	m_position = _pos;
 	m_shape.setPosition(_pos);
-	m_animationController.setPosition(_pos);
+	
+	m_bodyController.setPosition(_pos);
+	m_bowController.setPosition(_pos);
 
 	for (Collider * c : m_colliders) {
 		c->setPosition(_pos);
@@ -82,12 +90,12 @@ GameObject * MainCharacter::clone() {
 void MainCharacter::movement(float _dt) {
 	float dx = 0.f;
 
-	if (Input::getKey(Input::A)) {
+	if (Input::getKey(Input::A) || Input::getKey(Input::LARROW)) {
 		dx += -m_speed;
 		m_direction = -1;
 	}
 
-	if (Input::getKey(Input::D)) {
+	if (Input::getKey(Input::D) || Input::getKey(Input::RARROW)) {
 		dx += m_speed;
 		m_direction = 1;
 	}
@@ -104,7 +112,7 @@ void MainCharacter::movement(float _dt) {
 
 	// Animations
 
-	std::string moveTrigger = "";
+	std::string moveTrigger = "idle";
 	int comp = FloatOperations::compare(dx, 0.f);
 
 	switch (comp) {
@@ -116,11 +124,8 @@ void MainCharacter::movement(float _dt) {
 		break;
 	}
 
-	if (moveTrigger != "") {
-		int o = 0;
-	}
-
-	m_animationController.setTrigger(moveTrigger);
+	m_bodyController.setTrigger(moveTrigger);
+	m_bowController.setTrigger(moveTrigger);
 }
 
 void MainCharacter::extraGravity(float _dt) {
@@ -147,49 +152,83 @@ void MainCharacter::jump(float _dt) {
 }
 
 void MainCharacter::shootCharge(float _dt) {
-	if (Input::getKeyDown(Input::ENTER)) {
+	// Start charging normal shot
+	if (Input::getKeyDown(Input::Z)) {
 		if (m_shootingState == SHOOTING_STATE::NOTHING) {
+			if (m_chainState == CHAIN_STATE::CHAINED) {
+				breakChain();
+				m_chainState = CHAIN_STATE::UNCHAINED;
+			}
+
+			m_bowController.setTrigger("pull");
+
 			m_currentShootingPower = m_minShootingSpeed;
 			m_shootingState = SHOOTING_STATE::CHARGING_NORMAL;
 		}
-		
-		if (m_shootingState == SHOOTING_STATE::CHAINED) {
-			breakChain();
-			m_shootingState = SHOOTING_STATE::NOTHING;
-		}
 	}
 	
-	if (Input::getKeyDown(Input::RSHIFT)) {
-		if (m_shootingState == SHOOTING_STATE::NOTHING) {
+	if (Input::getKeyDown(Input::X)) {
+		if (m_chainState == CHAIN_STATE::CHAINED) {
+			if (m_chain->isStatic()) {
+				m_chainState = CHAIN_STATE::UNCHAINED;
+				pullChain();
+			}
+		} else if (m_shootingState == SHOOTING_STATE::NOTHING) {
+			m_bowController.setTrigger("pull");
+
 			m_currentShootingPower = m_minShootingSpeed;
 			m_shootingState = SHOOTING_STATE::CHARGING_CHAINED;
 		}
+	}
 
-		if (m_shootingState == SHOOTING_STATE::CHAINED) {
-			if (m_chain->isStatic()) {
-				m_shootingState = SHOOTING_STATE::NOTHING;
-				pullChain();
-			}
+	// Release normal shot
+	if (Input::getKeyUp(Input::Z) && m_shootingState == SHOOTING_STATE::CHARGING_NORMAL) {
+		shoot(m_direction, m_currentShootingPower);
+		m_shootingState = SHOOTING_STATE::BOW_RELEASE;
+	}
+
+	if (Input::getKeyUp(Input::X) && m_shootingState == SHOOTING_STATE::CHARGING_CHAINED) {
+		shootChain(m_direction, m_currentShootingPower);
+		m_shootingState = SHOOTING_STATE::BOW_RELEASE;
+		m_chainState = CHAIN_STATE::CHAINED;
+	}
+
+	// Charge shoot power
+	if (m_shootingState == SHOOTING_STATE::CHARGING_NORMAL || m_shootingState == SHOOTING_STATE::CHARGING_CHAINED) {
+		m_currentShootingPower = fminf(m_currentShootingPower + m_shootingChargeSpeed * _dt, m_maxShootingSpeed);
+		
+		// Update animation
+		float animationTime = (m_currentShootingPower - m_minShootingSpeed) / (m_maxShootingSpeed - m_minShootingSpeed);
+		m_bowController.setAnimationTime(animationTime);
+	}
+
+	// Release shot
+	if (m_shootingState == SHOOTING_STATE::BOW_RELEASE) {
+		float delta = (m_maxShootingSpeed - m_minShootingSpeed) * m_bowReleaseSpeed * _dt;
+		m_currentShootingPower = fmaxf(m_currentShootingPower - delta, m_minShootingSpeed);
+
+		// Update animation
+		float animationTime = (m_currentShootingPower - m_minShootingSpeed) / (m_maxShootingSpeed - m_minShootingSpeed);
+		m_bowController.setAnimationTime(animationTime);
+
+		// Release over
+		if (FloatOperations::compare(animationTime, 0.f) <= 0) {
+			m_bowController.setTrigger("reload");
+			m_shootingState = SHOOTING_STATE::BOW_RELOAD;
 		}
 	}
 
-	if (Input::getKeyUp(Input::ENTER) && m_shootingState == SHOOTING_STATE::CHARGING_NORMAL) {
-		shoot(m_direction, m_currentShootingPower);
-		m_shootingState = SHOOTING_STATE::NOTHING;
-	}
-
-	if (Input::getKeyUp(Input::RSHIFT) && m_shootingState == SHOOTING_STATE::CHARGING_CHAINED) {
-		shootChain(m_direction, m_currentShootingPower);
-		m_shootingState = SHOOTING_STATE::CHAINED;
-	}
-
-	if (m_shootingState == SHOOTING_STATE::CHARGING_NORMAL || m_shootingState == SHOOTING_STATE::CHARGING_CHAINED) {
-		m_currentShootingPower = fminf(m_currentShootingPower + m_shootingChargeSpeed * _dt, m_maxShootingSpeed);
+	// Reload shot
+	if (m_shootingState == SHOOTING_STATE::BOW_RELOAD) {
+		if (!m_bowController.isPlaying()) {
+			m_shootingState = SHOOTING_STATE::NOTHING;
+			m_bowController.setTrigger("end_reload");
+		}
 	}
 }
 
 void MainCharacter::shoot(int _direction, float _velocity) {
-	GameObject * projectile = GameStateManager::instantiate(&Projectile(), 1);
+	GameObject * projectile = GameStateManager::instantiate(&Projectile(_direction), 1);
 
 	sf::Vector2f projPos = m_position + sf::Vector2f{ m_shape.getSize().x * static_cast<float>(_direction), 0.f };
 	projectile->setPosition(projPos);
@@ -200,7 +239,7 @@ void MainCharacter::shoot(int _direction, float _velocity) {
 }
 
 void MainCharacter::shootChain(int _direction, float _velocity) {
-	m_chain = dynamic_cast<ChainedProjectile*> (GameStateManager::instantiate(&ChainedProjectile(), 1));
+	m_chain = dynamic_cast<ChainedProjectile*> (GameStateManager::instantiate(&ChainedProjectile(_direction), 1));
 
 	m_chain->setPlayerRef(this);
 

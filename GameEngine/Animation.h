@@ -28,13 +28,17 @@ class Animation {
 	// Animation observers
 	std::vector<AnimationObserver*> m_observers;
 public:
-	Animation(std::string _name, int _numberOfFrames, const std::vector<int> &_frameLengths, int _scale, bool _isLooping = true);
+	Animation(std::string _name, int _numberOfFrames, const std::vector<int> &_frameLengths, int _scale, bool _isLooping = true, sf::Vector2f _textureScale = sf::Vector2f{ 1, 1 });
 	~Animation();
 
 	// Animation controll
 	void play();
 	void pause();
 	void reset();
+	void stop();
+	
+	void setTime(float _time, bool _pause = true);
+	void setFrame(int _frame, bool _pause = true);
 
 	// Base engine methods
 	void update(float _dt);

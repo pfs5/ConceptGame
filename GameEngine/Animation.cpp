@@ -6,22 +6,24 @@
 
 #include <algorithm>
 
-Animation::Animation(std::string _name, int _numberOfFrames, const std::vector<int> &_frameLengths, int _scale, bool _isLooping) :
-	m_name (_name) , m_isPlaying(true), m_currentFrame(0), m_numberOfFrames(_numberOfFrames), m_frameLengths(_frameLengths), m_scale(_scale),
-	m_isLooping(_isLooping) {
+Animation::Animation(std::string _name, int _numberOfFrames, const std::vector<int>& _frameLengths, int _scale, bool _isLooping, sf::Vector2f _textureScale) :
+	m_name(_name), m_isPlaying(true), m_currentFrame(0), m_numberOfFrames(_numberOfFrames), m_frameLengths(_frameLengths), m_scale(_scale),
+		m_isLooping(_isLooping) {
 
-	m_frameTime = m_frameLengths[m_currentFrame] * m_scale;
+		m_frameTime = m_frameLengths[m_currentFrame] * m_scale;
 
-	// Load texture
-	m_texture = ResourceManager::getInstance().getTexture(_name);
-	m_sprite.setTexture(*m_texture);
-	
-	m_frameSize = m_texture->getSize();
-	m_frameSize.x /= m_numberOfFrames;
-	
-	m_sprite.setOrigin(VectorOperations::utof(m_frameSize) / 2.f);
+		// Load texture
+		m_texture = ResourceManager::getInstance().getTexture(_name);
+		m_sprite.setTexture(*m_texture);
+		m_texture->setSmooth(true);
+		m_sprite.setScale(_textureScale);
 
-	setSpriteRect();
+		m_frameSize = m_texture->getSize();
+		m_frameSize.x /= m_numberOfFrames;
+
+		m_sprite.setOrigin(VectorOperations::utof(m_frameSize) / 2.f);
+
+		setSpriteRect();
 }
 
 Animation::~Animation() {
@@ -36,7 +38,29 @@ void Animation::pause() {
 }
 
 void Animation::reset() {
-	m_currentFrame = 0;
+	setFrame(0, false);
+}
+
+void Animation::stop() {
+	pause();
+	reset();
+}
+
+void Animation::setTime(float _time, bool _pause) {
+	// Clamp time to [0, 1]
+	_time = std::max(0.f, std::min(1.f, _time));
+
+	// Set frame
+	int frame = (int) (_time * (m_numberOfFrames - 1));
+	setFrame(frame, _pause);
+}
+
+void Animation::setFrame(int _frame, bool _pause) {
+	if (_pause) {
+		pause();
+	}
+
+	m_currentFrame = std::min(_frame, m_numberOfFrames);
 	m_frameTime = m_frameLengths[m_currentFrame] * m_scale;
 
 	setSpriteRect();

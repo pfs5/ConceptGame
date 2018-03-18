@@ -1,10 +1,11 @@
 #pragma once
 #include "GameObject.h"
 #include "Trail.h"
+#include "AnimationController.h"
 
 class ChainedProjectile : public GameObject {
 	// Visuals
-	sf::RectangleShape m_shape;
+	AnimationController m_controller;
 
 	// References
 	GameObject * m_playerRef;
@@ -13,13 +14,15 @@ class ChainedProjectile : public GameObject {
 	// Chain
 	Trail * m_chain;
 
+	int m_direction;
+
 	// Game
 	bool m_isStatic = false;
 
 	// Parameters
 	float m_destructionDelay = 15.f;
 public:
-	ChainedProjectile();
+	ChainedProjectile(int _direction);
 	~ChainedProjectile();
 
 	void destroyChain();

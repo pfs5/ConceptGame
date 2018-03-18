@@ -11,23 +11,32 @@ class MainCharacter : public GameObject {
 		JUMPING
 	};
 
+	enum CHAIN_STATE {
+		UNCHAINED,
+		CHAINED
+	};
+
 	enum SHOOTING_STATE {
 		NOTHING,
 		CHARGING_NORMAL,
 		CHARGING_CHAINED,
-		CHAINED
+		BOW_RELEASE,
+		BOW_RELOAD
 	};
 
 	// Visuals
 	sf::RectangleShape m_shape;
-	AnimationController m_animationController;
+	AnimationController m_bodyController;
+	AnimationController m_bowController;
 
 	// Movement
-	int m_direction = 1;
+	int m_direction;
 
 	// State
 	CHARACTER_STATE m_characterState;
 	float m_additionalGravityMultiplier;
+
+	CHAIN_STATE m_chainState;
 
 	SHOOTING_STATE m_shootingState;
 	float m_currentShootingPower;
@@ -37,7 +46,7 @@ class MainCharacter : public GameObject {
 	ChainedProjectile * m_chain;
 
 	// Parameters
-	const float m_speed = 500.f;
+	const float m_speed = 1000.f / 4.f;	//500
 	const float m_jumpVelocity = 600.f;
 	const float m_landingGravityMultiplier = 2.f;
 
@@ -47,6 +56,8 @@ class MainCharacter : public GameObject {
 
 	const float m_pullSpeed = 1000.f;
 	const float m_pullSpeedDecay = 0.9f;
+
+	const float m_bowReleaseSpeed = 20.f;	// percent of full shot time per second
 
 public:
 	MainCharacter();

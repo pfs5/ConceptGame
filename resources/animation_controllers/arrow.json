@@ -1,0 +1,42 @@
+{
+	"animations": [
+		{
+			"name" : "idle_left",
+			"frames" : [1, 1, 1, 1],
+			"scale" : 5,
+			"looping" : true
+		},
+		{
+			"name" : "idle_right",
+			"frames" : [1, 1, 1, 1],
+			"scale" : 5,
+			"looping" : true
+		},
+
+		{
+			"name" : "hit_left",
+			"frames" : [2, 1, 1, 1, 2, 1, 1],
+			"scale" : 2,
+			"looping" : false
+		},
+		{
+			"name" : "hit_right",
+			"frames" : [2, 1, 1, 1, 2, 1, 1],
+			"scale" : 2,
+			"looping" : false
+		}
+	],
+
+	"transitions": [
+		{
+			"trigger": "hit",
+			"from": "idle_left",
+			"to": "hit_left"
+		},
+		{
+			"trigger": "hit",
+			"from": "idle_right",
+			"to": "hit_right"
+		}
+	]
+}

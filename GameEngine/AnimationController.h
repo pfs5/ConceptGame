@@ -10,7 +10,7 @@
 	Class servers as a container for animations. Handles animation switching.
 	Used by a single object that is to be animated.
 **/
-class AnimationController : public AnimationObserver{
+class AnimationController : public AnimationObserver {
 	const std::string RESOURCE_FOLDER = "../resources/animation_controllers/";
 	const std::string EXTENSION = ".json";
 
@@ -20,6 +20,8 @@ class AnimationController : public AnimationObserver{
 	int m_currentAnimation;
 	int m_nextAnimation;
 
+	bool m_isPlaying;
+
 	std::map<std::string, int> m_animationIndices;
 
 	std::vector<int> m_transitions;
@@ -27,8 +29,8 @@ class AnimationController : public AnimationObserver{
 public:
 	AnimationController();
 	~AnimationController();
-	
-	void load(std::string _name);
+
+	void load(std::string _name, bool _play = true);
 
 	// Base engine methods
 	void update(float _dt);
@@ -36,6 +38,7 @@ public:
 
 	// Controller methods
 	void playAnimation(std::string _animation, bool _playInstantly = true);
+	void setAnimationTime(float _time, bool _pause = true);
 	void setTrigger(std::string _trigger, bool _playInstantly = true);
 
 	// Animation observer
@@ -53,6 +56,8 @@ public:
 			a->setPosition(_pos);
 		}
 	};
+
+	inline bool isPlaying() { return m_isPlaying; };
 
 #pragma endregion
 

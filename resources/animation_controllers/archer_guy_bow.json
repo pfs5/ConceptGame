@@ -1,0 +1,110 @@
+{
+	"animations": [
+		{
+			"name" : "idle_left",
+			"frames" : [1,1,1,1,1],
+			"scale" : 20,
+			"looping" : true
+		},
+		{
+			"name" : "idle_right",
+			"frames" : [1,1,1,1,1],
+			"scale" : 20,
+			"looping" : true
+		},
+
+		{
+			"name" : "pull_left",
+			"frames" : [1,1,1,1,1,1,1,1,1,1,1,1],
+			"scale" : 10,
+			"looping" : false
+		},
+		{
+			"name" : "pull_right",
+			"frames" : [1,1,1,1,1,1,1,1,1,1,1,1],
+			"scale" : 10,
+			"looping" : false
+		},
+
+		{
+			"name" : "reload_left",
+			"frames" : [1,1,1,1,1,1],
+			"scale" : 5,
+			"looping" : false
+		},
+		{
+			"name" : "reload_right",
+			"frames" : [1,1,1,1,1,1],
+			"scale" : 5,
+			"looping" : false
+		}
+	],
+
+	"transitions": [
+		{
+			"trigger": "run_left",
+			"from": "idle_right",
+			"to": "idle_left"
+		},
+		{
+			"trigger": "run_right",
+			"from": "idle_left",
+			"to": "idle_right"
+		},
+
+		{
+			"trigger": "run_left",
+			"from": "pull_right",
+			"to": "pull_left"
+		},
+		{
+			"trigger": "run_right",
+			"from": "pull_left",
+			"to": "pull_right"
+		},
+
+		{
+			"trigger": "run_left",
+			"from": "reload_right",
+			"to": "reload_left"
+		},
+		{
+			"trigger": "run_right",
+			"from": "reload_left",
+			"to": "reload_right"
+		},
+
+		{
+			"trigger": "pull",
+			"from": "idle_left",
+			"to": "pull_left"
+		},
+		{
+			"trigger": "pull",
+			"from": "idle_right",
+			"to": "pull_right"
+		},
+
+		{
+			"trigger": "reload",
+			"from": "pull_left",
+			"to": "reload_left"
+		},
+		{
+			"trigger": "reload",
+			"from": "pull_right",
+			"to": "reload_right"
+		},
+
+		{
+			"trigger": "end_reload",
+			"from": "reload_left",
+			"to": "idle_left"
+		},
+		{
+			"trigger": "end_reload",
+			"from": "reload_right",
+			"to": "idle_right"
+		}
+	]
+}

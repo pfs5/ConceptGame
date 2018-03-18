@@ -1,16 +1,19 @@
 #pragma once
 #include "GameObject.h"
+#include "AnimationController.h"
 class Projectile : public GameObject{
 	// Visuals
-	sf::RectangleShape m_shape;
+	AnimationController m_controller;
 
 	// Game
 	bool m_isStatic = false;
 
 	// Parameters
 	float m_destructionDelay = 15.f;
+
+	int m_direction;
 public:
-	Projectile();
+	Projectile(int _direction = 1);
 	~Projectile();
 
 	// Inherited via GameObject

@@ -6,7 +6,9 @@
 #include "RangedEnemy.h"
 #include "Debug.h"
 
-ChainedProjectile::ChainedProjectile() : 
+ChainedProjectile::ChainedProjectile(int _direction) : 
+	m_direction{ _direction },
+	m_isStatic{false},
 	m_playerRef{ nullptr },
 	m_hitEnemy {nullptr},
 	m_chain{ nullptr } {
@@ -17,12 +19,12 @@ ChainedProjectile::ChainedProjectile() :
 	m_objectTag = "ChainedArrow";
 	setObjectLayer("Arrow");
 
-	m_shape.setSize(sf::Vector2f{ 20, 20 });
-	m_shape.setOrigin(m_shape.getSize() / 2.f);
-	m_shape.setFillColor(sf::Color{0, 153, 0});
+	m_controller.load("arrow");
+	std::string animation = _direction > 0 ? "idle_right" : "idle_left";
+	m_controller.playAnimation(animation);
 
 	Collider * c = PhysicsEngine::getInstance().createCollider(this);
-	c->setSize(m_shape.getSize());
+	c->setSize(sf::Vector2f{ 50, 20 });
 	c->setStatic(true);
 	m_colliders.push_back(c);
 
@@ -55,6 +57,8 @@ void ChainedProjectile::pullChain(sf::Vector2f _pullVector) {
 }
 
 void ChainedProjectile::update(float _dt) {
+	m_controller.update(_dt);
+
 	if (m_hitEnemy != nullptr) {
 		setPosition(m_hitEnemy->getPosition());
 	}
@@ -66,12 +70,17 @@ void ChainedProjectile::update(float _dt) {
 }
 
 void ChainedProjectile::draw() {
-	Display::draw(m_shape);
+	m_controller.draw();
 }
 
 void ChainedProjectile::onCollision(Collider * _other) {
+	// Sticking arrows get destroyed by other arrows
+	if ((_other->getGameObject()->getObjectTag() == getObjectTag() || _other->getGameObject()->getObjectLayer() == getObjectLayer()) && m_isStatic) {
+		GameStateManager::destroyObject(this);
+	}
+	
 	// Stick into everything but the player character or other arrows
-	if (_other->getGameObject()->getObjectTag() != "Main" && _other->getGameObject()->getObjectTag() != getObjectTag()) {
+	if (_other->getGameObject()->getObjectTag() != "Main" && _other->getGameObject()->getObjectLayer() != getObjectLayer()) {
 		// Stop
 		m_rigidBody->setVelocity(sf::Vector2f{ 0.f, 0.f });
 
@@ -90,13 +99,14 @@ void ChainedProjectile::onCollision(Collider * _other) {
 }
 
 GameObject * ChainedProjectile::clone() {
-	return new ChainedProjectile();
+	return new ChainedProjectile(m_direction);
 }
 
 void ChainedProjectile::setPosition(sf::Vector2f _pos) {
 	m_position = _pos;
 
-	m_shape.setPosition(m_position);
+	m_controller.setPosition(_pos);
+
 	for (Collider * c : m_colliders) {
 		c->setPosition(m_position);
 	}

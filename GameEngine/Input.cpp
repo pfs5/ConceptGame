@@ -63,6 +63,12 @@ void Input::update() {
 	updateKey(KeyCode::RSHIFT, sf::Keyboard::RShift);
 	updateKey(KeyCode::ENTER, sf::Keyboard::Return);
 	updateKey(KeyCode::ESCAPE, sf::Keyboard::Escape);
+
+	updateKey(KeyCode::LARROW, sf::Keyboard::Left);
+	updateKey(KeyCode::RARROW, sf::Keyboard::Right);
+	updateKey(KeyCode::UARROW, sf::Keyboard::Up);
+	updateKey(KeyCode::DARROW, sf::Keyboard::Down);
+
 }
 
 void Input::updateKey(Input::KeyCode _key, sf::Keyboard::Key _sfmlKeyCode) {

@@ -31,6 +31,27 @@
 			"name": "forest_level_fg",
 			"path": "forest_level_fg.png"
 		},
+
+		{
+			"name": "arrow_idle_left",
+			"path": "arrow_idle_left.png"
+		},
+		{
+			"name": "arrow_idle_right",
+			"path": "arrow_idle_right.png"
+		},
+
+		{
+			"name": "arrow_hit_left",
+			"path": "arrow_hit_left.png"
+		},
+		{
+			"name": "arrow_hit_right",
+			"path": "arrow_hit_right.png"
+		},
+
+
+
 		{
 			"name": "archer_guy_idle_left",
 			"path": "archer_guy_idle_left.png"
@@ -47,6 +68,42 @@
 			"name": "archer_guy_idle_switch_rl",
 			"path": "archer_guy_idle_switch_rl.png"
 		},
+
+		{
+			"name": "archer_guy_run_left",
+			"path": "archer_guy_run_left.png"
+		},
+		{
+			"name": "archer_guy_run_right",
+			"path": "archer_guy_run_right.png"
+		},
+
+		{
+			"name": "archer_guy_bow_idle_left",
+			"path": "archer_guy_bow_idle_left.png"
+		},
+		{
+			"name": "archer_guy_bow_idle_right",
+			"path": "archer_guy_bow_idle_right.png"
+		},
+		{
+			"name": "archer_guy_bow_pull_right",
+			"path": "archer_guy_bow_pull_right.png"
+		},
+		{
+			"name": "archer_guy_bow_pull_left",
+			"path": "archer_guy_bow_pull_left.png"
+		},
+
+		{
+			"name": "archer_guy_bow_reload_left",
+			"path": "archer_guy_bow_reload_left.png"
+		},
+		{
+			"name": "archer_guy_bow_reload_right",
+			"path": "archer_guy_bow_reload_right.png"
+		},
+
 		{
 			"name": "debug_texture",
 			"path": "debug_texture.png"

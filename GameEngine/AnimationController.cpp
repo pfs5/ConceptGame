@@ -4,15 +4,25 @@
 #include <fstream>
 #include <sstream>
 
-AnimationController::AnimationController() : m_currentAnimation (0), m_nextAnimation(0){
+AnimationController::AnimationController() : 
+	m_currentAnimation (0), m_nextAnimation(0), m_isPlaying(false) {
 }
 
 AnimationController::~AnimationController() {
 }
 
-void AnimationController::load(std::string _name) {
+void AnimationController::load(std::string _name, bool _play) {
 	if (!loadFromFile(_name)) {
 		Debug::logError("[AnimationController] Error loading " + _name);
+	}
+
+	m_isPlaying = _play;
+
+	if (_play) {
+		m_animations[m_currentAnimation]->play();
+	}
+	else {
+		m_animations[m_currentAnimation]->stop();
 	}
 }
 
@@ -29,10 +39,16 @@ void AnimationController::playAnimation(std::string _animation, bool _playInstan
 	playAnimation(animationIndex, _playInstantly);
 }
 
+void AnimationController::setAnimationTime(float _time, bool _pause) {
+	m_animations[m_currentAnimation]->setTime(_time, _pause);
+}
+
 void AnimationController::setTrigger(std::string _trigger, bool _playInstantly) {
 	try {
 		int nextAnimation = m_triggerTransitions[m_currentAnimation].at(_trigger);
 		playAnimation(nextAnimation, _playInstantly);
+
+		m_isPlaying = true;
 	} catch (std::out_of_range) {
 		return;
 	}
@@ -89,6 +105,7 @@ bool AnimationController::loadFromFile(std::string _name) {
 			}
 		}
 
+		file.close();
 	} else {
 		return false;
 	}
@@ -108,5 +125,8 @@ void AnimationController::onAnimationEnd() {
 	// Switch to next animation
 	if (m_nextAnimation != m_currentAnimation || m_animations[m_currentAnimation]->isLooping()) {
 		playNextAnimation();
+	}
+	else {
+		m_isPlaying = false;
 	}
 }
