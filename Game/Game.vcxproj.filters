@@ -25,6 +25,9 @@
     <Filter Include="Header Files\level">
       <UniqueIdentifier>{5a25591d-1472-4628-8935-571c5c35d731}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\projectiles">
+      <UniqueIdentifier>{22f1483c-b978-4058-bc62-93d70669bc88}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CubeObject.h">
@@ -42,9 +45,6 @@
     <ClInclude Include="PlayingState.h">
       <Filter>Header Files\states</Filter>
     </ClInclude>
-    <ClInclude Include="Projectile.h">
-      <Filter>Header Files\objects</Filter>
-    </ClInclude>
     <ClInclude Include="BasicEnemy.h">
       <Filter>Header Files\enemies</Filter>
     </ClInclude>
@@ -57,9 +57,6 @@
     <ClInclude Include="RangedEnemy.h">
       <Filter>Header Files\enemies</Filter>
     </ClInclude>
-    <ClInclude Include="ChainedProjectile.h">
-      <Filter>Header Files\objects</Filter>
-    </ClInclude>
     <ClInclude Include="Trail.h">
       <Filter>Header Files\objects</Filter>
     </ClInclude>
@@ -68,6 +65,21 @@
     </ClInclude>
     <ClInclude Include="BasicMap.h">
       <Filter>Header Files\level</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Header Files\projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="ChainedProjectile.h">
+      <Filter>Header Files\projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform.h">
+      <Filter>Header Files\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="PlatformManager.h">
+      <Filter>Header Files\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuState.h">
+      <Filter>Header Files\states</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -108,6 +120,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BasicMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlatformManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

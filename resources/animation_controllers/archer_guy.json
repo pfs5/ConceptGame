@@ -46,23 +46,32 @@
 			"to": "run_left"
 		},
 		{
-			"trigger": "run_right",
+			"trigger": "run_left",
 			"from": "idle_right",
-			"to": "run_right"
+			"to": "idle_switch_rl"
+		},
+		{
+			"trigger": "run_left",
+			"from": "run_right",
+			"to": "idle_right"
 		},
 
 
 		{
-			"trigger": "run_left",
+			"trigger": "run_right",
 			"from": "idle_right",
-			"to": "idle_switch_rl"
+			"to": "run_right"
 		},
 		{
 			"trigger": "run_right",
 			"from": "idle_left",
 			"to": "idle_switch_lr"
 		},
-
+		{
+			"trigger": "run_right",
+			"from": "run_left",
+			"to": "idle_left"
+		},
 
 		{
 			"trigger": "idle",

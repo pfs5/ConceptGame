@@ -7,14 +7,17 @@ class Projectile : public GameObject{
 
 	// Game
 	bool m_isStatic = false;
+	bool m_isDestroyed = false;
 
 	// Parameters
-	float m_destructionDelay = 15.f;
+	float m_destructionDelay = 10.f;
 
 	int m_direction;
 public:
 	Projectile(int _direction = 1);
 	~Projectile();
+
+	void breakArrow();
 
 	// Inherited via GameObject
 	virtual void update(float _dt) override;
@@ -25,5 +28,6 @@ public:
 
 private:
 	void destroyProjectile();
+	void destroyObject();
 };
 

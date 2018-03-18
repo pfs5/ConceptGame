@@ -52,7 +52,7 @@ void RangedEnemy::update(float _dt) {
 
 	if (Input::getKeyDown(Input::O)) {
 		// Shoot
-		auto trail = dynamic_cast<Trail*> (GameStateManager::instantiate(&Trail()));
+		auto trail = dynamic_cast<Trail*> (GameStateManager::instantiate(&Trail("chain")));
 		sf::Vector2f end = PhysicsEngine::getInstance().raycast(m_position, m_player->getPosition() - m_position, std::vector<std::string>{"Floor", "Wall", "Main"});
 		trail->setPositions(m_position, end);
 	}

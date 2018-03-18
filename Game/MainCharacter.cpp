@@ -15,6 +15,7 @@ MainCharacter::MainCharacter():
 	m_chainState {CHAIN_STATE::UNCHAINED},
 	m_shootingState {SHOOTING_STATE::NOTHING},
 	m_chain {nullptr},
+	m_arrowInCollision {nullptr},
 	m_currentShootingPower{ m_minShootingSpeed },
 	m_additionalGravityMultiplier { 0.f }  {
 
@@ -65,9 +66,19 @@ void MainCharacter::draw() {
 }
 
 void MainCharacter::onCollision(Collider * _other) {
-	if (_other->getGameObject()->getObjectTag() == "Floor" || _other->getGameObject()->getObjectTag() == "Arrow") {
+	if (_other->getGameObject()->getObjectTag() == "Floor") {
 		m_characterState = CHARACTER_STATE::IDLE;
 		m_additionalGravityMultiplier = 0.f;
+	}
+
+	if (_other->getGameObject()->getObjectLayer() == "Arrow") {
+		m_arrowInCollision = _other->getGameObject();
+
+		m_characterState = CHARACTER_STATE::IDLE;
+		m_additionalGravityMultiplier = 0.f;
+	}
+	else {
+		m_arrowInCollision = nullptr;
 	}
 }
 
@@ -100,18 +111,7 @@ void MainCharacter::movement(float _dt) {
 		m_direction = 1;
 	}
 
-	// Add pull velocity
-	dx += m_currentPullSpeed.x;
-	m_currentPullSpeed *= m_pullSpeedDecay;
-
-	sf::Vector2f delta{ dx, m_currentPullSpeed.y };
-
-	delta *= _dt;
-
-	move(delta);
-
 	// Animations
-
 	std::string moveTrigger = "idle";
 	int comp = FloatOperations::compare(dx, 0.f);
 
@@ -126,6 +126,20 @@ void MainCharacter::movement(float _dt) {
 
 	m_bodyController.setTrigger(moveTrigger);
 	m_bowController.setTrigger(moveTrigger);
+
+	// Add pull velocity
+	if (VectorOperations::norm(m_currentPullSpeed) > 0.1 * m_pullSpeed) {
+		dx = m_currentPullSpeed.x;
+	}
+
+	m_currentPullSpeed *= m_pullSpeedDecay;
+
+	sf::Vector2f delta{ dx, m_currentPullSpeed.y };
+
+	delta *= _dt;
+
+	// Move
+	move(delta);
 }
 
 void MainCharacter::extraGravity(float _dt) {
@@ -140,6 +154,16 @@ void MainCharacter::jump(float _dt) {
 		if (Input::getKeyDown(Input::SPACE)) {
 			m_rigidBody->setVelocity(sf::Vector2f{ 0.f, -m_jumpVelocity });
 			m_characterState = CHARACTER_STATE::JUMPING;
+
+			// Destroy jumped on arrow
+			if (m_arrowInCollision != nullptr) {
+				Projectile * proj = dynamic_cast<Projectile*>(m_arrowInCollision);
+
+				if (proj != nullptr) {
+					proj->breakArrow();
+					m_arrowInCollision = nullptr;
+				}
+			}
 		}
 	}
 	

@@ -37,6 +37,10 @@ void Projectile::update(float _dt) {
 	if ((m_destructionDelay -= _dt) < 0) {
 		destroyProjectile();
 	} 
+
+	if (m_isDestroyed && !m_controller.isPlaying()) {
+		GameStateManager::destroyObject(this);
+	}
 }
 
 void Projectile::draw() {
@@ -46,11 +50,12 @@ void Projectile::draw() {
 void Projectile::onCollision(Collider * _other) {
 	// Sticking arrows get destroyed by other arrows
 	if ((_other->getGameObject()->getObjectTag() == getObjectTag() || _other->getGameObject()->getObjectLayer() == getObjectLayer()) && m_isStatic) {
-		destroyProjectile();
+		destroyObject();
 	}
 	
 	// Stick into everything but the player character or other arrows
-	if (_other->getGameObject()->getObjectTag() != "Main" && _other->getGameObject()->getObjectLayer() != getObjectLayer()) {
+	if (_other->getGameObject()->getObjectTag() != "Main" 
+		&& _other->getGameObject()->getObjectLayer() != getObjectLayer()) {
 		// Stop
 		m_rigidBody->setVelocity(sf::Vector2f{ 0.f, 0.f });
 
@@ -61,7 +66,7 @@ void Projectile::onCollision(Collider * _other) {
 
 	// Destroy if hit enemy
 	if (_other->getGameObject()->getObjectTag() == "Enemy") {
-		destroyProjectile();
+		destroyObject();
 	}
 }
 
@@ -80,5 +85,16 @@ void Projectile::setPosition(sf::Vector2f _pos) {
 }
 
 void Projectile::destroyProjectile() {
+	m_isDestroyed = true;
+
+	m_controller.setTrigger("destroy");
+}
+
+void Projectile::destroyObject() {
 	GameStateManager::destroyObject(this);
+}
+
+void Projectile::breakArrow() {
+	setObjectLayer("DestroyedArrow");
+	destroyProjectile();
 }

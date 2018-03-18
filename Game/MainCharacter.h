@@ -43,19 +43,22 @@ class MainCharacter : public GameObject {
 
 	sf::Vector2f m_currentPullSpeed;
 
+	// Breaking arrows
+	GameObject * m_arrowInCollision;
+
 	ChainedProjectile * m_chain;
 
 	// Parameters
 	const float m_speed = 1000.f / 4.f;	//500
 	const float m_jumpVelocity = 600.f;
-	const float m_landingGravityMultiplier = 2.f;
+	const float m_landingGravityMultiplier = 1.5f;
 
 	const float m_shootingChargeSpeed = 1000.f;
 	const float m_minShootingSpeed = 100.f; // 500
 	const float m_maxShootingSpeed = 1500.f;
 
 	const float m_pullSpeed = 1000.f;
-	const float m_pullSpeedDecay = 0.9f;
+	const float m_pullSpeedDecay = 0.95f;
 
 	const float m_bowReleaseSpeed = 20.f;	// percent of full shot time per second
 

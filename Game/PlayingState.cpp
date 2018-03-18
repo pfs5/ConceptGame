@@ -12,6 +12,8 @@
 #include "RangedEnemy.h"
 #include "Trail.h"
 #include "BasicMap.h"
+#include "Platform.h"
+#include "PlatformManager.h"
 
 #include <SFML/Window.hpp>
 #include <algorithm>
@@ -40,13 +42,6 @@ PlayingState::PlayingState() {
 
 	m_viewOffset = sf::Vector2f{ 0.f, -1.f * Display::getWindow().getSize().y / 2.f + VERTICAL_VIEW_OFFSET};
 
-	// ### Enemies ###
-	auto enemy = new BasicEnemy();
-
-	auto rangedEnemy = new RangedEnemy();
-
-	m_gameObjects[0].push_back(new EnemyManager(enemy, rangedEnemy, mainChar));
-
 	// ### Environment ###
 	// Floor
 	GameObject * floor = new TexturedCubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ 500, 800 }, true, false, sf::Color{});
@@ -54,13 +49,29 @@ PlayingState::PlayingState() {
 	m_gameObjects[0].push_back(floor);
 
 	// Platforms
-	GameObject * plat1 = new TexturedCubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ 600, 600 }, true, false, sf::Color{});
+	m_gameObjects[0].push_back(new PlatformManager());
+	
+	/*GameObject * plat1 = new TexturedCubeObject(sf::Vector2f{ 200, 50 }, sf::Vector2f{ 300, 400 }, true, false, sf::Color{});
 	plat1->setObjectTag("Floor");
 	m_gameObjects[0].push_back(plat1);
 
-	GameObject * plat2 = new TexturedCubeObject(sf::Vector2f{ 100, 1000 }, sf::Vector2f{ 200, 200 }, true, false, sf::Color{});
-	plat2->setObjectTag("Wall");
+	GameObject * plat2 = new TexturedCubeObject(sf::Vector2f{ 200, 50 }, sf::Vector2f{ 700, 500 }, true, false, sf::Color{});
+	plat2->setObjectTag("Floor");
 	m_gameObjects[0].push_back(plat2);
+
+	GameObject * plat3 = new TexturedCubeObject(sf::Vector2f{ 200, 50 }, sf::Vector2f{ 1100, 400 }, true, false, sf::Color{});
+	plat3->setObjectTag("Floor");
+	m_gameObjects[0].push_back(plat3);
+*/
+
+	// Walls
+	GameObject * wall1 = new TexturedCubeObject(sf::Vector2f{ 500, 2000 }, sf::Vector2f{ 1610, 900 }, true, false, sf::Color{});
+	wall1->setObjectTag("Wall");
+	m_gameObjects[0].push_back(wall1);
+
+	GameObject * wall2 = new TexturedCubeObject(sf::Vector2f{ 500, 2000 }, sf::Vector2f{ -200, 900 }, true, false, sf::Color{});
+	wall2->setObjectTag("Wall");
+	m_gameObjects[0].push_back(wall2);
 
 	/*GameObject * plat2 = new TexturedCubeObject(sf::Vector2f{ 200, 50 }, sf::Vector2f{ 300, 320 }, true, false, sf::Color{});
 	plat2->setObjectTag("Floor");
@@ -69,6 +80,13 @@ PlayingState::PlayingState() {
 	GameObject * plat3 = new TexturedCubeObject(sf::Vector2f{ 200, 50 }, sf::Vector2f{ 100, 180 }, true, false, sf::Color{});
 	plat3->setObjectTag("Floor");
 	m_gameObjects[0].push_back(plat3);*/
+
+	// ### Enemies ###
+	auto enemy = new BasicEnemy();
+
+	auto rangedEnemy = new RangedEnemy();
+
+	m_gameObjects[0].push_back(new EnemyManager(mainChar));
 }
 
 

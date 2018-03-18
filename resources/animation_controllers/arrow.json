@@ -24,7 +24,20 @@
 			"frames" : [2, 1, 1, 1, 2, 1, 1],
 			"scale" : 2,
 			"looping" : false
-		}
+		},
+
+		{
+			"name" : "destroy_left",
+			"frames" : [1, 1, 1, 1, 1],
+			"scale" : 2,
+			"looping" : false
+		},
+		{
+			"name" : "destroy_right",
+			"frames" : [1, 1, 1, 1, 1],
+			"scale" : 2,
+			"looping" : false
+		}		
 	],
 
 	"transitions": [
@@ -37,6 +50,28 @@
 			"trigger": "hit",
 			"from": "idle_right",
 			"to": "hit_right"
+		},
+
+		{
+			"trigger": "destroy",
+			"from": "hit_left",
+			"to": "destroy_left"
+		},
+		{
+			"trigger": "destroy",
+			"from": "idle_left",
+			"to": "destroy_left"
+		},
+
+		{
+			"trigger": "destroy",
+			"from": "hit_right",
+			"to": "destroy_right"
+		},
+		{
+			"trigger": "destroy",
+			"from": "idle_right",
+			"to": "destroy_right"
 		}
 	]
 }

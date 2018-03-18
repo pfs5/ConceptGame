@@ -24,6 +24,11 @@
 
 	"textures" : [
 		{
+			"name": "title",
+			"path": "title.png"
+		},	
+
+		{
 			"name": "forest_level_bg",
 			"path": "forest_level_bg.png"
 		},
@@ -31,6 +36,8 @@
 			"name": "forest_level_fg",
 			"path": "forest_level_fg.png"
 		},
+
+
 
 		{
 			"name": "arrow_idle_left",
@@ -48,6 +55,22 @@
 		{
 			"name": "arrow_hit_right",
 			"path": "arrow_hit_right.png"
+		},
+
+		{
+			"name": "arrow_destroy_left",
+			"path": "arrow_destroy_left.png"
+		},
+		{
+			"name": "arrow_destroy_right",
+			"path": "arrow_destroy_right.png"
+		},
+
+
+
+		{
+			"name": "chain_idle",
+			"path": "chain_idle.png"
 		},
 
 
@@ -104,9 +127,16 @@
 			"path": "archer_guy_bow_reload_right.png"
 		},
 
+
+
 		{
 			"name": "debug_texture",
 			"path": "debug_texture.png"
+		},
+
+		{
+			"name": "platform",
+			"path": "platform.png"
 		}
 	]
 }

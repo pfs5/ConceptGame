@@ -18,9 +18,11 @@ class ChainedProjectile : public GameObject {
 
 	// Game
 	bool m_isStatic = false;
+	bool m_isDestroyed = false;
 
 	// Parameters
 	float m_destructionDelay = 15.f;
+
 public:
 	ChainedProjectile(int _direction);
 	~ChainedProjectile();
@@ -35,7 +37,12 @@ public:
 	virtual GameObject * clone() override;
 	virtual void setPosition(sf::Vector2f _pos) override;
 
+private:
+	void destroyProjectile();
+	void destroyObject();
+
 #pragma region Getters and setters
+public:
 	inline void setPlayerRef(GameObject * _p) { m_playerRef = _p; };
 	inline bool isStatic() { return m_isStatic; };
 #pragma endregion

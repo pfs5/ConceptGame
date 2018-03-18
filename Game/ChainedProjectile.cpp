@@ -14,7 +14,8 @@ ChainedProjectile::ChainedProjectile(int _direction) :
 	m_chain{ nullptr } {
 
 	// Init chain
-	m_chain = dynamic_cast<Trail*>(GameStateManager::instantiate(&Trail(), 2));
+	m_chain = dynamic_cast<Trail*>(GameStateManager::instantiate(&Trail("chain"), 2));
+	m_chain->setOffsets(sf::Vector2f{0.f, 0.f}, sf::Vector2f{20.f, 0.f});
 
 	m_objectTag = "ChainedArrow";
 	setObjectLayer("Arrow");
@@ -42,8 +43,10 @@ ChainedProjectile::~ChainedProjectile() {
 }
 
 void ChainedProjectile::destroyChain() {
-	GameStateManager::destroyObject(m_chain);
-	m_chain = nullptr;
+	if (m_chain != nullptr) {
+		GameStateManager::destroyObject(m_chain);
+		m_chain = nullptr;
+	}
 }
 
 void ChainedProjectile::pullChain(sf::Vector2f _pullVector) {
@@ -54,13 +57,21 @@ void ChainedProjectile::pullChain(sf::Vector2f _pullVector) {
 	}
 
 	destroyChain();
+	destroyProjectile();
 }
 
 void ChainedProjectile::update(float _dt) {
 	m_controller.update(_dt);
 
+	if (m_isDestroyed && !m_controller.isPlaying()) {
+		destroyObject();
+	}
+
 	if (m_hitEnemy != nullptr) {
 		setPosition(m_hitEnemy->getPosition());
+	}
+	else if ((m_destructionDelay -= _dt) < 0) {
+		destroyProjectile();
 	}
 	
 	// Update trail
@@ -83,6 +94,8 @@ void ChainedProjectile::onCollision(Collider * _other) {
 	if (_other->getGameObject()->getObjectTag() != "Main" && _other->getGameObject()->getObjectLayer() != getObjectLayer()) {
 		// Stop
 		m_rigidBody->setVelocity(sf::Vector2f{ 0.f, 0.f });
+
+		m_controller.setTrigger("hit");
 
 		m_isStatic = true;
 	}
@@ -110,4 +123,15 @@ void ChainedProjectile::setPosition(sf::Vector2f _pos) {
 	for (Collider * c : m_colliders) {
 		c->setPosition(m_position);
 	}
+}
+
+void ChainedProjectile::destroyProjectile() {
+	m_isDestroyed = true;
+	m_controller.setTrigger("destroy");
+
+}
+
+void ChainedProjectile::destroyObject() {
+	destroyChain();
+	GameStateManager::destroyObject(this);
 }

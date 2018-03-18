@@ -1,14 +1,24 @@
 #pragma once
 #include "GameObject.h"
 class EnemyManager : public GameObject {
-	GameObject * m_enemy;
-	GameObject * m_rangedEnemy;
 	GameObject * m_player;
 
+	// Debug
+	const bool m_showSpawnPositions = true;
+	sf::RectangleShape m_spawnPositionVisual;
+
 	// Parameters
-	const std::vector<sf::Vector2f> m_spawnPositions = { sf::Vector2f{ -350, 350 }, sf::Vector2f{ 1000, 400 } };
+	const std::vector<sf::Vector2f> m_spawnPositions = { 
+		sf::Vector2f{ 100, 100 },
+		sf::Vector2f{ 150, 100 },
+		sf::Vector2f{ 200, 100 },
+
+		sf::Vector2f{ 1200, 100 },
+		sf::Vector2f{ 1250, 100 },
+		sf::Vector2f{ 1300, 100 }
+	};
 public:
-	EnemyManager(GameObject * _enemy, GameObject * _rangedEnemy, GameObject * _player);
+	EnemyManager(GameObject * _player);
 	~EnemyManager();
 
 	// Inherited via GameObject
