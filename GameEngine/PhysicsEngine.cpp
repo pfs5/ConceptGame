@@ -179,7 +179,7 @@ void PhysicsEngine::collisionDetection() {
 			if (finalDiff < 0.f) {
 				int collisionAxis = diffX > diffY ? 0 : 1;	// 0 - x axis, 1 - y axis
 				bool direction = diffX > diffY ? directionX : directionY;
-				
+
 				// Collision response - both colliders not triggers
 				if (!c1->isTrigger() && !c2->isTrigger() && !PhysicsLayers::layerIgnoreMatrix[c1->getGameObject()->getLayerNumber()][c2->getGameObject()->getLayerNumber()]) {				
 					// ## Move object out of collision ##
@@ -208,14 +208,24 @@ void PhysicsEngine::collisionDetection() {
 						float bounce = c1->getRigidBody()->getBounceFactor() / 2.f + 0.5f;
 						sf::Vector2f newVelocity1 = velocity1 - VectorOperations::memberwiseMultiplication(velocity1, (axisVector * 2.f)) * bounce;
 						//newVelocity1 += VectorOperations::memberwiseMultiplication(velocity2, axisVector) * c1->getRigidBody()->getBounceFactor();
-						c1->getRigidBody()->setVelocity(newVelocity1);
+
+						float generalDirection = VectorOperations::dotProduct(axisVector, velocity1) > 0.f ? 1 : -1;
+
+						if (generalDirection == direction1) {
+							c1->getRigidBody()->setVelocity(newVelocity1);
+						}
 					}
 
 					if (!c2->isStatic()) {
 						float bounce = c2->getRigidBody()->getBounceFactor() / 2.f + 0.5f;
 						sf::Vector2f newVelocity2 = velocity2 - VectorOperations::memberwiseMultiplication(velocity2, (axisVector * 2.f)) * bounce;
 						//newVelocity2 += VectorOperations::memberwiseMultiplication(velocity1, axisVector) * c2->getRigidBody()->getBounceFactor();
-						c2->getRigidBody()->setVelocity(newVelocity2);
+
+						float generalDirection = VectorOperations::dotProduct(axisVector, velocity2) > 0.f ? 1 : -1;
+
+						if (generalDirection == direction2) {
+							c2->getRigidBody()->setVelocity(newVelocity2);
+						}
 					}
 				}
 
