@@ -2,6 +2,8 @@
 #include "GameObject.h"
 #include "PullableEnemy.h"
 #include "CubeObject.h"
+#include "AnimationController.h"
+
 class BasicEnemy : public PullableEnemy {
 	enum ENEMY_STATE {
 		ATTACKING,
@@ -12,6 +14,8 @@ class BasicEnemy : public PullableEnemy {
 	sf::RectangleShape m_shape;
 	const sf::Color m_baseColor{51, 204, 255};
 	const sf::Color m_hitColor{ 255, 153, 0 };
+
+	AnimationController m_controller;
 
 	GameObject * m_player;
 

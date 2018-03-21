@@ -9,8 +9,7 @@
 
 int main() {
 	Application app;
-	PlayingState *playState = new PlayingState();
-
+	
 	app.addGameState(new MenuState());
 
 	app.runMainLoop();

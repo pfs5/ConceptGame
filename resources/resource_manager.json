@@ -137,6 +137,12 @@
 		{
 			"name": "platform",
 			"path": "platform.png"
+		},
+
+		{
+			"name": "basic_enemy_idle",
+			"path": "basic_enemy_idle.png"
 		}
+
 	]
 }

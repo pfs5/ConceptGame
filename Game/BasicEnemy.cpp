@@ -16,9 +16,11 @@ BasicEnemy::BasicEnemy() :
 	m_shape.setOutlineThickness(5.f);
 	m_shape.setSize(sf::Vector2f{ 50, 50 });
 
+	m_controller.load("basic_enemy");
+
 	// Create rigid body
 	Collider * collider = PhysicsEngine::getInstance().createCollider(this);
-	collider->setSize(m_shape.getSize() + sf::Vector2f{ 10.f, 10.f });
+	collider->setSize(sf::Vector2f{ 120.f, 50.f });
 	m_shape.setOrigin(m_shape.getSize() / 2.f);
 
 	collider->setStatic(false);
@@ -38,6 +40,8 @@ BasicEnemy::~BasicEnemy() {
 }
 
 void BasicEnemy::update(float _dt) {
+	m_controller.update(_dt);
+
 	if (m_state == ENEMY_STATE::ATTACKING) {
 		if (m_died) {
 			// Die
@@ -71,7 +75,8 @@ void BasicEnemy::update(float _dt) {
 }
 
 void BasicEnemy::draw() {
-	Display::draw(m_shape);
+	//Display::draw(m_shape);
+	m_controller.draw();
 }
 
 void BasicEnemy::onCollision(Collider * _other) {
@@ -99,6 +104,7 @@ GameObject * BasicEnemy::clone() {
 void BasicEnemy::setPosition(sf::Vector2f _pos) {
 	m_position = _pos;
 	m_shape.setPosition(_pos);
+	m_controller.setPosition(_pos);
 
 	for (Collider * c : m_colliders) {
 		c->setPosition(_pos);

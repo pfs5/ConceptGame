@@ -44,7 +44,7 @@ PlayingState::PlayingState() {
 
 	// ### Environment ###
 	// Floor
-	GameObject * floor = new TexturedCubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ 500, 800 }, true, false, sf::Color{});
+	GameObject * floor = new CubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ 500, 788 }, true, false, sf::Color::Black);
 	floor->setObjectTag("Floor");
 	m_gameObjects[0].push_back(floor);
 
@@ -82,10 +82,6 @@ PlayingState::PlayingState() {
 	m_gameObjects[0].push_back(plat3);*/
 
 	// ### Enemies ###
-	auto enemy = new BasicEnemy();
-
-	auto rangedEnemy = new RangedEnemy();
-
 	m_gameObjects[0].push_back(new EnemyManager(mainChar));
 }
 
