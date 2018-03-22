@@ -1,6 +1,7 @@
 #include "BasicEnemy.h"
 #include "Debug.h"
 #include "GameStateManager.h"
+#include "Explosion.h"
 
 BasicEnemy::BasicEnemy() :
 	m_player{ nullptr },
@@ -45,6 +46,7 @@ void BasicEnemy::update(float _dt) {
 	if (m_state == ENEMY_STATE::ATTACKING) {
 		if (m_died) {
 			// Die
+			GameStateManager::instantiate(&Explosion(m_position));
 			GameStateManager::destroyObject(this);
 			return;
 		}
@@ -88,6 +90,8 @@ void BasicEnemy::onCollision(Collider * _other) {
 
 		if (++m_numberOfHits >= m_maxHits) {
 			// Die after delay
+			GameStateManager::instantiate(&Explosion(m_position));
+			GameStateManager::destroyObject(this);
 			m_died = true;
 		}
 

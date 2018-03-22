@@ -142,6 +142,11 @@
 		{
 			"name": "basic_enemy_idle",
 			"path": "basic_enemy_idle.png"
+		},
+
+		{
+			"name": "explosion_one_main",
+			"path": "explosion_one_main.png"
 		}
 
 	]

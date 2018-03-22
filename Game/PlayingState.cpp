@@ -17,6 +17,7 @@
 
 #include <SFML/Window.hpp>
 #include <algorithm>
+#include <cmath>
 
 void createCube(sf::Vector2i _pos, std::vector<GameObject*> &_gameObjects) {
 	GameObject * cube = new CubeObject(sf::Vector2f{ 50, 50 }, sf::Vector2f{ static_cast<float>(_pos.x - 25), static_cast<float>(_pos.y - 25) }, false, true);
@@ -40,13 +41,16 @@ PlayingState::PlayingState() {
 	m_gameObjects[0].push_back(mainChar);
 	m_centeredObject = mainChar;
 
-	m_viewOffset = sf::Vector2f{ 0.f, -1.f * Display::getWindow().getSize().y / 2.f + VERTICAL_VIEW_OFFSET};
-
 	// ### Environment ###
 	// Floor
 	GameObject * floor = new CubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ 500, 788 }, true, false, sf::Color::Black);
 	floor->setObjectTag("Floor");
 	m_gameObjects[0].push_back(floor);
+
+	// Ceiling
+	GameObject * ceil = new CubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ 500, -300 }, true, false, sf::Color::Black);
+	ceil->setObjectTag("Wall");
+	m_gameObjects[0].push_back(ceil);
 
 	// Platforms
 	m_gameObjects[0].push_back(new PlatformManager());
@@ -109,8 +113,7 @@ void PlayingState::update(float _dt) {
 
 	PhysicsEngine::getInstance().update(_dt);
 
-	// Make view follow the centered object. freeze y coordinate
-	//m_view.setCenter((m_centeredObject->getPosition() + m_viewOffset).x, m_view.getCenter().y);
+	updateView(_dt);
 
 	// Add new objects
 	GameObject * newObj = nullptr;
@@ -164,4 +167,29 @@ GameObject * PlayingState::instantiateObject(GameObject * _gameObject) {
 
 void PlayingState::destroyObject(GameObject * _gameObject) {
 	_gameObject->setActive(false);
+}
+
+void PlayingState::updateView(float _dt) {
+	// Set new center
+	auto winSize = Display::getWindow().getSize();
+	float minHeight = Display::getWindow().getSize().y / 2.f;
+	float floorDistance = minHeight * 2 - m_centeredObject->getPosition().y;
+	
+	float height = fmaxf(floorDistance - minHeight, 0);
+
+	// Camera movement function
+	float cameraHeight = height / 2.f;
+	float scaling = cameraHeight / minHeight + 1;
+
+	auto center = m_view.getCenter();
+	center.y = minHeight - cameraHeight;
+
+	auto size = sf::Vector2f{ static_cast<float>(winSize.x), static_cast<float>(winSize.y)} *scaling;
+
+	// Lerp towards target
+	auto centerDelta = (center - m_view.getCenter()) * _dt;
+	m_view.setCenter(m_view.getCenter() + centerDelta);
+
+	auto sizeDelta = (size - m_view.getSize()) * _dt;
+	m_view.setSize(m_view.getSize() + sizeDelta);
 }

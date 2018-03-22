@@ -28,14 +28,14 @@
 
 		{
 			"name" : "reload_left",
-			"frames" : [1,1,1,1,1,1],
-			"scale" : 5,
+			"frames" : [2,2,1,1,1,1],
+			"scale" : 3,
 			"looping" : false
 		},
 		{
 			"name" : "reload_right",
-			"frames" : [1,1,1,1,1,1],
-			"scale" : 5,
+			"frames" : [2,2,1,1,1,1],
+			"scale" : 3,
 			"looping" : false
 		}
 	],

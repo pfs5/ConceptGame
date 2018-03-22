@@ -128,18 +128,21 @@ void MainCharacter::movement(float _dt) {
 	m_bowController.setTrigger(moveTrigger);
 
 	// Add pull velocity
-	if (VectorOperations::norm(m_currentPullSpeed) > 0.1 * m_pullSpeed) {
-		dx = m_currentPullSpeed.x;
-	}
+	//if (VectorOperations::norm(m_currentPullSpeed) > 0.1 * m_pullSpeed) {
+	//	dx = m_currentPullSpeed.x;
+	//}
 
-	m_currentPullSpeed *= m_pullSpeedDecay;
+	//m_currentPullSpeed *= m_pullSpeedDecay;
 
-	sf::Vector2f delta{ dx, m_currentPullSpeed.y };
+	sf::Vector2f delta{ dx, 0 };
 
 	delta *= _dt;
 
 	// Move
-	move(delta);
+	auto vel = getRigidBody()->getVelocity();
+	vel.x = dx;
+	getRigidBody()->setVelocity(vel);
+	//move(delta);
 }
 
 void MainCharacter::extraGravity(float _dt) {
@@ -267,10 +270,12 @@ void MainCharacter::shootChain(int _direction, float _velocity) {
 
 	m_chain->setPlayerRef(this);
 
-	sf::Vector2f projPos = m_position + sf::Vector2f{ m_shape.getSize().x * static_cast<float>(_direction), 0.f };
+	//sf::Vector2f projPos = m_position + sf::Vector2f{ m_shape.getSize().x * static_cast<float>(_direction), 0.f };
+	sf::Vector2f projPos = m_position + sf::Vector2f{ 0.f, -30.f };
 	m_chain->setPosition(projPos);
 
-	m_chain->getRigidBody()->setVelocity(sf::Vector2f{ _direction * _velocity, 0.f });
+	//m_chain->getRigidBody()->setVelocity(sf::Vector2f{ _direction * _velocity, 0.f });
+	m_chain->getRigidBody()->setVelocity(sf::Vector2f{0.f, -_velocity});
 
 	m_chain->setActive(true);
 }
@@ -279,7 +284,8 @@ void MainCharacter::pullChain() {
 	sf::Vector2f pullDirection = m_chain->getPosition() - getPosition();
 	pullDirection /= VectorOperations::norm(pullDirection);
 
-	m_currentPullSpeed = m_pullSpeed * pullDirection;
+	//m_currentPullSpeed = m_pullSpeed * pullDirection;
+	getRigidBody()->setVelocity(m_pullSpeed * pullDirection);
 
 	m_chain->pullChain(-pullDirection);
 }
