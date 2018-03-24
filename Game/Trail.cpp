@@ -14,7 +14,6 @@ Trail::Trail(std::string _name, const sf::Vector2f & _start, const sf::Vector2f 
 	m_end{ _end },
 	m_timer{} {
 
-	m_controller.load(_name);
 	sf::Texture *texture = ResourceManager::getInstance().getTexture("chain_idle");
 	texture->setRepeated(true);
 	texture->setSmooth(true);
@@ -28,11 +27,11 @@ Trail::~Trail() {
 }
 
 void Trail::update(float _dt) {
-	m_controller.update(_dt);
 }
 
 void Trail::draw() {
-	m_controller.draw();
+
+	//m_controller.draw();
 	Display::draw(m_sprite);
 }
 
@@ -44,7 +43,6 @@ GameObject * Trail::clone() {
 }
 
 void Trail::setPosition(sf::Vector2f _pos) {
-	m_controller.setPosition(_pos);
 }
 
 void Trail::updateVisual() {

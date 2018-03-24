@@ -17,7 +17,6 @@ class Trail : public GameObject{
 	sf::Clock m_timer;
 
 	// Visuals
-	AnimationController m_controller;
 	sf::Sprite m_sprite;
 
 	// Parameters

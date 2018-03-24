@@ -21,39 +21,19 @@ void PlatformManager::update(float _dt) {
 
 	// Spawn
 	if (Input::getKeyDown(Input::Num1)) {
-		if (m_platforms[0]->isEnabled()) {
-			m_platforms[0]->disable();
-		}
-		else {
-			m_platforms[0]->enable();
-		}
+		togglePlatform(0);
 	}
-
 	if (Input::getKeyDown(Input::Num2)) {
-		if (m_platforms[1]->isEnabled()) {
-			m_platforms[1]->disable();
-		}
-		else {
-			m_platforms[1]->enable();
-		}
+		togglePlatform(1);
 	}
-
 	if (Input::getKeyDown(Input::Num3)) {
-		if (m_platforms[2]->isEnabled()) {
-			m_platforms[2]->disable();
-		}
-		else {
-			m_platforms[2]->enable();
-		}
+		togglePlatform(2);
 	}
-
 	if (Input::getKeyDown(Input::Num4)) {
-		if (m_platforms[3]->isEnabled()) {
-			m_platforms[3]->disable();
-		}
-		else {
-			m_platforms[3]->enable();
-		}
+		togglePlatform(3);
+	}
+	if (Input::getKeyDown(Input::Num5)) {
+		togglePlatform(4);
 	}
 }
 
@@ -79,5 +59,18 @@ void PlatformManager::init() {
 		//newPlatform->disable();
 
 		m_platforms.push_back(newPlat);
+	}
+}
+
+void PlatformManager::togglePlatform(int _index) {
+	if (m_platforms.size() < _index + 1) {
+		return;
+	}
+
+	if (m_platforms[_index]->isEnabled()) {
+		m_platforms[_index]->disable();
+	}
+	else {
+		m_platforms[_index]->enable();
 	}
 }

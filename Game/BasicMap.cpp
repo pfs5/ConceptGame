@@ -5,17 +5,19 @@
 #include "Debug.h"
 
 void initSprite(sf::Sprite &_sprite, std::string _name) {
-	_sprite.setTexture(*ResourceManager::getInstance().getTexture(_name));
+	auto tex = ResourceManager::getInstance().getTexture(_name);
+	tex->setSmooth(true);
+	_sprite.setTexture(*tex);
 
 	sf::Vector2f size = VectorOperations::utof(_sprite.getTexture()->getSize());
-	_sprite.setOrigin(size / 2.f);
+	_sprite.setOrigin(size.x / 2, size.y);
 
-	_sprite.setPosition(VectorOperations::utof(Display::getWindow().getSize()) / 2.f);
+	_sprite.setPosition((float)Display::getWindow().getSize().x / 2, (float)Display::getWindow().getSize().y);
 }
 
 BasicMap::BasicMap() {
-	initSprite(m_spriteBg, "forest_level_bg");
-	initSprite(m_spriteFg, "forest_level_fg");
+	initSprite(m_spriteBg, "flat_level_bg");
+	initSprite(m_spriteFg, "flat_level_fg");
 }
 
 void BasicMap::drawBackground() {

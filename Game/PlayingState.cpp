@@ -14,6 +14,7 @@
 #include "BasicMap.h"
 #include "Platform.h"
 #include "PlatformManager.h"
+#include "VectorOperations.h"
 
 #include <SFML/Window.hpp>
 #include <algorithm>
@@ -42,48 +43,29 @@ PlayingState::PlayingState() {
 	m_centeredObject = mainChar;
 
 	// ### Environment ###
+	sf::Vector2f winSize = VectorOperations::utof(Display::getWindow().getSize());
+
 	// Floor
-	GameObject * floor = new CubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ 500, 788 }, true, false, sf::Color::Black);
+	GameObject * floor = new CubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ winSize.x / 2, 826 }, true, false, sf::Color::Black);
 	floor->setObjectTag("Floor");
 	m_gameObjects[0].push_back(floor);
 
 	// Ceiling
-	GameObject * ceil = new CubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ 500, -300 }, true, false, sf::Color::Black);
+	GameObject * ceil = new CubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ winSize.x / 2, -1000 }, true, false, sf::Color::Black);
 	ceil->setObjectTag("Wall");
 	m_gameObjects[0].push_back(ceil);
 
 	// Platforms
 	m_gameObjects[0].push_back(new PlatformManager());
 	
-	/*GameObject * plat1 = new TexturedCubeObject(sf::Vector2f{ 200, 50 }, sf::Vector2f{ 300, 400 }, true, false, sf::Color{});
-	plat1->setObjectTag("Floor");
-	m_gameObjects[0].push_back(plat1);
-
-	GameObject * plat2 = new TexturedCubeObject(sf::Vector2f{ 200, 50 }, sf::Vector2f{ 700, 500 }, true, false, sf::Color{});
-	plat2->setObjectTag("Floor");
-	m_gameObjects[0].push_back(plat2);
-
-	GameObject * plat3 = new TexturedCubeObject(sf::Vector2f{ 200, 50 }, sf::Vector2f{ 1100, 400 }, true, false, sf::Color{});
-	plat3->setObjectTag("Floor");
-	m_gameObjects[0].push_back(plat3);
-*/
-
 	// Walls
-	GameObject * wall1 = new TexturedCubeObject(sf::Vector2f{ 500, 2000 }, sf::Vector2f{ 1610, 900 }, true, false, sf::Color{});
+	GameObject * wall1 = new TexturedCubeObject(sf::Vector2f{ 500, 2000 }, sf::Vector2f{ 1650, winSize.y / 2 }, true, false, sf::Color{});
 	wall1->setObjectTag("Wall");
 	m_gameObjects[0].push_back(wall1);
 
-	GameObject * wall2 = new TexturedCubeObject(sf::Vector2f{ 500, 2000 }, sf::Vector2f{ -200, 900 }, true, false, sf::Color{});
+	GameObject * wall2 = new TexturedCubeObject(sf::Vector2f{ 500, 2000 }, sf::Vector2f{ -215, winSize.y / 2 }, true, false, sf::Color{});
 	wall2->setObjectTag("Wall");
 	m_gameObjects[0].push_back(wall2);
-
-	/*GameObject * plat2 = new TexturedCubeObject(sf::Vector2f{ 200, 50 }, sf::Vector2f{ 300, 320 }, true, false, sf::Color{});
-	plat2->setObjectTag("Floor");
-	m_gameObjects[0].push_back(plat2);
-
-	GameObject * plat3 = new TexturedCubeObject(sf::Vector2f{ 200, 50 }, sf::Vector2f{ 100, 180 }, true, false, sf::Color{});
-	plat3->setObjectTag("Floor");
-	m_gameObjects[0].push_back(plat3);*/
 
 	// ### Enemies ###
 	m_gameObjects[0].push_back(new EnemyManager(mainChar));
@@ -172,7 +154,7 @@ void PlayingState::destroyObject(GameObject * _gameObject) {
 void PlayingState::updateView(float _dt) {
 	// Set new center
 	auto winSize = Display::getWindow().getSize();
-	float minHeight = Display::getWindow().getSize().y / 2.f;
+	float minHeight = Display::getWindow().getSize().y / 2.f + 100;
 	float floorDistance = minHeight * 2 - m_centeredObject->getPosition().y;
 	
 	float height = fmaxf(floorDistance - minHeight, 0);
@@ -187,9 +169,9 @@ void PlayingState::updateView(float _dt) {
 	auto size = sf::Vector2f{ static_cast<float>(winSize.x), static_cast<float>(winSize.y)} *scaling;
 
 	// Lerp towards target
-	auto centerDelta = (center - m_view.getCenter()) * _dt;
+	auto centerDelta = (center - m_view.getCenter()) * _dt * m_lerpSpeed;
 	m_view.setCenter(m_view.getCenter() + centerDelta);
 
-	auto sizeDelta = (size - m_view.getSize()) * _dt;
+	auto sizeDelta = (size - m_view.getSize()) * _dt * m_lerpSpeed;
 	m_view.setSize(m_view.getSize() + sizeDelta);
 }

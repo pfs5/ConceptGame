@@ -6,7 +6,7 @@
 #include "RangedEnemy.h"
 #include "Debug.h"
 
-ChainedProjectile::ChainedProjectile(int _direction) : 
+ChainedProjectile::ChainedProjectile(int _direction, bool _instantiateChain) : 
 	m_direction{ _direction },
 	m_isStatic{false},
 	m_playerRef{ nullptr },
@@ -14,8 +14,10 @@ ChainedProjectile::ChainedProjectile(int _direction) :
 	m_chain{ nullptr } {
 
 	// Init chain
-	m_chain = dynamic_cast<Trail*>(GameStateManager::instantiate(&Trail("chain"), 2));
-	m_chain->setOffsets(sf::Vector2f{0.f, 0.f}, sf::Vector2f{20.f, 0.f});
+	if (_instantiateChain) {
+		m_chain = dynamic_cast<Trail*>(GameStateManager::instantiate(&Trail("chain"), 2));
+		m_chain->setOffsets(sf::Vector2f{ 0.f, 0.f }, sf::Vector2f{ 20.f, 0.f });
+	}
 
 	m_objectTag = "ChainedArrow";
 	setObjectLayer("Arrow");
@@ -50,6 +52,8 @@ void ChainedProjectile::destroyChain() {
 }
 
 void ChainedProjectile::pullChain(sf::Vector2f _pullVector) {
+	m_isPulled = true;
+
 	auto pullableEnemy = dynamic_cast<PullableEnemy*>(m_hitEnemy);
 
 	if (pullableEnemy != nullptr) {
@@ -70,7 +74,7 @@ void ChainedProjectile::update(float _dt) {
 	if (m_hitEnemy != nullptr) {
 		setPosition(m_hitEnemy->getPosition());
 	}
-	else if ((m_destructionDelay -= _dt) < 0) {
+	else if ((m_destructionDelay -= _dt) < 0 && m_isPulled) {
 		destroyProjectile();
 	}
 	
@@ -112,7 +116,7 @@ void ChainedProjectile::onCollision(Collider * _other) {
 }
 
 GameObject * ChainedProjectile::clone() {
-	return new ChainedProjectile(m_direction);
+	return new ChainedProjectile(m_direction, true);
 }
 
 void ChainedProjectile::setPosition(sf::Vector2f _pos) {
@@ -128,7 +132,6 @@ void ChainedProjectile::setPosition(sf::Vector2f _pos) {
 void ChainedProjectile::destroyProjectile() {
 	m_isDestroyed = true;
 	m_controller.setTrigger("destroy");
-
 }
 
 void ChainedProjectile::destroyObject() {

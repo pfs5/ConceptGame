@@ -52,10 +52,13 @@ class MainCharacter : public GameObject {
 	const float m_speed = 2000.f / 4.f;	//500
 	const float m_jumpVelocity = 600.f;
 	const float m_landingGravityMultiplier = 1.5f;
+	const float m_maxLandSpeed = 1200.f;
 
 	const float m_shootingChargeSpeed = 1000.f;
 	const float m_minShootingSpeed = 100.f; // 500
 	const float m_maxShootingSpeed = 1500.f;
+
+	const float m_shootingChainSpeed = 1000.f;
 
 	const float m_pullSpeed = 800.f;
 	const float m_pullSpeedDecay = 0.99f;

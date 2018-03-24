@@ -37,6 +37,14 @@
 			"path": "forest_level_fg.png"
 		},
 
+		{
+			"name": "flat_level_bg",
+			"path": "flat_level_bg.png"
+		},
+		{
+			"name": "flat_level_fg",
+			"path": "flat_level_fg.png"
+		},
 
 
 		{

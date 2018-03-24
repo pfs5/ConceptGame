@@ -19,12 +19,12 @@ class ChainedProjectile : public GameObject {
 	// Game
 	bool m_isStatic = false;
 	bool m_isDestroyed = false;
-
+	bool m_isPulled = false;
 	// Parameters
 	float m_destructionDelay = 15.f;
 
 public:
-	ChainedProjectile(int _direction);
+	ChainedProjectile(int _direction, bool _instantiateChain = false);
 	~ChainedProjectile();
 
 	void destroyChain();

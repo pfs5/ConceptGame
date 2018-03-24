@@ -4,11 +4,16 @@
 
 class PlatformManager : public GameObject {
 
-	const std::vector<sf::Vector2f> m_positions{
+	const std::vector<sf::Vector2f> m_positions {
+		sf::Vector2f{ 300, 80 },
 		sf::Vector2f{ 300, 400 },
-		sf::Vector2f{ 700, 500 },
-		sf::Vector2f{ 1100, 400 },
-		sf::Vector2f{ 700, 300 }
+
+		sf::Vector2f{ 700, -100 },
+		sf::Vector2f{ 700, 250 },
+		sf::Vector2f{ 700, 600 },
+		
+		sf::Vector2f{ 1100, 80 },
+		sf::Vector2f{ 1100, 400 }
 	};
 
 	bool m_initiated = false;
@@ -27,5 +32,6 @@ public:
 
 private:
 	void init();
+	void togglePlatform(int _index);
 };
 

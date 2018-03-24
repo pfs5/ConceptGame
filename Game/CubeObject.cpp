@@ -1,6 +1,6 @@
 #include "CubeObject.h"
 
-CubeObject::CubeObject(sf::Vector2f _size, sf::Vector2f _position, bool _static, bool _gravity, sf::Color _color) {
+CubeObject::CubeObject(sf::Vector2f _size, sf::Vector2f _position, bool _static, bool _gravity, sf::Color _color) : m_isStatic{ _static } {
 	m_shape.setFillColor(_color);
 	m_shape.setSize(_size);
 
@@ -27,7 +27,7 @@ void CubeObject::update(float _dt) {
 }
 
 void CubeObject::draw() {
-	Display::draw(m_shape);
+	//Display::draw(m_shape);
 }
 
 void CubeObject::onCollision(Collider * _other) {
@@ -43,5 +43,5 @@ void CubeObject::setPosition(sf::Vector2f _pos) {
 }
 
 GameObject * CubeObject::clone() {
-	return nullptr;
+	return new CubeObject(m_shape.getSize(), m_position, m_isStatic, getRigidBody()->hasGravity(), m_shape.getFillColor());
 }

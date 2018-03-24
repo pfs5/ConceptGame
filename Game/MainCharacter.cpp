@@ -9,6 +9,8 @@
 #include "ChainedProjectile.h"
 #include "VectorOperations.h"
 
+#include <cmath>
+
 MainCharacter::MainCharacter():
 	m_direction {-1},
 	m_characterState {CHARACTER_STATE::IDLE},
@@ -128,12 +130,6 @@ void MainCharacter::movement(float _dt) {
 	m_bowController.setTrigger(moveTrigger);
 
 	// Add pull velocity
-	//if (VectorOperations::norm(m_currentPullSpeed) > 0.1 * m_pullSpeed) {
-	//	dx = m_currentPullSpeed.x;
-	//}
-
-	//m_currentPullSpeed *= m_pullSpeedDecay;
-
 	sf::Vector2f delta{ dx, 0 };
 
 	delta *= _dt;
@@ -141,11 +137,16 @@ void MainCharacter::movement(float _dt) {
 	// Move
 	auto vel = getRigidBody()->getVelocity();
 	vel.x = dx;
+	vel.y = fminf(m_maxLandSpeed, vel.y);
 	getRigidBody()->setVelocity(vel);
-	//move(delta);
 }
 
 void MainCharacter::extraGravity(float _dt) {
+	// if falling, add gravity
+	if (m_rigidBody->getVelocity().y > 100) {
+		m_additionalGravityMultiplier = m_landingGravityMultiplier;
+	}
+
 	// Apply extra gravity to character
 	sf::Vector2f vel = m_rigidBody->getVelocity();
 	vel.y += GameSettings::GRAVITY * m_additionalGravityMultiplier * _dt;
@@ -201,10 +202,13 @@ void MainCharacter::shootCharge(float _dt) {
 				pullChain();
 			}
 		} else if (m_shootingState == SHOOTING_STATE::NOTHING) {
-			m_bowController.setTrigger("pull");
+			shootChain(m_direction, m_shootingChainSpeed);
+			m_chainState = CHAIN_STATE::CHAINED;
 
-			m_currentShootingPower = m_minShootingSpeed;
-			m_shootingState = SHOOTING_STATE::CHARGING_CHAINED;
+			//m_bowController.setTrigger("pull");
+
+			//m_currentShootingPower = m_minShootingSpeed;
+			//m_shootingState = SHOOTING_STATE::CHARGING_CHAINED;
 		}
 	}
 
@@ -214,11 +218,11 @@ void MainCharacter::shootCharge(float _dt) {
 		m_shootingState = SHOOTING_STATE::BOW_RELEASE;
 	}
 
-	if (Input::getKeyUp(Input::X) && m_shootingState == SHOOTING_STATE::CHARGING_CHAINED) {
-		shootChain(m_direction, m_currentShootingPower);
-		m_shootingState = SHOOTING_STATE::BOW_RELEASE;
-		m_chainState = CHAIN_STATE::CHAINED;
-	}
+	//if (Input::getKeyUp(Input::X) && m_shootingState == SHOOTING_STATE::CHARGING_CHAINED) {
+	//	shootChain(m_direction, m_currentShootingPower);
+	//	m_shootingState = SHOOTING_STATE::BOW_RELEASE;
+	//	m_chainState = CHAIN_STATE::CHAINED;
+	//}
 
 	// Charge shoot power
 	if (m_shootingState == SHOOTING_STATE::CHARGING_NORMAL || m_shootingState == SHOOTING_STATE::CHARGING_CHAINED) {
@@ -271,7 +275,7 @@ void MainCharacter::shootChain(int _direction, float _velocity) {
 	m_chain->setPlayerRef(this);
 
 	//sf::Vector2f projPos = m_position + sf::Vector2f{ m_shape.getSize().x * static_cast<float>(_direction), 0.f };
-	sf::Vector2f projPos = m_position + sf::Vector2f{ 0.f, -30.f };
+	sf::Vector2f projPos = m_position + sf::Vector2f{ 0.f, -100.f };
 	m_chain->setPosition(projPos);
 
 	//m_chain->getRigidBody()->setVelocity(sf::Vector2f{ _direction * _velocity, 0.f });
@@ -284,8 +288,12 @@ void MainCharacter::pullChain() {
 	sf::Vector2f pullDirection = m_chain->getPosition() - getPosition();
 	pullDirection /= VectorOperations::norm(pullDirection);
 
-	//m_currentPullSpeed = m_pullSpeed * pullDirection;
-	getRigidBody()->setVelocity(m_pullSpeed * pullDirection);
+	m_additionalGravityMultiplier = 0.f;
+
+	auto velocity = getRigidBody()->getVelocity();
+	velocity.y = fminf(velocity.y, 0.f);
+	velocity += m_pullSpeed * pullDirection;
+	getRigidBody()->setVelocity(velocity);
 
 	m_chain->pullChain(-pullDirection);
 }

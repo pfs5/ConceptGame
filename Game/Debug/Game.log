@@ -1,4 +1,4 @@
 ﻿  PlayingState.cpp
 d:\code\games\conceptgame001\gameengine\display.h(10): warning C4244: 'initializing': conversion from 'float' to 'const uint16_t', possible loss of data
-d:\code\games\conceptgame001\game\playingstate.cpp(37): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+d:\code\games\conceptgame001\game\playingstate.cpp(38): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
   Game.vcxproj -> D:\Code\Games\ConceptGame001\Debug\Game.exe

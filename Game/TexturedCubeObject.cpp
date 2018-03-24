@@ -18,5 +18,5 @@ TexturedCubeObject::~TexturedCubeObject() {
 }
 
 void TexturedCubeObject::draw() {
-	Display::draw(m_sprite);
+	//Display::draw(m_sprite);
 }

@@ -11,7 +11,7 @@ class PlayingState : public GameState {
 	sf::View m_view;
 	sf::Vector2f m_viewCenter;
 	sf::Vector2f m_viewSize;
-	const float m_lerpSpeed = 1.f;
+	const float m_lerpSpeed = .5f;
 
 	// level
 	Map * m_map;
