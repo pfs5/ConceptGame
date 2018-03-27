@@ -14,16 +14,28 @@ Trail::Trail(std::string _name, const sf::Vector2f & _start, const sf::Vector2f 
 	m_end{ _end },
 	m_timer{} {
 
-	sf::Texture *texture = ResourceManager::getInstance().getTexture("chain_idle");
-	texture->setRepeated(true);
-	texture->setSmooth(true);
+	sf::Texture *textureIdle = ResourceManager::getInstance().getTexture("chain_idle");
+	textureIdle->setRepeated(true);
+	textureIdle->setSmooth(true);
 
-	m_sprite.setTexture(*texture);
+	m_spriteIdle.setTexture(*textureIdle);
+
+	sf::Texture *textureHit = ResourceManager::getInstance().getTexture("chain_hit");
+	textureHit->setRepeated(true);
+	textureHit->setSmooth(true);
+
+	m_spriteHit.setTexture(*textureHit);
+
+	m_currentSprite = &m_spriteIdle;
 
 	updateVisual();
 }
 
 Trail::~Trail() {
+}
+
+void Trail::setHit(bool _hit) {
+	m_currentSprite = _hit ? &m_spriteHit : &m_spriteIdle;
 }
 
 void Trail::update(float _dt) {
@@ -32,7 +44,7 @@ void Trail::update(float _dt) {
 void Trail::draw() {
 
 	//m_controller.draw();
-	Display::draw(m_sprite);
+	Display::draw(*m_currentSprite);
 }
 
 void Trail::onCollision(Collider * _other) {
@@ -47,17 +59,17 @@ void Trail::setPosition(sf::Vector2f _pos) {
 
 void Trail::updateVisual() {
 
-	sf::Vector2u trailSize = m_sprite.getTexture()->getSize();
+	sf::Vector2u trailSize = m_currentSprite->getTexture()->getSize();
 
 	sf::Vector2f distance = m_end - m_start;
-	m_sprite.setTextureRect(sf::IntRect(0, 0, (int)VectorOperations::norm(distance), trailSize.y));
+	m_currentSprite->setTextureRect(sf::IntRect(0, 0, (int)VectorOperations::norm(distance), trailSize.y));
 
-	m_sprite.setOrigin(VectorOperations::norm(distance), trailSize.y / 2);
+	m_currentSprite->setOrigin(VectorOperations::norm(distance), trailSize.y / 2);
 
 	float angle = Util::radianToDegree(atan2f(distance.y, distance.x));
-	m_sprite.setRotation(angle);
+	m_currentSprite->setRotation(angle);
 
-	m_sprite.setPosition(m_end);
+	m_currentSprite->setPosition(m_end);
 }
 
 void Trail::setPositions(const sf::Vector2f & _start, const sf::Vector2f & _end) {

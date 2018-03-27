@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "BasicEnemy.h"
 class EnemyManager : public GameObject {
 	GameObject * m_player;
 
@@ -17,9 +18,19 @@ class EnemyManager : public GameObject {
 		sf::Vector2f{ 1250, 100 },
 		sf::Vector2f{ 1300, 100 }
 	};
+
+	const std::vector<float> m_basicEnemySpeeds = {
+		100.f,
+		200.f,
+		250.f,
+		300.f
+	};
+
 public:
 	EnemyManager(GameObject * _player);
 	~EnemyManager();
+
+	void spawnBasicEnemy(BasicEnemy::ENEMY_TYPE _type);
 
 	// Inherited via GameObject
 	virtual void update(float _dt) override;

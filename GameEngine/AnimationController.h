@@ -1,6 +1,4 @@
 #pragma once
-#include "stdafx.h"
-
 #include "Animation.h"
 
 #include <vector>
@@ -15,6 +13,7 @@ class AnimationController : public AnimationObserver {
 	const std::string EXTENSION = ".json";
 
 	sf::Vector2f m_position;
+	float m_rotation;
 
 	std::vector<Animation*> m_animations;
 	int m_currentAnimation;
@@ -27,7 +26,7 @@ class AnimationController : public AnimationObserver {
 	std::vector<int> m_transitions;
 	std::vector<std::map<std::string, int>> m_triggerTransitions;
 public:
-	AnimationController();
+	AnimationController(float _rotation = 0.f);
 	~AnimationController();
 
 	void load(std::string _name, bool _play = true);
@@ -58,6 +57,11 @@ public:
 	};
 
 	inline bool isPlaying() { return m_isPlaying; };
+	inline void setColor(sf::Color _color) {
+		for (auto &an : m_animations) {
+			an->setColor(_color);
+		}
+	}
 
 #pragma endregion
 

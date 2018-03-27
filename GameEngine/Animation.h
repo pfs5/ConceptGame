@@ -59,5 +59,8 @@ public:
 	inline void setPosition(const sf::Vector2f &_pos) { m_sprite.setPosition(_pos); };
 
 	inline bool isLooping() { return m_isLooping; };
+
+	inline void setRotation(float _rotation) { m_sprite.setRotation(_rotation); };
+	inline void setColor(sf::Color _color) { m_sprite.setColor(_color); };
 #pragma endregion
 };

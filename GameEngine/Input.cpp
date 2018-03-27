@@ -54,6 +54,17 @@ void Input::update() {
 	updateKey(KeyCode::Num8, sf::Keyboard::Num8);
 	updateKey(KeyCode::Num9, sf::Keyboard::Num9);
 
+	updateKey(KeyCode::Numpad0, sf::Keyboard::Numpad0);
+	updateKey(KeyCode::Numpad1, sf::Keyboard::Numpad1);
+	updateKey(KeyCode::Numpad2, sf::Keyboard::Numpad2);
+	updateKey(KeyCode::Numpad3, sf::Keyboard::Numpad3);
+	updateKey(KeyCode::Numpad4, sf::Keyboard::Numpad4);
+	updateKey(KeyCode::Numpad5, sf::Keyboard::Numpad5);
+	updateKey(KeyCode::Numpad6, sf::Keyboard::Numpad6);
+	updateKey(KeyCode::Numpad7, sf::Keyboard::Numpad7);
+	updateKey(KeyCode::Numpad8, sf::Keyboard::Numpad8);
+	updateKey(KeyCode::Numpad9, sf::Keyboard::Numpad9);
+
 	updateKey(KeyCode::LCTRL, sf::Keyboard::LControl);
 	updateKey(KeyCode::RCTRL, sf::Keyboard::RControl);
 	updateKey(KeyCode::LALT, sf::Keyboard::LAlt);

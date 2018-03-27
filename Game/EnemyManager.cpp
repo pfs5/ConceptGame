@@ -3,7 +3,6 @@
 #include "GameStateManager.h"
 #include "Debug.h"
 #include "Util.h"
-#include "BasicEnemy.h"
 #include "RangedEnemy.h"
 
 EnemyManager::EnemyManager(GameObject * _player) :
@@ -19,19 +18,30 @@ EnemyManager::EnemyManager(GameObject * _player) :
 EnemyManager::~EnemyManager() {
 }
 
+void EnemyManager::spawnBasicEnemy(BasicEnemy::ENEMY_TYPE _type) {
+	Debug::log("Spawning enemy");
+
+	int position = Util::randomInt(0, m_spawnPositions.size() - 1);
+
+	std::cout << "position = " << position << std::endl;
+
+	GameObject * newEnemy = GameStateManager::instantiate(&BasicEnemy(_type, m_basicEnemySpeeds[0]));
+	newEnemy->setPosition(m_spawnPositions[position]);
+	newEnemy->setActive(true);
+	dynamic_cast<BasicEnemy *>(newEnemy)->setPlayerRef(m_player);
+}
+
 void EnemyManager::update(float _dt) {
-	if (Input::getKeyDown(Input::K)) {
-
-		Debug::log("Spawning enemy");
-
-		int position = Util::randomInt(0, m_spawnPositions.size() - 1);
-
-		std::cout << "position = " << position << std::endl;
-
-		GameObject * newEnemy = GameStateManager::instantiate(&BasicEnemy());
-		newEnemy->setPosition(m_spawnPositions[position]);
-		newEnemy->setActive(true);
-		dynamic_cast<BasicEnemy *>(newEnemy)->setPlayerRef(m_player);
+	if (Input::getKeyDown(Input::Numpad0)) {
+		spawnBasicEnemy(BasicEnemy::ENEMY_TYPE::CHASER);
+	}
+	
+	if (Input::getKeyDown(Input::Numpad1)) {
+		spawnBasicEnemy(BasicEnemy::ENEMY_TYPE::JUMPER);
+	}
+	
+	if (Input::getKeyDown(Input::Numpad2)) {
+		spawnBasicEnemy(BasicEnemy::ENEMY_TYPE::SPLITTER);
 	}
 
 	if (Input::getKeyDown(Input::L)) {

@@ -6,7 +6,8 @@
 #include "RangedEnemy.h"
 #include "Debug.h"
 
-ChainedProjectile::ChainedProjectile(int _direction, bool _instantiateChain) : 
+ChainedProjectile::ChainedProjectile(int _direction, bool _instantiateChain) :
+	m_controller(90),
 	m_direction{ _direction },
 	m_isStatic{false},
 	m_playerRef{ nullptr },
@@ -23,11 +24,11 @@ ChainedProjectile::ChainedProjectile(int _direction, bool _instantiateChain) :
 	setObjectLayer("Arrow");
 
 	m_controller.load("arrow");
-	std::string animation = _direction > 0 ? "idle_right" : "idle_left";
+	std::string animation =  "idle_left";
 	m_controller.playAnimation(animation);
 
 	Collider * c = PhysicsEngine::getInstance().createCollider(this);
-	c->setSize(sf::Vector2f{ 50, 20 });
+	c->setSize(sf::Vector2f{ 15, 50 });
 	c->setStatic(true);
 	m_colliders.push_back(c);
 
@@ -102,6 +103,10 @@ void ChainedProjectile::onCollision(Collider * _other) {
 		m_controller.setTrigger("hit");
 
 		m_isStatic = true;
+
+		if (m_chain != nullptr) {
+			m_chain->setHit(true);
+		}
 	}
 
 	if (_other->getGameObject()->getObjectLayer() == "Enemy") {
@@ -112,6 +117,10 @@ void ChainedProjectile::onCollision(Collider * _other) {
 		m_rigidBody->setVelocity(sf::Vector2f{ 0, 0 });
 
 		m_hitEnemy = _other->getGameObject();
+	
+		if (m_chain != nullptr) {
+			m_chain->setHit(true);
+		}
 	}
 }
 

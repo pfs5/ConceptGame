@@ -17,13 +17,17 @@ class Trail : public GameObject{
 	sf::Clock m_timer;
 
 	// Visuals
-	sf::Sprite m_sprite;
+	sf::Sprite m_spriteIdle;
+	sf::Sprite m_spriteHit;
+	sf::Sprite * m_currentSprite;
 
 	// Parameters
 	const float m_duration = 2.f;
 public:
 	Trail(std::string _name, const sf::Vector2f & _start = sf::Vector2f{ 0, 0 }, const sf::Vector2f & _end = sf::Vector2f{ 0, 0 });
 	~Trail();
+
+	void setHit(bool _hit);
 
 	// Inherited via GameObject
 	virtual void update(float _dt) override;

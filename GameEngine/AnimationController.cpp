@@ -4,8 +4,8 @@
 #include <fstream>
 #include <sstream>
 
-AnimationController::AnimationController() : 
-	m_currentAnimation (0), m_nextAnimation(0), m_isPlaying(false) {
+AnimationController::AnimationController(float _rotation) : 
+	m_rotation(_rotation), m_currentAnimation (0), m_nextAnimation(0), m_isPlaying(false) {
 }
 
 AnimationController::~AnimationController() {
@@ -80,6 +80,7 @@ bool AnimationController::loadFromFile(std::string _name) {
 			bool isLooping = a["looping"];
 
 			Animation *a = new Animation(_name + "_" + name, frames.size(), frames, scale, isLooping);
+			a->setRotation(m_rotation);
 			m_animations.push_back(a);
 			m_transitions.push_back(-1);
 			m_triggerTransitions.push_back(std::map<std::string, int>());

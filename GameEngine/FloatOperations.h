@@ -4,7 +4,7 @@
 namespace FloatOperations {
 	const float PRECISION = 1e-5;
 
-	int compare(const float &_f1, const float &_f2) {
+	inline int compare(const float &_f1, const float &_f2) {
 		float difference = fabsf(_f1 - _f2);
 		if (difference < PRECISION) {
 			return 0;

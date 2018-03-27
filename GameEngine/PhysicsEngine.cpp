@@ -93,6 +93,9 @@ sf::Vector2f PhysicsEngine::raycast(const sf::Vector2f & _start, const sf::Vecto
 	sf::Vector2f collisionPoint;
 	float currentDistance = std::numeric_limits<float>::max();
 
+	int directionX = _direction.x > 0 ? 1 : -1;		// 1 = positive, -1 = negative
+	int directionY = _direction.y > 0 ? 1 : -1;		// 1 = positive, -1 = negative
+
 	for (auto &c : m_colliders) {
 		if (c->getGameObject()->isActive()) {
 			bool colliderInLayer = false;
@@ -130,11 +133,15 @@ sf::Vector2f PhysicsEngine::raycast(const sf::Vector2f & _start, const sf::Vecto
 
 				float t = calculateT(v0, v10, _start, _direction);
 				if (t >= 0 && t <= 1) {
-					sf::Vector2f point = calculatePoint(v0, v10, t);
-					float distance = VectorOperations::squaredNorm(point - _start);
-					if (distance < currentDistance) {
-						currentDistance = distance;
-						collisionPoint = point;
+					// check if the hit point is in the given direction
+					sf::Vector2f hitDir = v10 - v0;
+					if ((hitDir.x * directionX > 0) && (hitDir.y * directionY > 0)) {
+						sf::Vector2f point = calculatePoint(v0, v10, t);
+						float distance = VectorOperations::squaredNorm(point - _start);
+						if (distance < currentDistance) {
+							currentDistance = distance;
+							collisionPoint = point;
+						}
 					}
 				}
 			}

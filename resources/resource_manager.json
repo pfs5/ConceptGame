@@ -27,6 +27,10 @@
 			"name": "title",
 			"path": "title.png"
 		},	
+		{
+			"name": "title2",
+			"path": "title2.png"
+		},
 
 		{
 			"name": "forest_level_bg",
@@ -76,6 +80,10 @@
 
 
 
+		{
+			"name": "chain_hit",
+			"path": "chain_hit.png"
+		},
 		{
 			"name": "chain_idle",
 			"path": "chain_idle.png"

@@ -25,4 +25,8 @@ namespace VectorOperations {
 	inline float squaredNorm(const sf::Vector2f &_v) {
 		return powf(_v.x, 2) + powf(_v.y, 2);
 	}
+
+	inline float distance(const sf::Vector2f &_v1, const sf::Vector2f &_v2) {
+		return norm(_v2 - _v1);
+	}
 }

@@ -47,7 +47,7 @@ PlayingState::PlayingState() {
 
 	// Floor
 	GameObject * floor = new CubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ winSize.x / 2, 826 }, true, false, sf::Color::Black);
-	floor->setObjectTag("Floor");
+	floor->setObjectTag("BottomFloor");
 	m_gameObjects[0].push_back(floor);
 
 	// Ceiling

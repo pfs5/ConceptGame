@@ -68,7 +68,7 @@ void MainCharacter::draw() {
 }
 
 void MainCharacter::onCollision(Collider * _other) {
-	if (_other->getGameObject()->getObjectTag() == "Floor") {
+	if (_other->getGameObject()->getObjectTag() == "Floor" || _other->getGameObject()->getObjectTag() == "BottomFloor") {
 		m_characterState = CHARACTER_STATE::IDLE;
 		m_additionalGravityMultiplier = 0.f;
 	}
@@ -181,7 +181,7 @@ void MainCharacter::jump(float _dt) {
 
 void MainCharacter::shootCharge(float _dt) {
 	// Start charging normal shot
-	if (Input::getKeyDown(Input::Z)) {
+	if (Input::getKeyDown(Input::X)) {
 		if (m_shootingState == SHOOTING_STATE::NOTHING) {
 			if (m_chainState == CHAIN_STATE::CHAINED) {
 				breakChain();
@@ -195,7 +195,7 @@ void MainCharacter::shootCharge(float _dt) {
 		}
 	}
 	
-	if (Input::getKeyDown(Input::X)) {
+	if (Input::getKeyDown(Input::Z)) {
 		if (m_chainState == CHAIN_STATE::CHAINED) {
 			if (m_chain->isStatic()) {
 				m_chainState = CHAIN_STATE::UNCHAINED;
@@ -213,7 +213,7 @@ void MainCharacter::shootCharge(float _dt) {
 	}
 
 	// Release normal shot
-	if (Input::getKeyUp(Input::Z) && m_shootingState == SHOOTING_STATE::CHARGING_NORMAL) {
+	if (Input::getKeyUp(Input::X) && m_shootingState == SHOOTING_STATE::CHARGING_NORMAL) {
 		shoot(m_direction, m_currentShootingPower);
 		m_shootingState = SHOOTING_STATE::BOW_RELEASE;
 	}
