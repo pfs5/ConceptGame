@@ -164,6 +164,7 @@
     <ClInclude Include="Platform.h" />
     <ClInclude Include="PlatformManager.h" />
     <ClInclude Include="PullableEnemy.h" />
+    <ClInclude Include="SwarmEnemy.h" />
     <ClInclude Include="Trail.h" />
     <ClInclude Include="MainCharacter.h" />
     <ClInclude Include="PauseState.h" />
@@ -206,6 +207,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PlatformManager.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SwarmEnemy.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>

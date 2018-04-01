@@ -5,7 +5,6 @@ class EnemyManager : public GameObject {
 	GameObject * m_player;
 
 	// Debug
-	const bool m_showSpawnPositions = true;
 	sf::RectangleShape m_spawnPositionVisual;
 
 	// Parameters

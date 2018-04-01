@@ -4,6 +4,7 @@
 #include "Debug.h"
 #include "Util.h"
 #include "RangedEnemy.h"
+#include "GameSettings.h"
 
 EnemyManager::EnemyManager(GameObject * _player) :
 	m_player{ _player } {
@@ -56,7 +57,7 @@ void EnemyManager::update(float _dt) {
 }
 
 void EnemyManager::draw() {
-	if (m_showSpawnPositions) {
+	if (GameSettings::SHOW_DEBUG_VISUALS) {
 		for (auto pos : m_spawnPositions) {
 			m_spawnPositionVisual.setPosition(pos);
 			Display::draw(m_spawnPositionVisual);
