@@ -60,6 +60,7 @@ void AnimationController::playAnimation(int _animation, bool _playInstantly) {
 		if (_playInstantly) {
 			playNextAnimation();
 		}
+		m_isPlaying = true;
 	} catch (std::out_of_range e) {
 		return;
 	}

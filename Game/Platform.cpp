@@ -30,6 +30,7 @@ Platform::Platform(const sf::Vector2f & _position) :
 	setPosition(_position);
 
 	setObjectTag("Floor");
+	setObjectLayer("Platform");
 }
 
 Platform::~Platform() {

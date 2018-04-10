@@ -44,7 +44,7 @@ MainCharacter::MainCharacter():
 	collider->setTrigger(false, m_rigidBody);
 
 	// Init transform
-	setPosition(sf::Vector2f{ 500.f, 20.f });
+	setPosition(sf::Vector2f{ 700.f, 20.f });
 }
 
 MainCharacter::~MainCharacter() {

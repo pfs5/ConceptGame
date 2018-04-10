@@ -1,0 +1,14 @@
+{
+	"animations": [
+		{
+			"name" : "walk_right",
+			"frames" : [1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2],
+			"scale" : 10,
+			"looping" : false
+		}
+	],
+
+	"transitions": [
+
+	]
+}

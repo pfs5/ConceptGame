@@ -67,6 +67,10 @@ void Animation::setFrame(int _frame, bool _pause) {
 }
 
 void Animation::update(float _dt) {
+	if (m_name == "walker_enemy_walk_right") {
+		int a = 1;
+	}
+
 	if (!m_isPlaying) {
 		return;
 	}

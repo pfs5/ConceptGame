@@ -15,6 +15,9 @@
 #include "Platform.h"
 #include "PlatformManager.h"
 #include "VectorOperations.h"
+#include "AISystem.h"
+#include "SwarmEnemy.h"
+#include "WalkerEnemy.h"
 
 #include <SFML/Window.hpp>
 #include <algorithm>
@@ -23,6 +26,30 @@
 void createCube(sf::Vector2i _pos, std::vector<GameObject*> &_gameObjects) {
 	GameObject * cube = new CubeObject(sf::Vector2f{ 50, 50 }, sf::Vector2f{ static_cast<float>(_pos.x - 25), static_cast<float>(_pos.y - 25) }, false, true);
 	_gameObjects.push_back(cube);
+}
+
+void TEST_initEnemies(int count, std::vector<std::vector<GameObject*>> &gameObjects) {
+	if (count < 3) {
+		return;
+	}
+
+	std::vector<SwarmEnemy*> enemies;
+	for (int i = 0; i < count; ++i) {
+		sf::Uint8 alpha = ((float)i / (count - 1)) * 255;
+		enemies.push_back(new SwarmEnemy(sf::Color{ alpha, alpha, 0 }));
+	}
+
+	for (int i = 1; i < count - 1; ++i) {
+		enemies[i]->setPrevious(enemies[i - 1]);
+		enemies[i]->setNext(enemies[i + 1]);
+	}
+	enemies[0]->setNext(enemies[1]);
+	enemies[count - 1]->setPrevious(enemies[count - 2]);
+
+	for (int i = 0; i < count; ++i) {
+		gameObjects[0].push_back(enemies[i]);
+	}
+
 }
 
 PlayingState::PlayingState() {
@@ -42,12 +69,22 @@ PlayingState::PlayingState() {
 	m_gameObjects[0].push_back(mainChar);
 	m_centeredObject = mainChar;
 
+	// ### AI System ###
+	//AISystem::getInstance().init(mainChar);
+	//TEST_initEnemies(10, m_gameObjects);
+
+	// ### ENEMY TESTING ###
+	auto walker = new WalkerEnemy();
+	walker->setPosition(sf::Vector2f{300, 600});
+	m_gameObjects[0].push_back(walker);
+
 	// ### Environment ###
 	sf::Vector2f winSize = VectorOperations::utof(Display::getWindow().getSize());
 
 	// Floor
 	GameObject * floor = new CubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ winSize.x / 2, 826 }, true, false, sf::Color::Black);
-	floor->setObjectTag("BottomFloor");
+	//GameObject * floor = new TexturedCubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ winSize.x / 2, 826 }, true, false, sf::Color::Black);
+	floor->setObjectTag("Floor");
 	m_gameObjects[0].push_back(floor);
 
 	// Ceiling
@@ -118,6 +155,9 @@ void PlayingState::update(float _dt) {
 	if (Input::getKeyDown(Input::P)) {
 		GameStateManager::pushGameState(new PauseState());
 	}
+
+	// Update AI
+	AISystem::getInstance().update(_dt);
 }
 
 void PlayingState::draw() {
@@ -136,6 +176,9 @@ void PlayingState::draw() {
 
 	// Level foreground
 	m_map->drawForeground();
+
+	// AI System
+	AISystem::getInstance().draw();
 
 	// Engine debug
 	PhysicsEngine::getInstance().draw();
