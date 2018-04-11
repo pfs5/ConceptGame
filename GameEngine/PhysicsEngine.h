@@ -36,7 +36,9 @@ public:
 	/**
 		Cast a ray from _start in given direction. Returns point where the ray hits a collider
 	**/
-	sf::Vector2f raycast(const sf::Vector2f &_start, const sf::Vector2f &_direction, const std::vector<std::string> &collisionLayers);
+	sf::Vector2f raycast(const sf::Vector2f &_start, const sf::Vector2f &_direction, const std::vector<std::string> &_collisionLayers);
+
+	bool collisionTest(const sf::Vector2f &_point, const std::vector<std::string> &_collisionLayers);
 private:
 	void collisionDetection();
 };

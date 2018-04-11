@@ -163,6 +163,11 @@
 		{
 			"name": "explosion_one_main",
 			"path": "explosion_one_main.png"
+		},
+
+		{
+			"name": "walker_enemy_walk_right",
+			"path": "walker_enemy_walk_right.png"
 		}
 
 	]

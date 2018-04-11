@@ -89,7 +89,7 @@ inline sf::Vector2f calculatePoint(const sf::Vector2f _v0, const sf::Vector2f &_
 	return _v0 + _v10 * _t;
 }
 
-sf::Vector2f PhysicsEngine::raycast(const sf::Vector2f & _start, const sf::Vector2f & _direction, const std::vector<std::string> &collisionLayers) {
+sf::Vector2f PhysicsEngine::raycast(const sf::Vector2f & _start, const sf::Vector2f & _direction, const std::vector<std::string> &_collisionLayers) {
 	sf::Vector2f collisionPoint;
 	float currentDistance = std::numeric_limits<float>::max();
 
@@ -99,7 +99,7 @@ sf::Vector2f PhysicsEngine::raycast(const sf::Vector2f & _start, const sf::Vecto
 	for (auto &c : m_colliders) {
 		if (c->getGameObject()->isActive()) {
 			bool colliderInLayer = false;
-			for (auto layer : collisionLayers) {
+			for (auto layer : _collisionLayers) {
 				if (c->getGameObject()->getObjectTag() == layer) {
 					colliderInLayer = true;
 					break;
@@ -149,6 +149,25 @@ sf::Vector2f PhysicsEngine::raycast(const sf::Vector2f & _start, const sf::Vecto
 	}
 	
 	return collisionPoint;
+}
+
+bool PhysicsEngine::collisionTest(const sf::Vector2f & _point, const std::vector<std::string>& _collisionLayers) {
+	for (auto collider : m_colliders) {
+		std::string layer = collider->getGameObject()->getObjectTag();
+		for (auto colLayer : _collisionLayers) {
+			if (layer == colLayer) {
+				// Check collision with collider
+				sf::Vector2f colliderPos = collider->getPosition();
+				sf::Vector2f colliderHalfSize = collider->getSize() / 2.f;
+				if (_point.x > colliderPos.x - colliderHalfSize.x && _point.x < colliderPos.x + colliderHalfSize.x &&
+					_point.y > colliderPos.y - colliderHalfSize.y && _point.y < colliderPos.y + colliderHalfSize.y) {
+					return true;
+				}
+			}
+		}
+	}
+
+	return false;
 }
 
 void PhysicsEngine::collisionDetection() {

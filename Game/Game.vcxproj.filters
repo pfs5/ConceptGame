@@ -28,6 +28,9 @@
     <Filter Include="Header Files\projectiles">
       <UniqueIdentifier>{22f1483c-b978-4058-bc62-93d70669bc88}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ai_system">
+      <UniqueIdentifier>{3af7b57f-dd0e-47bb-a089-d6a43130fc11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CubeObject.h">
@@ -84,8 +87,17 @@
     <ClInclude Include="Explosion.h">
       <Filter>Header Files\objects</Filter>
     </ClInclude>
+    <ClInclude Include="AISystem.h">
+      <Filter>Header Files\ai_system</Filter>
+    </ClInclude>
     <ClInclude Include="SwarmEnemy.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\ai_system</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files\enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="WalkerEnemy.h">
+      <Filter>Header Files\enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -141,6 +153,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SwarmEnemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AISystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WalkerEnemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

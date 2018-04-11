@@ -6,15 +6,13 @@
 	Enables the engine to ignore collisions between certain objects in the game.
 **/
 namespace PhysicsLayers {
-	const std::vector<std::string> layers = {"Default", "Arrow", "Enemy",  "Player", "DestroyedArrow"};
-	const std::vector<std::vector<bool>> layerIgnoreMatrix{ 
-		{	false,	false,	false,	false,	true	},
-		{	false,	true,	false,	true,	true	},
-		{	false,	false,	true,	false,	true	},
-		{	false,	true,	false,	true,	true	},
-		{	true,	true,	true,	true,	true	}
-	};
-	
+	const int NUMBER_OF_LAYERS = 10;
+
+	const std::vector<std::vector<bool>> fillIgnoreMatrix();
+
+	const std::vector<std::string> layers {"Default", "Floor", "Platform", "Arrow", "Enemy", "WalkerEnemy", "Player", "DestroyedArrow"};
+	const std::vector<std::vector<bool>> layerIgnoreMatrix = fillIgnoreMatrix();
+
 	int layerNumber(std::string _name);
 
 	std::string layerName(int _number);
