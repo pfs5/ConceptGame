@@ -65,7 +65,7 @@ void EnemyManager::draw() {
 	}
 }
 
-void EnemyManager::onCollision(Collider * _other) {
+void EnemyManager::onCollision(Collider * _this, Collider * _other) {
 }
 
 GameObject * EnemyManager::clone() {

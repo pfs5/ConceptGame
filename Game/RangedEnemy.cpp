@@ -62,7 +62,7 @@ void RangedEnemy::draw() {
 	Display::draw(m_shape);
 }
 
-void RangedEnemy::onCollision(Collider * _other) {
+void RangedEnemy::onCollision(Collider * _this, Collider * _other) {
 	if (_other->getGameObject()->getObjectTag() == "Arrow") {
 		sf::Vector2f vel = m_rigidBody->getVelocity();
 		vel.x = _other->getGameObject()->getRigidBody()->getVelocity().x;

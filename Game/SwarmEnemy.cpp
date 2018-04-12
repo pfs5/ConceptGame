@@ -62,7 +62,7 @@ void SwarmEnemy::draw() {
 	//Display::draw(m_rangeShape);
 }
 
-void SwarmEnemy::onCollision(Collider * _other) {
+void SwarmEnemy::onCollision(Collider * _this, Collider * _other) {
 	if (_other->getGameObject()->getObjectTag() == "Floor") {
 		m_activated = true;
 	}

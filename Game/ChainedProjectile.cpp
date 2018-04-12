@@ -89,7 +89,7 @@ void ChainedProjectile::draw() {
 	m_controller.draw();
 }
 
-void ChainedProjectile::onCollision(Collider * _other) {
+void ChainedProjectile::onCollision(Collider * _this, Collider * _other) {
 	// Sticking arrows get destroyed by other arrows
 	if ((_other->getGameObject()->getObjectTag() == getObjectTag() || _other->getGameObject()->getObjectLayer() == getObjectLayer()) && m_isStatic) {
 		GameStateManager::destroyObject(this);

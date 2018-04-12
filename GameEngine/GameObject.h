@@ -37,7 +37,7 @@ public:
 	RigidBody * getRigidBody();
 	void addCollider(Collider *_c);
 
-	virtual void onCollision(Collider * _other) = 0;
+	virtual void onCollision(Collider * _this, Collider * _other) = 0;
 
 	// Transform
 	void move(sf::Vector2f _delta);

@@ -67,7 +67,7 @@ void MainCharacter::draw() {
 	//Display::draw(m_shape);
 }
 
-void MainCharacter::onCollision(Collider * _other) {
+void MainCharacter::onCollision(Collider * _this, Collider * _other) {
 	if (_other->getGameObject()->getObjectTag() == "Floor" || _other->getGameObject()->getObjectTag() == "BottomFloor") {
 		m_characterState = CHARACTER_STATE::IDLE;
 		m_additionalGravityMultiplier = 0.f;

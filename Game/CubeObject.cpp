@@ -30,7 +30,7 @@ void CubeObject::draw() {
 	//Display::draw(m_shape);
 }
 
-void CubeObject::onCollision(Collider * _other) {
+void CubeObject::onCollision(Collider * _this, Collider * _other) {
 }
 
 void CubeObject::setPosition(sf::Vector2f _pos) {

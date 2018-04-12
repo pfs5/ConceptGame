@@ -3,23 +3,51 @@
 #include "Display.h"
 #include "PhysicsEngine.h"
 #include "VectorOperations.h"
+#include "Projectile.h"
+#include "GameStateManager.h"
+#include "Explosion.h"
 #include "Debug.h"
 
 WalkerEnemy::WalkerEnemy() : m_walkState{WALK_STATE::STEP_ONE} {
 	setObjectLayer("WalkerEnemy");
+	setObjectTag("Enemy");
 
 	//auto tex = ResourceManager::getInstance().getTexture("walker_enemy");
 	//tex->setSmooth(true);
 	//m_sprite.setTexture(*tex);
 	//m_sprite.setOrigin(VectorOperations::utof(tex->getSize()) / 2.f);
 
-	auto collider = PhysicsEngine::getInstance().createCollider(this);
+	// Eye collider
+	auto eyeCollider = PhysicsEngine::getInstance().createCollider(this);
+	eyeCollider->setID(EYE_COLLIDER_ID);
+	eyeCollider->setSize(sf::Vector2f{ 50.f, 50.f });
+	eyeCollider->setOffset(sf::Vector2f{ 10.f, -30.f });
+	m_colliders.push_back(eyeCollider);
 
-	m_rigidBody = PhysicsEngine::getInstance().createRigidBody(collider);
+	// Body collider
+	auto bodyCollider = PhysicsEngine::getInstance().createCollider(this);
+	bodyCollider->setID(BODY_COLLIDER_ID);
+	bodyCollider->setSize(sf::Vector2f{ 60.f, 100.f });
+	bodyCollider->setOffset(sf::Vector2f{ -5.f, -30.f });
+	m_colliders.push_back(bodyCollider);
 
-	collider->setSize(sf::Vector2f{ 100, 240 });
-	collider->setTrigger(false, m_rigidBody);
-	m_colliders.push_back(collider);
+	// Leg collider
+	auto legCollider = PhysicsEngine::getInstance().createCollider(this);
+	legCollider->setID(LEG_COLLIDER_ID);
+	legCollider->setSize(sf::Vector2f{ 50.f, 80.f });
+	legCollider->setOffset(sf::Vector2f{ -30.f, 60.f });
+	m_colliders.push_back(legCollider);
+
+	// Base collider
+	auto baseCollider = PhysicsEngine::getInstance().createCollider(this);
+
+	m_rigidBody = PhysicsEngine::getInstance().createRigidBody(baseCollider);
+
+	baseCollider->setID(BASE_COLLIDER_ID);
+	baseCollider->setSize(sf::Vector2f{ 100, 20 });
+	baseCollider->setOffset(sf::Vector2f{-20.f, 110.f});
+	baseCollider->setTrigger(false, m_rigidBody);
+	m_colliders.push_back(baseCollider);
 
 	// Init animator
 	m_bodyController.load("walker_enemy");
@@ -61,28 +89,6 @@ void WalkerEnemy::update(float _dt) {
 			}
 			break;
 	}
-
-	//if (m_stepFirst) {
-	//	m_counter += _dt;
-	//	//float delta = fabsf(0.5f * sinf(2 * m_counter));
-	//	move(sf::Vector2f{ .4f, 0.f });
-
-	//	std::cout << m_counter << std::endl;
-	//	if (m_counter > 9.f / 60.f * 20.f) {
-	//		m_stepFirst = false;
-	//		m_stepSecond = true;
-	//	}
-	//}
-	//else if (m_stepSecond) {
-
-	//}
-	//else {
-	//	if (!m_bodyController.isPlaying()) {
-	//		m_step = true;
-	//		m_counter = 0;
-	//		m_bodyController.playAnimation("walk_right");
-	//	}
-	//}
 }
 
 void WalkerEnemy::draw() {
@@ -90,7 +96,33 @@ void WalkerEnemy::draw() {
 	m_bodyController.draw();
 }
 
-void WalkerEnemy::onCollision(Collider * _other) {
+void WalkerEnemy::onCollision(Collider * _this, Collider * _other) {
+	if (_this->getGameObject() == _other->getGameObject()) {
+		return;
+	}
+	
+	int id = _this->getID();
+	if (id == EYE_COLLIDER_ID) {
+		if (_other->getGameObject()->getObjectTag() == "Arrow") {
+			GameStateManager::instantiate(&Explosion(_other->getGameObject()->getPosition())); // explosion
+
+			auto arrow = dynamic_cast<Projectile*>(_other->getGameObject());
+			arrow->destroyArrow();
+		}
+	}
+	if (id == BODY_COLLIDER_ID) {
+
+	}
+	if (id == LEG_COLLIDER_ID) {
+
+	}
+	if (id == BASE_COLLIDER_ID) {
+
+	}
+
+	if (_this->getID() == EYE_COLLIDER_ID) {
+		std::cout << "hit" << std::endl;
+	}
 }
 
 GameObject * WalkerEnemy::clone() {

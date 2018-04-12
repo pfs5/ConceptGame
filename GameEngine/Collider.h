@@ -10,7 +10,10 @@ class RigidBody;
 	Implementation of a 2d box collider
 **/
 class Collider {
+	int m_id;
+
 	sf::Vector2f m_position;
+	sf::Vector2f m_offset;
 	sf::Vector2f m_size;
 
 	bool m_isTrigger = true;
@@ -24,12 +27,18 @@ class Collider {
 	sf::RectangleShape m_shape;
 	const float m_lineThickness = 2.f;
 public:
-	Collider(GameObject * _gameObject, sf::Vector2f _position = sf::Vector2f{ 0.f, 0.f }, sf::Vector2f _size = sf::Vector2f{ 0.f, 0.f });
+	Collider(GameObject * _gameObject, sf::Vector2f _position = sf::Vector2f{ 0.f, 0.f }, sf::Vector2f _size = sf::Vector2f{ 0.f, 0.f }, int _id = 0);
 	~Collider();
 	
 	const sf::Drawable &getDrawable();
 
-	inline void setPosition(const sf::Vector2f &_pos) { m_position = _pos; updateShape(); };
+#pragma region Getters and setters
+	inline void setID(const int &_id) { m_id = _id; };
+	inline int getID() const { return m_id; };
+
+	inline void setOffset(const sf::Vector2f &_offset) { m_offset = _offset; };
+
+	inline void setPosition(const sf::Vector2f &_pos) { m_position = _pos + m_offset; updateShape(); };
 	inline const sf::Vector2f &getPosition() const { return m_position; }; 
 
 	inline void setSize(const sf::Vector2f &_size) { m_size = _size; m_shape.setSize(_size); };
@@ -45,6 +54,7 @@ public:
 	inline RigidBody * getRigidBody() const { return m_rigidBody; };
 
 	inline GameObject * getGameObject() const { return m_gameObject; };
+#pragma endregion
 private:
 	void updateShape();
 };

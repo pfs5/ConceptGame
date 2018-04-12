@@ -1,8 +1,9 @@
 #include "Explosion.h"
 #include "GameStateManager.h"
+#include "Debug.h"
 
 Explosion::Explosion(sf::Vector2f _position) : m_position{ _position } {
-	m_controller.load("explosion_one");
+	m_controller.load("explosion");
 	setPosition(m_position);
 }
 
@@ -21,7 +22,7 @@ void Explosion::draw() {
 	m_controller.draw();
 }
 
-void Explosion::onCollision(Collider * _other) {
+void Explosion::onCollision(Collider * _this, Collider * _other) {
 }
 
 GameObject * Explosion::clone() {

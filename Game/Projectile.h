@@ -9,6 +9,9 @@ class Projectile : public GameObject{
 	bool m_isStatic = false;
 	bool m_isDestroyed = false;
 
+	GameObject *m_attachedObject = nullptr;
+	sf::Vector2f m_attachedOffset;
+
 	// Parameters
 	float m_destructionDelay = 10.f;
 
@@ -18,11 +21,13 @@ public:
 	~Projectile();
 
 	void breakArrow();
+	void attachArrow(GameObject *_object);
+	void destroyArrow();
 
 	// Inherited via GameObject
 	virtual void update(float _dt) override;
 	virtual void draw() override;
-	virtual void onCollision(Collider * _other) override;
+	virtual void onCollision(Collider * _this, Collider * _other) override;
 	virtual GameObject * clone() override;
 	virtual void setPosition(sf::Vector2f _pos) override;
 

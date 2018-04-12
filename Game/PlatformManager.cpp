@@ -40,7 +40,7 @@ void PlatformManager::update(float _dt) {
 void PlatformManager::draw() {
 }
 
-void PlatformManager::onCollision(Collider * _other) {
+void PlatformManager::onCollision(Collider * _this, Collider * _other) {
 }
 
 GameObject * PlatformManager::clone() {

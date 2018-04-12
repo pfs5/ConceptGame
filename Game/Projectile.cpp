@@ -47,7 +47,7 @@ void Projectile::draw() {
 	m_controller.draw();
 }
 
-void Projectile::onCollision(Collider * _other) {
+void Projectile::onCollision(Collider * _this, Collider * _other) {
 	// Sticking arrows get destroyed by other arrows
 	if ((_other->getGameObject()->getObjectTag() == getObjectTag() || _other->getGameObject()->getObjectLayer() == getObjectLayer()) && m_isStatic) {
 		destroyObject();
@@ -66,7 +66,7 @@ void Projectile::onCollision(Collider * _other) {
 
 	// Destroy if hit enemy
 	if (_other->getGameObject()->getObjectTag() == "Enemy") {
-		destroyObject();
+		//destroyObject();
 	}
 }
 
@@ -75,7 +75,7 @@ GameObject * Projectile::clone() {
 }
 
 void Projectile::setPosition(sf::Vector2f _pos) {
-	m_position = _pos;
+	m_position = m_attachedObject == nullptr ? _pos : m_attachedObject->getPosition() + m_attachedOffset;
 
 	m_controller.setPosition(m_position);
 
@@ -97,4 +97,25 @@ void Projectile::destroyObject() {
 void Projectile::breakArrow() {
 	setObjectLayer("DestroyedArrow");
 	destroyProjectile();
+}
+
+void Projectile::attachArrow(GameObject * _object) {
+	for (auto col : m_colliders) {
+		PhysicsEngine::getInstance().deleteCollider(col);
+	}
+	m_colliders.clear();
+
+	m_attachedOffset = getPosition() - _object->getPosition();
+	m_attachedObject = _object;
+}
+
+void Projectile::destroyArrow() {
+	// Destroy colliders
+	for (auto col : m_colliders) {
+		PhysicsEngine::getInstance().deleteCollider(col);
+	}
+
+	m_colliders.clear();
+
+	GameStateManager::destroyObject(this);
 }

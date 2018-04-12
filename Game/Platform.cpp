@@ -85,7 +85,7 @@ void Platform::draw() {
 	Display::draw(m_sprite);
 }
 
-void Platform::onCollision(Collider * _other) {
+void Platform::onCollision(Collider * _this, Collider * _other) {
 }
 
 GameObject * Platform::clone() {

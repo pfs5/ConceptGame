@@ -47,7 +47,7 @@ void Trail::draw() {
 	Display::draw(*m_currentSprite);
 }
 
-void Trail::onCollision(Collider * _other) {
+void Trail::onCollision(Collider * _this, Collider * _other) {
 }
 
 GameObject * Trail::clone() {

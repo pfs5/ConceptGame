@@ -1,7 +1,8 @@
 #include "Collider.h"
 #include "PhysicsEngine.h"
 
-Collider::Collider(GameObject * _gameObject, sf::Vector2f _position, sf::Vector2f _size) : m_gameObject (_gameObject), m_position (_position), m_size (_size){
+Collider::Collider(GameObject * _gameObject, sf::Vector2f _position, sf::Vector2f _size, int _id) : 
+	m_id(_id), m_gameObject(_gameObject), m_position(_position), m_size(_size) {
 	// Init shape
 	m_shape.setOutlineColor(COLLIDER_COLOR);
 	m_shape.setFillColor(sf::Color::Transparent);

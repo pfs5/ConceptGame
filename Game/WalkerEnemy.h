@@ -4,6 +4,12 @@
 #include "AnimationController.h"
 
 class WalkerEnemy : public GameObject, public Enemy {
+	const int EYE_COLLIDER_ID =		1;
+	const int BODY_COLLIDER_ID =	2;
+	const int LEG_COLLIDER_ID =		3;
+	const int BASE_COLLIDER_ID =	4;
+
+
 	enum WALK_STATE {
 		STEP_ONE,
 		HOLD_ONE,
@@ -24,7 +30,7 @@ public:
 	// Inherited via GameObject
 	virtual void update(float _dt) override;
 	virtual void draw() override;
-	virtual void onCollision(Collider * _other) override;
+	virtual void onCollision(Collider * _this, Collider * _other) override;
 	virtual GameObject * clone() override;
 	virtual void setPosition(sf::Vector2f _pos) override;
 };

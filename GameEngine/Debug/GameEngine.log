@@ -3,6 +3,13 @@ d:\code\games\conceptgame001\gameengine\display.h(10): warning C4244: 'initializ
 d:\code\games\conceptgame001\gameengine\util.h(15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
 d:\code\games\conceptgame001\gameengine\util.h(24): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
 d:\code\games\conceptgame001\gameengine\util.h(30): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  RigidBody.cpp
+  PhysicsEngine.cpp
+  GameStateManager.cpp
+  GameObject.cpp
+  Collider.cpp
 winmm.lib(WINMM.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in opengl32.lib(OPENGL32.dll); second definition ignored
 winmm.lib(WINMM.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
 gdi32.lib(GDI32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in opengl32.lib(OPENGL32.dll); second definition ignored

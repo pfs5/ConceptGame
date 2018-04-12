@@ -256,8 +256,8 @@ void PhysicsEngine::collisionDetection() {
 				}
 
 				// Callback method for collisions - called after collision response
-				c1->getGameObject()->onCollision(c2);
-				c2->getGameObject()->onCollision(c1);
+				c1->getGameObject()->onCollision(c1, c2);
+				c2->getGameObject()->onCollision(c2, c1);
 			}
 		}
 	}

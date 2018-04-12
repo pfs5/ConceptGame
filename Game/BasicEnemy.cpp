@@ -90,7 +90,7 @@ void BasicEnemy::draw() {
 	m_controller.draw();
 }
 
-void BasicEnemy::onCollision(Collider * _other) {
+void BasicEnemy::onCollision(Collider * _this, Collider * _other) {
 	// Reset jump
 	if (_other->getGameObject()->getObjectTag() == "BottomFloor") {
 		m_jumpReady = true;
