@@ -5,6 +5,18 @@
 			"frames" : [1,1,1,1,1],
 			"scale" : 3,
 			"looping" : false
+		},
+		{
+			"name" : "two",
+			"frames" : [1,1,1,1,1],
+			"scale" : 3,
+			"looping" : false
+		},
+		{
+			"name" : "three",
+			"frames" : [1,1,1,1],
+			"scale" : 8,
+			"looping" : false
 		}
 	],
 

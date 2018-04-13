@@ -182,7 +182,7 @@ void BasicEnemy::jumperAIUpdate() {
 void BasicEnemy::death() {
 	if (m_type == ENEMY_TYPE::SPLITTER) {
 		std::cout << "death" << std::endl;
-		GameStateManager::instantiate(&Explosion(m_position));
+		//GameStateManager::instantiate(&Explosion(m_position));
 
 		// Spawn two new enemies
 		auto enemy1 = GameStateManager::instantiate(&BasicEnemy(BasicEnemy::ENEMY_TYPE::CHASER, m_movementSpeed));
@@ -201,7 +201,7 @@ void BasicEnemy::death() {
 		// Destoy this enemy
 		GameStateManager::destroyObject(this);
 	} else {
-		GameStateManager::instantiate(&Explosion(m_position));
+		//GameStateManager::instantiate(&Explosion(m_position));
 		GameStateManager::destroyObject(this);
 	}
 

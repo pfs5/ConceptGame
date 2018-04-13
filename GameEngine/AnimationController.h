@@ -40,6 +40,10 @@ public:
 	void setAnimationTime(float _time, bool _pause = true);
 	void setTrigger(std::string _trigger, bool _playInstantly = true);
 
+	void stop();
+	void pause();
+	void reset();
+
 	// Animation observer
 	virtual void onAnimationEnd() override;
 private:

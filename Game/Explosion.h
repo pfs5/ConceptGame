@@ -5,9 +5,12 @@
 class Explosion : public GameObject {
 	
 	AnimationController m_controller;
+	
 	sf::Vector2f m_position;
+	float m_size;
+	std::string m_name;
 public:
-	Explosion(sf::Vector2f _position);
+	Explosion(sf::Vector2f _position, float _size, std::string _name);
 	~Explosion();
 
 	// Inherited via GameObject

@@ -27,7 +27,9 @@ void AnimationController::load(std::string _name, bool _play) {
 }
 
 void AnimationController::update(float _dt) {
-	m_animations[m_currentAnimation]->update(_dt);
+	if (m_isPlaying) {
+		m_animations[m_currentAnimation]->update(_dt);
+	}
 }
 
 void AnimationController::draw() {
@@ -52,6 +54,19 @@ void AnimationController::setTrigger(std::string _trigger, bool _playInstantly) 
 	} catch (std::out_of_range) {
 		return;
 	}
+}
+
+void AnimationController::stop() {
+	pause();
+	reset();
+}
+
+void AnimationController::pause() {
+	m_isPlaying = false;
+}
+
+void AnimationController::reset() {
+	// TODO
 }
 
 void AnimationController::playAnimation(int _animation, bool _playInstantly) {

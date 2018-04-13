@@ -4,17 +4,25 @@
 #include "AnimationController.h"
 
 class WalkerEnemy : public GameObject, public Enemy {
-	const int EYE_COLLIDER_ID =		1;
-	const int BODY_COLLIDER_ID =	2;
-	const int LEG_COLLIDER_ID =		3;
-	const int BASE_COLLIDER_ID =	4;
-
+	const int EYE_COLLIDER_ID =		0;
+	const int BODY_COLLIDER_ID =	1;
+	const int LEG_COLLIDER_ID =		2;
+	const int BASE_COLLIDER_ID =	3;
 
 	enum WALK_STATE {
 		STEP_ONE,
 		HOLD_ONE,
 		STEP_TWO,
-		HOLD_TWO
+		HOLD_TWO,
+		DESTROYED
+	};
+
+	enum DESTRUCTION_STATE {
+		START,
+		EXPLOSION_ONE,
+		EXPLOSION_TWO,
+		EXPLOSION_THREE,
+		END
 	};
 
 	AnimationController m_bodyController;
@@ -22,6 +30,7 @@ class WalkerEnemy : public GameObject, public Enemy {
 	sf::Sprite m_sprite;
 
 	WALK_STATE m_walkState;
+	DESTRUCTION_STATE m_destructionState;
 	float m_counter = 0.f;
 public:
 	WalkerEnemy();
@@ -33,4 +42,8 @@ public:
 	virtual void onCollision(Collider * _this, Collider * _other) override;
 	virtual GameObject * clone() override;
 	virtual void setPosition(sf::Vector2f _pos) override;
+
+private:
+	void destroyLegs();
+	void legDestroySequence(float _dt);
 };

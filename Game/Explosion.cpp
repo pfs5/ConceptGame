@@ -2,9 +2,12 @@
 #include "GameStateManager.h"
 #include "Debug.h"
 
-Explosion::Explosion(sf::Vector2f _position) : m_position{ _position } {
+Explosion::Explosion(sf::Vector2f _position, float _size, std::string _name) :
+	m_size{ _size }, m_name{ _name } {
 	m_controller.load("explosion");
-	setPosition(m_position);
+	m_controller.playAnimation(_name);
+	setPosition(_position);
+
 }
 
 Explosion::~Explosion() {
@@ -26,9 +29,10 @@ void Explosion::onCollision(Collider * _this, Collider * _other) {
 }
 
 GameObject * Explosion::clone() {
-	return new Explosion(m_position);
+	return new Explosion(m_position, m_size, m_name);
 }
 
 void Explosion::setPosition(sf::Vector2f _pos) {
+	m_position = _pos;
 	m_controller.setPosition(_pos);
 }

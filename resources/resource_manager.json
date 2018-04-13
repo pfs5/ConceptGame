@@ -164,10 +164,26 @@
 			"name": "explosion_one",
 			"path": "explosion_one.png"
 		},
+		{
+			"name": "explosion_two",
+			"path": "explosion_two.png"
+		},
+		{
+			"name": "explosion_three",
+			"path": "explosion_three.png"
+		},
 
 		{
 			"name": "walker_enemy_walk_right",
 			"path": "walker_enemy_walk_right.png"
+		},
+		{
+			"name": "walker_enemy_transition",
+			"path": "walker_enemy_transition.png"
+		},
+		{
+			"name": "walker_enemy_drive",
+			"path": "walker_enemy_drive.png"
 		}
 
 	]

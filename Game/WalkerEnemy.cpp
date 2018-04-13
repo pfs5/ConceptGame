@@ -88,6 +88,9 @@ void WalkerEnemy::update(float _dt) {
 				m_bodyController.playAnimation("walk_right");
 			}
 			break;
+		case WALK_STATE::DESTROYED:
+			legDestroySequence(_dt);
+			break;
 	}
 }
 
@@ -104,24 +107,35 @@ void WalkerEnemy::onCollision(Collider * _this, Collider * _other) {
 	int id = _this->getID();
 	if (id == EYE_COLLIDER_ID) {
 		if (_other->getGameObject()->getObjectTag() == "Arrow") {
-			GameStateManager::instantiate(&Explosion(_other->getGameObject()->getPosition())); // explosion
-
 			auto arrow = dynamic_cast<Projectile*>(_other->getGameObject());
-			arrow->destroyArrow();
+
+			if (!arrow->isStatic()) {
+				// Get hit
+				GameStateManager::instantiate(&Explosion(_other->getGameObject()->getPosition(), 1, "one")); // explosion
+				arrow->destroyArrow();
+			}
+
 		}
 	}
 	if (id == BODY_COLLIDER_ID) {
 
 	}
 	if (id == LEG_COLLIDER_ID) {
+		if (_other->getGameObject()->getObjectTag() == "Arrow") {
+			auto arrow = dynamic_cast<Projectile*>(_other->getGameObject());
 
+			if (!arrow->isStatic()) {
+				// Get hit
+				GameStateManager::instantiate(&Explosion(_other->getGameObject()->getPosition(), 1, "two")); // explosion
+				arrow->destroyArrow();
+
+				destroyLegs();
+			}
+
+		}
 	}
 	if (id == BASE_COLLIDER_ID) {
 
-	}
-
-	if (_this->getID() == EYE_COLLIDER_ID) {
-		std::cout << "hit" << std::endl;
 	}
 }
 
@@ -135,5 +149,59 @@ void WalkerEnemy::setPosition(sf::Vector2f _pos) {
 	m_bodyController.setPosition(_pos);
 	for (auto col : m_colliders) {
 		col->setPosition(_pos);
+	}
+}
+
+void WalkerEnemy::destroyLegs() {
+	m_bodyController.pause();
+	m_walkState = WALK_STATE::DESTROYED;
+	m_destructionState = DESTRUCTION_STATE::START;
+	m_counter = 0.f;
+}
+
+void WalkerEnemy::legDestroySequence(float _dt) {
+	m_counter += _dt;
+	switch (m_destructionState) {
+	case DESTRUCTION_STATE::START:
+		if (m_counter > .5f) {
+			m_destructionState = DESTRUCTION_STATE::EXPLOSION_ONE;
+			m_counter = 0.f;
+
+			GameStateManager::instantiate(&Explosion(getPosition() + sf::Vector2f{ -10, 20 }, 1, "two")); // explosion
+		}
+		break;
+	case DESTRUCTION_STATE::EXPLOSION_ONE:
+		if (m_counter > .5f) {
+			m_destructionState = DESTRUCTION_STATE::EXPLOSION_TWO;
+			m_counter = 0.f;
+
+			GameStateManager::instantiate(&Explosion(getPosition() + sf::Vector2f{ -40, 50 }, 1, "two")); // explosion
+		}
+		break;
+	case DESTRUCTION_STATE::EXPLOSION_TWO:
+		if (m_counter > .5f) {
+			m_destructionState = DESTRUCTION_STATE::EXPLOSION_THREE;
+			m_counter = 0.f;
+
+			GameStateManager::instantiate(&Explosion(getPosition() + sf::Vector2f{ -10, 100 }, 1, "two")); // explosion
+		}
+		break;
+	case DESTRUCTION_STATE::EXPLOSION_THREE:
+		if (m_counter > .5f) {
+			m_destructionState = DESTRUCTION_STATE::END;
+			m_counter = 0.f;
+
+			m_bodyController.playAnimation("transition");
+			GameStateManager::instantiate(&Explosion(getPosition() + sf::Vector2f{ -20, 10 }, 1, "three")); // explosion
+		}
+		break;
+	case DESTRUCTION_STATE::END:
+		if (!m_bodyController.isPlaying()) {
+			m_bodyController.playAnimation("drive");
+			
+			m_colliders[BASE_COLLIDER_ID]->setSize(sf::Vector2f{ 60.f, 100.f });
+			m_colliders[BASE_COLLIDER_ID]->setOffset(sf::Vector2f{ -5.f, -30.f });
+		}
+		break;
 	}
 }

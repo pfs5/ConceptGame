@@ -6,7 +6,7 @@
 namespace GameSettings {
 	// Debug outputs
 	const bool PRINT_FPS = true;
-	const bool SHOW_COLLIDERS = true;
+	const bool SHOW_COLLIDERS = false;
 	const bool SHOW_DEBUG_VISUALS = false;
 
 	// Physics

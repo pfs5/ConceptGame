@@ -31,6 +31,9 @@ public:
 	virtual GameObject * clone() override;
 	virtual void setPosition(sf::Vector2f _pos) override;
 
+#pragma region Getters and Setters
+	inline bool isStatic() { return m_isStatic; };
+#pragma endregion
 private:
 	void destroyProjectile();
 	void destroyObject();
