@@ -13,7 +13,7 @@ Projectile::Projectile(int _direction) : m_direction(_direction) {
 	m_controller.playAnimation(animation);
 
 	Collider * c = PhysicsEngine::getInstance().createCollider(this);
-	c->setSize(sf::Vector2f{50, 20});
+	c->setSize(sf::Vector2f{50, 10});
 	c->setStatic(true);
 	m_colliders.push_back(c);
 

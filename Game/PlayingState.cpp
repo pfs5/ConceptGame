@@ -83,7 +83,7 @@ PlayingState::PlayingState() {
 
 	// Floor
 	GameObject * floor = new CubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ winSize.x / 2, 826 }, true, false, sf::Color::Black);
-	//GameObject * floor = new TexturedCubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ winSize.x / 2, 826 }, true, false, sf::Color::Black);
+	//GameObject * floor = new TexturedCubeObject(sf::Vector2f{ 4000, 50 }, sf::Vector2f{ winSize.x / 2, 826 }, true, false, sf::Color::Black);
 	floor->setObjectTag("Floor");
 	m_gameObjects[0].push_back(floor);
 
@@ -98,10 +98,12 @@ PlayingState::PlayingState() {
 	// Walls
 	GameObject * wall1 = new TexturedCubeObject(sf::Vector2f{ 500, 2000 }, sf::Vector2f{ 1650, winSize.y / 2 }, true, false, sf::Color{});
 	wall1->setObjectTag("Wall");
+	wall1->setObjectLayer("Wall");
 	m_gameObjects[0].push_back(wall1);
 
 	GameObject * wall2 = new TexturedCubeObject(sf::Vector2f{ 500, 2000 }, sf::Vector2f{ -215, winSize.y / 2 }, true, false, sf::Color{});
 	wall2->setObjectTag("Wall");
+	wall2->setObjectLayer("Wall");
 	m_gameObjects[0].push_back(wall2);
 
 	// ### Enemies ###
@@ -166,7 +168,7 @@ void PlayingState::draw() {
 
 	// Objects
 	Display::getWindow().setView(m_view);
-	for (int i = m_gameObjects.size() - 1; i >= 0; --i) {
+	for (int i = m_gameObjects.size() - 1; i > 0; --i) {
 		for (GameObject * g : m_gameObjects[i]) {
 			if (g->isActive()) {
 				g->draw();
@@ -176,6 +178,13 @@ void PlayingState::draw() {
 
 	// Level foreground
 	m_map->drawForeground();
+
+	// Draw foreground object layer
+	for (GameObject * g : m_gameObjects[0]) {
+		if (g->isActive()) {
+			g->draw();
+		}
+	}
 
 	// AI System
 	AISystem::getInstance().draw();

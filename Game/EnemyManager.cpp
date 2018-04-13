@@ -45,6 +45,14 @@ void EnemyManager::update(float _dt) {
 		spawnBasicEnemy(BasicEnemy::ENEMY_TYPE::SPLITTER);
 	}
 
+	if (Input::getKeyDown(Input::Numpad5)) {
+		// Spawn walker
+		Debug::log("Spawning walker");
+		auto walker = GameStateManager::instantiate(&WalkerEnemy());
+		walker->setPosition(m_spawnPositions[0]);
+		walker->setActive(true);
+	}
+
 	if (Input::getKeyDown(Input::L)) {
 
 		Debug::log("Spawning ranged enemy");

@@ -10,7 +10,7 @@ namespace PhysicsLayers {
 
 	const std::vector<std::vector<bool>> fillIgnoreMatrix();
 
-	const std::vector<std::string> layers {"Default", "Floor", "Platform", "Arrow", "Enemy", "WalkerEnemy", "Player", "DestroyedArrow"};
+	const std::vector<std::string> layers {"Default", "Floor", "Platform", "Arrow", "Enemy", "WalkerEnemy", "Player", "DestroyedArrow", "Wall"};
 	const std::vector<std::vector<bool>> layerIgnoreMatrix = fillIgnoreMatrix();
 
 	int layerNumber(std::string _name);

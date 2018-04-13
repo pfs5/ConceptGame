@@ -14,7 +14,8 @@ class WalkerEnemy : public GameObject, public Enemy {
 		HOLD_ONE,
 		STEP_TWO,
 		HOLD_TWO,
-		DESTROYED
+		DESTROYED,
+		DRIVE
 	};
 
 	enum DESTRUCTION_STATE {
@@ -32,6 +33,8 @@ class WalkerEnemy : public GameObject, public Enemy {
 	WALK_STATE m_walkState;
 	DESTRUCTION_STATE m_destructionState;
 	float m_counter = 0.f;
+	
+	const float DRIVE_SPEED = 100.f;
 public:
 	WalkerEnemy();
 	~WalkerEnemy();
@@ -46,4 +49,5 @@ public:
 private:
 	void destroyLegs();
 	void legDestroySequence(float _dt);
+	void death();
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "BasicEnemy.h"
+#include "WalkerEnemy.h"
 class EnemyManager : public GameObject {
 	GameObject * m_player;
 
@@ -9,13 +10,7 @@ class EnemyManager : public GameObject {
 
 	// Parameters
 	const std::vector<sf::Vector2f> m_spawnPositions = { 
-		sf::Vector2f{ 100, 100 },
-		sf::Vector2f{ 150, 100 },
-		sf::Vector2f{ 200, 100 },
-
-		sf::Vector2f{ 1200, 100 },
-		sf::Vector2f{ 1250, 100 },
-		sf::Vector2f{ 1300, 100 }
+		sf::Vector2f{ -100, 600 }
 	};
 
 	const std::vector<float> m_basicEnemySpeeds = {

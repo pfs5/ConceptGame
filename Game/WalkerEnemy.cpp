@@ -20,7 +20,7 @@ WalkerEnemy::WalkerEnemy() : m_walkState{WALK_STATE::STEP_ONE} {
 	// Eye collider
 	auto eyeCollider = PhysicsEngine::getInstance().createCollider(this);
 	eyeCollider->setID(EYE_COLLIDER_ID);
-	eyeCollider->setSize(sf::Vector2f{ 50.f, 50.f });
+	eyeCollider->setSize(sf::Vector2f{ 50.f, 40.f });
 	eyeCollider->setOffset(sf::Vector2f{ 10.f, -30.f });
 	m_colliders.push_back(eyeCollider);
 
@@ -91,6 +91,10 @@ void WalkerEnemy::update(float _dt) {
 		case WALK_STATE::DESTROYED:
 			legDestroySequence(_dt);
 			break;
+		case WALK_STATE::DRIVE:
+			// Move right
+			move(sf::Vector2f{DRIVE_SPEED * _dt, 0.f});
+		break;
 	}
 }
 
@@ -111,14 +115,19 @@ void WalkerEnemy::onCollision(Collider * _this, Collider * _other) {
 
 			if (!arrow->isStatic()) {
 				// Get hit
-				GameStateManager::instantiate(&Explosion(_other->getGameObject()->getPosition(), 1, "one")); // explosion
+				GameStateManager::instantiate(&Explosion(_other->getGameObject()->getPosition() - sf::Vector2f{-50.f, 0.f}, 1, "one")); // explosion
 				arrow->destroyArrow();
+
+				death();
 			}
 
 		}
 	}
 	if (id == BODY_COLLIDER_ID) {
-
+		if (_other->getGameObject()->getObjectTag() == "Arrow") {
+			auto arrow = dynamic_cast<Projectile*>(_other->getGameObject());
+			arrow->breakArrow();
+		}
 	}
 	if (id == LEG_COLLIDER_ID) {
 		if (_other->getGameObject()->getObjectTag() == "Arrow") {
@@ -140,7 +149,7 @@ void WalkerEnemy::onCollision(Collider * _this, Collider * _other) {
 }
 
 GameObject * WalkerEnemy::clone() {
-	return nullptr;
+	return new WalkerEnemy();
 }
 
 void WalkerEnemy::setPosition(sf::Vector2f _pos) {
@@ -163,7 +172,7 @@ void WalkerEnemy::legDestroySequence(float _dt) {
 	m_counter += _dt;
 	switch (m_destructionState) {
 	case DESTRUCTION_STATE::START:
-		if (m_counter > .5f) {
+		if (m_counter > .3f) {
 			m_destructionState = DESTRUCTION_STATE::EXPLOSION_ONE;
 			m_counter = 0.f;
 
@@ -171,7 +180,7 @@ void WalkerEnemy::legDestroySequence(float _dt) {
 		}
 		break;
 	case DESTRUCTION_STATE::EXPLOSION_ONE:
-		if (m_counter > .5f) {
+		if (m_counter > .3f) {
 			m_destructionState = DESTRUCTION_STATE::EXPLOSION_TWO;
 			m_counter = 0.f;
 
@@ -179,7 +188,7 @@ void WalkerEnemy::legDestroySequence(float _dt) {
 		}
 		break;
 	case DESTRUCTION_STATE::EXPLOSION_TWO:
-		if (m_counter > .5f) {
+		if (m_counter > .3f) {
 			m_destructionState = DESTRUCTION_STATE::EXPLOSION_THREE;
 			m_counter = 0.f;
 
@@ -187,7 +196,7 @@ void WalkerEnemy::legDestroySequence(float _dt) {
 		}
 		break;
 	case DESTRUCTION_STATE::EXPLOSION_THREE:
-		if (m_counter > .5f) {
+		if (m_counter > .3f) {
 			m_destructionState = DESTRUCTION_STATE::END;
 			m_counter = 0.f;
 
@@ -201,7 +210,14 @@ void WalkerEnemy::legDestroySequence(float _dt) {
 			
 			m_colliders[BASE_COLLIDER_ID]->setSize(sf::Vector2f{ 60.f, 100.f });
 			m_colliders[BASE_COLLIDER_ID]->setOffset(sf::Vector2f{ -5.f, -30.f });
+
+			m_walkState = WALK_STATE::DRIVE;
 		}
 		break;
 	}
+}
+
+void WalkerEnemy::death() {
+	// Destroy enemy
+	GameStateManager::destroyObject(this);
 }
