@@ -20,6 +20,9 @@ const std::vector<std::vector<bool>> PhysicsLayers::fillIgnoreMatrix() {
 	matrix[5][8] = true;	// walker enemy - wall
 	matrix[8][5] = true;	// walker enemy - wall
 
+	matrix[5][6] = true;	// walker enemy - player
+	matrix[6][5] = true;	// walker enemy - player
+
 	for (int i = 0; i < NUMBER_OF_LAYERS; ++i) { matrix[i][3] = true; matrix[3][i] = true; }	// everything with arrows
 	
 	return matrix;

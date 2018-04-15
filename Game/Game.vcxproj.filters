@@ -31,6 +31,9 @@
     <Filter Include="Header Files\ai_system">
       <UniqueIdentifier>{3af7b57f-dd0e-47bb-a089-d6a43130fc11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\particles">
+      <UniqueIdentifier>{4d2c83d7-990e-47fc-a032-10a05f748797}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CubeObject.h">
@@ -99,6 +102,9 @@
     <ClInclude Include="WalkerEnemy.h">
       <Filter>Header Files\enemies</Filter>
     </ClInclude>
+    <ClInclude Include="Particles.h">
+      <Filter>Header Files\particles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CubeObject.cpp">
@@ -159,6 +165,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WalkerEnemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Particles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

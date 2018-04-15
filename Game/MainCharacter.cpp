@@ -8,6 +8,7 @@
 #include "Projectile.h"
 #include "ChainedProjectile.h"
 #include "VectorOperations.h"
+#include "Particles.h"
 
 #include <cmath>
 
@@ -51,6 +52,10 @@ MainCharacter::~MainCharacter() {
 }
 
 void MainCharacter::update(float _dt) {
+	if (Input::getKeyDown(Input::C)) {
+		m_particleSystem = GameStateManager::instantiate(&Particles(), 1);
+	}
+
 	m_bodyController.update(_dt);
 	m_bowController.update(_dt);
 
@@ -93,6 +98,10 @@ void MainCharacter::setPosition(sf::Vector2f _pos) {
 
 	for (Collider * c : m_colliders) {
 		c->setPosition(_pos);
+	}
+
+	if (m_particleSystem) {
+		m_particleSystem->setPosition(_pos);
 	}
 }
 

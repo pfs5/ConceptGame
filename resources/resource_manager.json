@@ -184,7 +184,12 @@
 		{
 			"name": "walker_enemy_drive",
 			"path": "walker_enemy_drive.png"
-		}
+		},
 
+
+		{
+			"name": "ice_smoke",
+			"path": "ice_smoke.png"
+		}
 	]
 }

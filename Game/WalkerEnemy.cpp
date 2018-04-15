@@ -20,7 +20,7 @@ WalkerEnemy::WalkerEnemy() : m_walkState{WALK_STATE::STEP_ONE} {
 	// Eye collider
 	auto eyeCollider = PhysicsEngine::getInstance().createCollider(this);
 	eyeCollider->setID(EYE_COLLIDER_ID);
-	eyeCollider->setSize(sf::Vector2f{ 50.f, 40.f });
+	eyeCollider->setSize(sf::Vector2f{ 50.f, 20.f });
 	eyeCollider->setOffset(sf::Vector2f{ 10.f, -30.f });
 	m_colliders.push_back(eyeCollider);
 
@@ -64,23 +64,39 @@ void WalkerEnemy::update(float _dt) {
 	int scale = 10;
 
 	switch (m_walkState) {
-		case WALK_STATE::STEP_ONE:
-			move(sf::Vector2f{speed, 0.f});
+		case WALK_STATE::STEP_ONE: {
+			move(sf::Vector2f{ speed, 0.f });
+
+			// move eye collider
+			float offset = 10.f / (7.f / 60.f * scale) * m_counter;
+			m_colliders[EYE_COLLIDER_ID]->setOffset(sf::Vector2f{ 10.f, -20.f - offset });
+
 			if (m_counter > 7.f / 60.f * scale) {
 				m_walkState = WALK_STATE::HOLD_ONE;
+
+				m_colliders[EYE_COLLIDER_ID]->setOffset(sf::Vector2f{ 10.f, -20.f });
 			}
+
 			break;
+		}
 		case WALK_STATE::HOLD_ONE:
 			if (m_counter > 11.f / 60.f * scale) {
 				m_walkState = WALK_STATE::STEP_TWO;
+				m_colliders[EYE_COLLIDER_ID]->setOffset(sf::Vector2f{ 10.f, -30.f });
 			}
 			break;
-		case WALK_STATE::STEP_TWO:
+		case WALK_STATE::STEP_TWO: {
 			move(sf::Vector2f{ speed, 0.f });
+			// move eye collider
+			float offset = 10.f / (7.f / 60.f * scale) * (m_counter - 10.f / 60.f * scale);
+			m_colliders[EYE_COLLIDER_ID]->setOffset(sf::Vector2f{ 10.f, -20.f - offset });
+
 			if (m_counter > 18.f / 60.f * scale) {
 				m_walkState = WALK_STATE::HOLD_TWO;
+				m_colliders[EYE_COLLIDER_ID]->setOffset(sf::Vector2f{ 10.f, -20.f });
 			}
 			break;
+		}
 		case WALK_STATE::HOLD_TWO:
 			if (!m_bodyController.isPlaying()) {
 				m_walkState = WALK_STATE::STEP_ONE;
@@ -115,7 +131,7 @@ void WalkerEnemy::onCollision(Collider * _this, Collider * _other) {
 
 			if (!arrow->isStatic()) {
 				// Get hit
-				GameStateManager::instantiate(&Explosion(_other->getGameObject()->getPosition() - sf::Vector2f{-50.f, 0.f}, 1, "one")); // explosion
+				GameStateManager::instantiate(&Explosion(_other->getGameObject()->getPosition() - sf::Vector2f{100.f, 0.f}, 1, "one")); // explosion
 				arrow->destroyArrow();
 
 				death();

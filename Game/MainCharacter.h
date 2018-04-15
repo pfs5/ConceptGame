@@ -48,6 +48,9 @@ class MainCharacter : public GameObject {
 
 	ChainedProjectile * m_chain;
 
+	// Particle system
+	GameObject * m_particleSystem = nullptr;
+
 	// Parameters
 	const float m_speed = 2000.f / 4.f;	//500
 	const float m_jumpVelocity = 600.f;
