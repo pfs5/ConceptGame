@@ -185,6 +185,11 @@ void PhysicsEngine::collisionDetection() {
 				continue;
 			}
 
+			// Check if colliders belong to same object
+			if (c1->getGameObject() == c2->getGameObject()) {
+				continue;
+			}
+
 			sf::Vector2f position2 = c2->getPosition();
 			sf::Vector2f halfSize2 = c2->getSize() / 2.f;
 

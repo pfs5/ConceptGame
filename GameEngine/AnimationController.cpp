@@ -27,6 +27,10 @@ void AnimationController::load(std::string _name, bool _play) {
 }
 
 void AnimationController::update(float _dt) {
+	if (m_animations.size() == 2) {
+		std::cout << m_currentAnimation << std::endl;
+	}
+
 	if (m_isPlaying) {
 		m_animations[m_currentAnimation]->update(_dt);
 	}

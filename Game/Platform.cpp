@@ -2,9 +2,11 @@
 #include "ResourceManager.h"
 #include "Display.h"
 #include "PhysicsEngine.h"
+#include "FloatOperations.h"
+#include "Debug.h"
 
 Platform::Platform(const sf::Vector2f & _position) :
-	m_state{ PLATFORM_STATE::ACTIVE }, m_alpha{ 255 } {
+	m_state{ PLATFORM_STATE::ACTIVE }, m_alpha{ 255 }, m_velocity{ 0.f }, m_disableCounter{ 0.f } {
 
 	sf::Texture * tex = ResourceManager::getInstance().getTexture("platform");
 	tex->setSmooth(true);
@@ -18,16 +20,16 @@ Platform::Platform(const sf::Vector2f & _position) :
 	// Colliders
 	Collider * collider = PhysicsEngine::getInstance().createCollider(this);
 	collider->setSize(size);
-
 	collider->setStatic(true);
-
-	m_colliders.push_back(collider);
 
 	m_rigidBody = PhysicsEngine::getInstance().createRigidBody(collider);
 	m_rigidBody->setGravity(false);
 	collider->setTrigger(false, m_rigidBody);
 
+	m_colliders.push_back(collider);
+
 	setPosition(_position);
+	m_baseHeight = getPosition().y;
 
 	setObjectTag("Floor");
 	setObjectLayer("Platform");
@@ -38,10 +40,17 @@ Platform::~Platform() {
 
 void Platform::enable() {
 	m_state = PLATFORM_STATE::ENABLING;
-	setActive(true);
+	
+	// enable colliders
+	for (auto &col : m_colliders) {
+		col->setTrigger(false, m_rigidBody);
+	}
 }
 
-void Platform::disable() {
+void Platform::disable(float _delay) {
+	m_disableCounter = 0.f;
+	m_disableDelay = _delay;
+	m_enableCounter = 0.f;
 	m_state = PLATFORM_STATE::DISABLING;
 }
 
@@ -50,7 +59,18 @@ bool Platform::isEnabled() {
 }
 
 void Platform::update(float _dt) {
-	if (m_state == PLATFORM_STATE::ENABLING) {
+	if (m_state == PLATFORM_STATE::TRIGGERED) {
+		// Apply spring physics
+		move(sf::Vector2f{ 0.f, m_velocity * _dt });
+
+		float heightOffset = getPosition().y - m_baseHeight;
+		m_velocity -= heightOffset *  m_responseDamping * _dt;
+
+		if (heightOffset < 0.f) {
+			disable(m_playerDisableDelay);
+		}
+	}
+	else if (m_state == PLATFORM_STATE::ENABLING) {
 		m_alpha += _dt * m_fadeSpeed;
 
 		int alpha = (int)m_alpha;
@@ -64,20 +84,29 @@ void Platform::update(float _dt) {
 
 		m_sprite.setColor(sf::Color{ 255, 255, 255, (sf::Uint8) m_alpha });
 	}
+	else if (m_state == PLATFORM_STATE::DISABLING) {
+		if ((m_disableCounter += _dt) > m_disableDelay) {
+			m_alpha -= _dt * m_fadeSpeed;
 
-	if (m_state == PLATFORM_STATE::DISABLING) {
-		m_alpha -= _dt * m_fadeSpeed;
+			int alpha = (int)m_alpha;
+			if (alpha <= 0) {
+				m_alpha = 0.f;
+				m_state = PLATFORM_STATE::INACTIVE;
 
-		int alpha = (int)m_alpha;
-		if (alpha <= 0) {
-			m_alpha = 0.f;
-			m_state = PLATFORM_STATE::INACTIVE;
+				// Disable collision
+				for (auto &col : m_colliders) {
+					col->setTrigger(true);
+				}
+			}
 
-			// Disable collision
-			setActive(false);
+			m_sprite.setColor(sf::Color{ 255, 255, 255, (sf::Uint8) m_alpha });
 		}
-
-		m_sprite.setColor(sf::Color{ 255, 255, 255, (sf::Uint8) m_alpha });
+	}
+	else if (m_state == PLATFORM_STATE::INACTIVE) {
+		// enable after delay
+		if ((m_enableCounter += _dt) > m_enableDelay) {
+			enable();
+		}
 	}
 }
 
@@ -86,6 +115,13 @@ void Platform::draw() {
 }
 
 void Platform::onCollision(Collider * _this, Collider * _other) {
+	if (_other->getGameObject()->isObjectTag("Main") && m_state == PLATFORM_STATE::ACTIVE) {
+		sf::Vector2f playerDistance = _other->getGameObject()->getPosition() - getPosition();
+		if (FloatOperations::compare(playerDistance.y, m_jumpResponseHeight) == 0 && fabsf(playerDistance.x) <= m_jumpResponseWidth) {
+			m_state = PLATFORM_STATE::TRIGGERED;
+			m_velocity = m_responseVelocity;
+		}
+	}
 }
 
 GameObject * Platform::clone() {

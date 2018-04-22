@@ -1,11 +1,13 @@
 #pragma once
 #include "GameObject.h"
+#include "AnimationController.h"
 class CollectableArrow : public GameObject {
 public:
 	enum ARROW_DIRECTION {LEFT, RIGHT};
 private:
 	// Visual
 	sf::RectangleShape m_shape;
+	AnimationController m_controller;
 
 	// State
 	ARROW_DIRECTION m_direction;

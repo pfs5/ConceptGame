@@ -7,6 +7,10 @@
 CollectableArrow::CollectableArrow(ARROW_DIRECTION _dir) : m_direction{ _dir } {
 	setObjectTag("CollectableArrow");
 
+	// Init controller
+	m_controller.load("collectable_arrow");
+	m_controller.setRotation(_dir == ARROW_DIRECTION::LEFT ? -60 : 180 + 60);
+
 	// Init shape
 	m_shape.setSize(sf::Vector2f{10.f, 50.f});
 	m_shape.setOrigin(sf::Vector2f{ 5.f, 25.f });
@@ -29,11 +33,12 @@ CollectableArrow::CollectableArrow(ARROW_DIRECTION _dir) : m_direction{ _dir } {
 }
 
 void CollectableArrow::update(float _dt) {
-	;
+	m_controller.update(_dt);
 }
 
 void CollectableArrow::draw() {
-	Display::draw(m_shape);
+	//Display::draw(m_shape);
+	m_controller.draw();
 }
 
 void CollectableArrow::onCollision(Collider * _this, Collider * _other) {
@@ -62,6 +67,7 @@ GameObject * CollectableArrow::clone() {
 void CollectableArrow::setPosition(sf::Vector2f _pos) {
 	m_position = _pos;
 	m_shape.setPosition(_pos);
+	m_controller.setPosition(_pos);
 
 	for (auto &collider : m_colliders) {
 		collider->setPosition(_pos);

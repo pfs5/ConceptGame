@@ -33,6 +33,8 @@ class MainCharacter : public GameObject {
 	sf::RectangleShape m_shape;
 	AnimationController m_bodyController;
 	AnimationController m_bowController;
+	AnimationController m_arrowsController;
+	AnimationController m_eyesController;
 
 	// Movement
 	int m_direction;
@@ -49,6 +51,9 @@ class MainCharacter : public GameObject {
 	int m_numberOfArrows;
 
 	sf::Vector2f m_currentPullSpeed;
+
+	bool m_eyesOpen;
+	float m_eyeCounter;
 
 	// Breaking arrows
 	GameObject * m_arrowInCollision;
@@ -77,6 +82,8 @@ class MainCharacter : public GameObject {
 
 	const int m_maxArrows = 5;
 
+	const float m_blinkingFrequency = 4.f;	// how often does the character blink in secs
+	const float m_blinkDuraction = 0.25f;	// duration of a blink in secs
 public:
 	MainCharacter();
 	~MainCharacter();
@@ -101,5 +108,6 @@ private:
 	void shootChain(int _direction, float _velocity = 0.f);
 	void pullChain();
 	void breakChain();
+	void eyeControll(float _dt);
 };
 

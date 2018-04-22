@@ -66,6 +66,12 @@ public:
 			an->setColor(_color);
 		}
 	}
+	
+	inline void setRotation(float _rot) {
+		for (auto &an : m_animations) {
+			an->setRotation(_rot);
+		}
+	}
 
 #pragma endregion
 

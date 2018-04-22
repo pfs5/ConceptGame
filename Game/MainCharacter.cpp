@@ -9,6 +9,7 @@
 #include "ChainedProjectile.h"
 #include "VectorOperations.h"
 #include "Particles.h"
+#include "Util.h"
 
 #include <cmath>
 
@@ -21,7 +22,8 @@ MainCharacter::MainCharacter():
 	m_chain {nullptr},
 	m_arrowInCollision {nullptr},
 	m_currentShootingPower{ m_minShootingSpeed },
-	m_additionalGravityMultiplier { 0.f } {
+	m_additionalGravityMultiplier { 0.f },
+	m_eyesOpen{ true } {
 
 	setObjectTag("Main");
 	setObjectLayer("Player");
@@ -34,6 +36,8 @@ MainCharacter::MainCharacter():
 
 	m_bodyController.load("archer_guy");
 	m_bowController.load("archer_guy_bow", false);
+	m_arrowsController.load("archer_guy_arrows");
+	m_eyesController.load("archer_guy_eyes");
 
 	// Create rigid body
 	Collider * collider = PhysicsEngine::getInstance().createCollider(this);
@@ -42,7 +46,7 @@ MainCharacter::MainCharacter():
 
 	m_rigidBody = PhysicsEngine::getInstance().createRigidBody(collider);
 	m_rigidBody->setGravity(true);
-	m_rigidBody->setBounceFactor(0.1f);
+	m_rigidBody->setBounceFactor(0.0f);
 	collider->setTrigger(false, m_rigidBody);
 
 	// Init transform
@@ -55,12 +59,15 @@ MainCharacter::~MainCharacter() {
 }
 
 void MainCharacter::update(float _dt) {
+	// testing
 	if (Input::getKeyDown(Input::C)) {
 		m_particleSystem = GameStateManager::instantiate(&Particles(), 1);
 	}
 
 	m_bodyController.update(_dt);
 	m_bowController.update(_dt);
+	m_arrowsController.update(_dt);
+	m_eyesController.update(_dt);
 
 	m_ammoState = m_numberOfArrows > 0 ? AMMO_STATE::YES_AMMO : AMMO_STATE::NO_AMMO;
 
@@ -68,14 +75,16 @@ void MainCharacter::update(float _dt) {
 	extraGravity(_dt);
 	jump(_dt);
 	shootCharge(_dt);
+	eyeControll(_dt);
 }
 
 void MainCharacter::draw() {
+	if (m_ammoState == AMMO_STATE::YES_AMMO) { m_arrowsController.draw(); }
+
 	m_bodyController.draw();
-	
-	if (m_ammoState == AMMO_STATE::YES_AMMO) {
-		m_bowController.draw();
-	}
+	if (m_eyesOpen) { m_eyesController.draw(); }
+
+	if (m_ammoState == AMMO_STATE::YES_AMMO) { m_bowController.draw(); }
 
 	//Display::draw(m_shape);
 }
@@ -112,6 +121,8 @@ void MainCharacter::setPosition(sf::Vector2f _pos) {
 	
 	m_bodyController.setPosition(_pos);
 	m_bowController.setPosition(_pos);
+	m_arrowsController.setPosition(_pos);
+	m_eyesController.setPosition(_pos);
 
 	for (Collider * c : m_colliders) {
 		c->setPosition(_pos);
@@ -154,6 +165,8 @@ void MainCharacter::movement(float _dt) {
 
 	m_bodyController.setTrigger(moveTrigger);
 	m_bowController.setTrigger(moveTrigger);
+	m_arrowsController.setTrigger(moveTrigger);
+	m_eyesController.setTrigger(moveTrigger);
 
 	// Add pull velocity
 	sf::Vector2f delta{ dx, 0 };
@@ -334,4 +347,22 @@ void MainCharacter::pullChain() {
 
 void MainCharacter::breakChain() {
 	m_chain->destroyChain();
+}
+
+void MainCharacter::eyeControll(float _dt) {
+	float randNum = Util::randomFloat();
+
+	if (m_eyesOpen) {
+		if (randNum < 1.f / 120.f) {
+			// close eyes
+			m_eyesOpen = false;
+			m_eyeCounter = 0.f;
+		}
+	}
+	else {
+		if ((m_eyeCounter += _dt) > m_blinkDuraction) {
+			// open eyes
+			m_eyesOpen = true;
+		}
+	}
 }

@@ -1,0 +1,13 @@
+{
+	"animations": [
+		{
+			"name" : "idle",
+			"frames" : [3, 1, 1, 1, 1, 1],
+			"scale" : 13,
+			"looping" : true
+		}
+	],
+
+	"transitions": [
+	]
+}

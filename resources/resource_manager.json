@@ -78,6 +78,11 @@
 			"path": "arrow_destroy_right.png"
 		},
 
+		{
+			"name": "collectable_arrow_idle",
+			"path": "collectable_arrow_idle.png"
+		},
+
 
 
 		{
@@ -116,6 +121,42 @@
 			"name": "archer_guy_run_right",
 			"path": "archer_guy_run_right.png"
 		},
+
+
+		{
+			"name": "archer_guy_arrows_idle_left",
+			"path": "archer_guy_arrows_idle_left.png"
+		},
+		{
+			"name": "archer_guy_arrows_idle_right",
+			"path": "archer_guy_arrows_idle_right.png"
+		},
+		{
+			"name": "archer_guy_arrows_run_left",
+			"path": "archer_guy_arrows_run_left.png"
+		},
+		{
+			"name": "archer_guy_arrows_run_right",
+			"path": "archer_guy_arrows_run_right.png"
+		},
+
+		{
+			"name": "archer_guy_eyes_idle_left",
+			"path": "archer_guy_eyes_idle_left.png"
+		},
+		{
+			"name": "archer_guy_eyes_idle_right",
+			"path": "archer_guy_eyes_idle_right.png"
+		},
+		{
+			"name": "archer_guy_eyes_run_left",
+			"path": "archer_guy_eyes_run_left.png"
+		},
+		{
+			"name": "archer_guy_eyes_run_right",
+			"path": "archer_guy_eyes_run_right.png"
+		},
+
 
 		{
 			"name": "archer_guy_bow_idle_left",
