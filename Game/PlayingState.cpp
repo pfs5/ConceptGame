@@ -18,6 +18,7 @@
 #include "AISystem.h"
 #include "SwarmEnemy.h"
 #include "WalkerEnemy.h"
+#include "GameManager.h"
 
 #include <SFML/Window.hpp>
 #include <algorithm>
@@ -72,6 +73,10 @@ PlayingState::PlayingState() {
 	// ### AI System ###
 	//AISystem::getInstance().init(mainChar);
 	//TEST_initEnemies(10, m_gameObjects);
+
+	// ### Game manager ###
+	auto gameManager = new GameManager();
+	m_gameObjects[0].push_back(gameManager);
 
 	// ### ENEMY TESTING ###
 	auto walker = new WalkerEnemy();

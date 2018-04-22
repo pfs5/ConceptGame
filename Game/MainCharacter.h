@@ -24,6 +24,11 @@ class MainCharacter : public GameObject {
 		BOW_RELOAD
 	};
 
+	enum AMMO_STATE {
+		NO_AMMO,
+		YES_AMMO
+	};
+
 	// Visuals
 	sf::RectangleShape m_shape;
 	AnimationController m_bodyController;
@@ -39,7 +44,9 @@ class MainCharacter : public GameObject {
 	CHAIN_STATE m_chainState;
 
 	SHOOTING_STATE m_shootingState;
+	AMMO_STATE m_ammoState;
 	float m_currentShootingPower;
+	int m_numberOfArrows;
 
 	sf::Vector2f m_currentPullSpeed;
 
@@ -57,7 +64,7 @@ class MainCharacter : public GameObject {
 	const float m_landingGravityMultiplier = 1.5f;
 	const float m_maxLandSpeed = 1200.f;
 
-	const float m_shootingChargeSpeed = 1000.f;
+	const float m_shootingChargeSpeed = 2500.f;
 	const float m_minShootingSpeed = 100.f; // 500
 	const float m_maxShootingSpeed = 1500.f;
 
@@ -67,6 +74,8 @@ class MainCharacter : public GameObject {
 	const float m_pullSpeedDecay = 0.99f;
 
 	const float m_bowReleaseSpeed = 20.f;	// percent of full shot time per second
+
+	const int m_maxArrows = 5;
 
 public:
 	MainCharacter();

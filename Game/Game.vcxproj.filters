@@ -34,6 +34,9 @@
     <Filter Include="Header Files\particles">
       <UniqueIdentifier>{4d2c83d7-990e-47fc-a032-10a05f748797}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\gameplay_management">
+      <UniqueIdentifier>{4a0c6875-3705-45f3-bda9-7e3669027023}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CubeObject.h">
@@ -105,6 +108,12 @@
     <ClInclude Include="Particles.h">
       <Filter>Header Files\particles</Filter>
     </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Header Files\gameplay_management</Filter>
+    </ClInclude>
+    <ClInclude Include="CollectableArrow.h">
+      <Filter>Header Files\projectiles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CubeObject.cpp">
@@ -168,6 +177,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Particles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CollectableArrow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

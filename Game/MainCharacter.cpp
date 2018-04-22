@@ -17,10 +17,11 @@ MainCharacter::MainCharacter():
 	m_characterState {CHARACTER_STATE::IDLE},
 	m_chainState {CHAIN_STATE::UNCHAINED},
 	m_shootingState {SHOOTING_STATE::NOTHING},
+	m_ammoState {AMMO_STATE::YES_AMMO},
 	m_chain {nullptr},
 	m_arrowInCollision {nullptr},
 	m_currentShootingPower{ m_minShootingSpeed },
-	m_additionalGravityMultiplier { 0.f }  {
+	m_additionalGravityMultiplier { 0.f } {
 
 	setObjectTag("Main");
 	setObjectLayer("Player");
@@ -46,6 +47,8 @@ MainCharacter::MainCharacter():
 
 	// Init transform
 	setPosition(sf::Vector2f{ 700.f, 20.f });
+
+	m_numberOfArrows = m_maxArrows;
 }
 
 MainCharacter::~MainCharacter() {
@@ -59,6 +62,8 @@ void MainCharacter::update(float _dt) {
 	m_bodyController.update(_dt);
 	m_bowController.update(_dt);
 
+	m_ammoState = m_numberOfArrows > 0 ? AMMO_STATE::YES_AMMO : AMMO_STATE::NO_AMMO;
+
 	movement(_dt);
 	extraGravity(_dt);
 	jump(_dt);
@@ -67,18 +72,25 @@ void MainCharacter::update(float _dt) {
 
 void MainCharacter::draw() {
 	m_bodyController.draw();
-	m_bowController.draw();
+	
+	if (m_ammoState == AMMO_STATE::YES_AMMO) {
+		m_bowController.draw();
+	}
 
 	//Display::draw(m_shape);
 }
 
 void MainCharacter::onCollision(Collider * _this, Collider * _other) {
-	if (_other->getGameObject()->getObjectTag() == "Floor" || _other->getGameObject()->getObjectTag() == "BottomFloor") {
+	auto otherGameObject = _other->getGameObject();
+
+	// Floor contact
+	if (otherGameObject->isObjectTag("Floor") || _other->getGameObject()->isObjectTag("BottomFloor")) {
 		m_characterState = CHARACTER_STATE::IDLE;
 		m_additionalGravityMultiplier = 0.f;
 	}
 
-	if (_other->getGameObject()->getObjectLayer() == "Arrow") {
+	// Arrow contact
+	if (otherGameObject->isObjectLayer("Arrow")) {
 		m_arrowInCollision = _other->getGameObject();
 
 		m_characterState = CHARACTER_STATE::IDLE;
@@ -86,6 +98,11 @@ void MainCharacter::onCollision(Collider * _this, Collider * _other) {
 	}
 	else {
 		m_arrowInCollision = nullptr;
+	}
+
+	// Arrow pickup
+	if (otherGameObject->isObjectTag("CollectableArrow")) {
+		m_numberOfArrows++;
 	}
 }
 
@@ -189,6 +206,10 @@ void MainCharacter::jump(float _dt) {
 }
 
 void MainCharacter::shootCharge(float _dt) {
+	if (m_ammoState == AMMO_STATE::NO_AMMO) {
+		return;
+	}
+
 	// Start charging normal shot
 	if (Input::getKeyDown(Input::X)) {
 		if (m_shootingState == SHOOTING_STATE::NOTHING) {
@@ -268,6 +289,8 @@ void MainCharacter::shootCharge(float _dt) {
 }
 
 void MainCharacter::shoot(int _direction, float _velocity) {
+	m_numberOfArrows--;
+
 	GameObject * projectile = GameStateManager::instantiate(&Projectile(_direction), 1);
 
 	sf::Vector2f projPos = m_position + sf::Vector2f{ m_shape.getSize().x * static_cast<float>(_direction), 0.f };
@@ -279,6 +302,8 @@ void MainCharacter::shoot(int _direction, float _velocity) {
 }
 
 void MainCharacter::shootChain(int _direction, float _velocity) {
+	m_numberOfArrows--;
+
 	m_chain = dynamic_cast<ChainedProjectile*> (GameStateManager::instantiate(&ChainedProjectile(_direction), 1));
 
 	m_chain->setPlayerRef(this);

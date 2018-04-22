@@ -1,6 +1,4 @@
-﻿  Particles.cpp
+﻿  MainCharacter.cpp
 d:\code\games\conceptgame001\gameengine\display.h(10): warning C4244: 'initializing': conversion from 'float' to 'const uint16_t', possible loss of data
-d:\code\games\conceptgame001\game\particles.cpp(33): warning C4018: '<': signed/unsigned mismatch
-d:\code\games\conceptgame001\game\particles.cpp(34): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\code\games\conceptgame001\game\particles.cpp(35): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\code\games\conceptgame001\gameengine\floatoperations.h(5): warning C4305: 'initializing': truncation from 'double' to 'float'
   Game.vcxproj -> D:\Code\Games\ConceptGame001\Debug\Game.exe

@@ -1,4 +1,6 @@
 #pragma once
+#include <functional>
+
 #include "RigidBody.h"
 #include "Collider.h"
 #include "PhysicsLayers.h"
@@ -12,6 +14,7 @@ class Collider;
 class GameObject {
 protected:
 	std::string m_objectTag = "";
+	std::size_t m_objectTagHash;
 	int m_physicsLayer = 0;
 
 	// Transform
@@ -47,11 +50,14 @@ public:
 
 	#pragma region Getters and setters
 public:
-	inline void setObjectTag(std::string _tag) { m_objectTag = _tag; };
+	inline void setObjectTag(std::string _tag) { m_objectTag = _tag; m_objectTagHash = std::hash<std::string>{}(_tag); };
 	inline std::string getObjectTag() const { return m_objectTag; };
+	inline bool isObjectTag(std::string _tag) { return m_objectTagHash == std::hash<std::string>{}(_tag); };
 
 	void setObjectLayer(std::string layer);
 	std::string getObjectLayer();
+	bool isObjectLayer(std::string _layer) { return PhysicsLayers::layerNumber(_layer) == m_physicsLayer; };
+
 	int getLayerNumber();
 
 	virtual void setPosition(sf::Vector2f _pos) = 0;

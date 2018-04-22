@@ -33,18 +33,6 @@ void EnemyManager::spawnBasicEnemy(BasicEnemy::ENEMY_TYPE _type) {
 }
 
 void EnemyManager::update(float _dt) {
-	if (Input::getKeyDown(Input::Numpad0)) {
-		spawnBasicEnemy(BasicEnemy::ENEMY_TYPE::CHASER);
-	}
-	
-	if (Input::getKeyDown(Input::Numpad1)) {
-		spawnBasicEnemy(BasicEnemy::ENEMY_TYPE::JUMPER);
-	}
-	
-	if (Input::getKeyDown(Input::Numpad2)) {
-		spawnBasicEnemy(BasicEnemy::ENEMY_TYPE::SPLITTER);
-	}
-
 	if (Input::getKeyDown(Input::Numpad5)) {
 		// Spawn walker
 		Debug::log("Spawning walker");
