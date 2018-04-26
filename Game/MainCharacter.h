@@ -29,6 +29,29 @@ class MainCharacter : public GameObject {
 		YES_AMMO
 	};
 
+#pragma region Parameters
+	const float m_speed = 2000.f / 4.f;	//500
+	const float m_jumpVelocity = 600.f;
+	const float m_landingGravityMultiplier = 1.5f;
+	const float m_maxLandSpeed = 1200.f;
+
+	const float m_shootingChargeSpeed = 2500.f;
+	const float m_minShootingSpeed = 100.f; // 500
+	const float m_maxShootingSpeed = 1500.f;
+
+	const float m_shootingChainSpeed = 1000.f;
+
+	const float m_pullSpeed = 800.f;
+	const float m_pullSpeedDecay = 0.99f;
+
+	const float m_bowReleaseSpeed = 20.f;	// percent of full shot time per second
+
+	const int m_maxArrows = 5;
+
+	const float m_blinkingFrequency = 4.f;	// how often does the character blink in secs
+	const float m_blinkDuraction = 0.25f;	// duration of a blink in secs
+#pragma endregion
+
 	// Visuals
 	sf::RectangleShape m_shape;
 	AnimationController m_bodyController;
@@ -62,28 +85,6 @@ class MainCharacter : public GameObject {
 
 	// Particle system
 	GameObject * m_particleSystem = nullptr;
-
-	// Parameters
-	const float m_speed = 2000.f / 4.f;	//500
-	const float m_jumpVelocity = 600.f;
-	const float m_landingGravityMultiplier = 1.5f;
-	const float m_maxLandSpeed = 1200.f;
-
-	const float m_shootingChargeSpeed = 2500.f;
-	const float m_minShootingSpeed = 100.f; // 500
-	const float m_maxShootingSpeed = 1500.f;
-
-	const float m_shootingChainSpeed = 1000.f;
-
-	const float m_pullSpeed = 800.f;
-	const float m_pullSpeedDecay = 0.99f;
-
-	const float m_bowReleaseSpeed = 20.f;	// percent of full shot time per second
-
-	const int m_maxArrows = 5;
-
-	const float m_blinkingFrequency = 4.f;	// how often does the character blink in secs
-	const float m_blinkDuraction = 0.25f;	// duration of a blink in secs
 public:
 	MainCharacter();
 	~MainCharacter();

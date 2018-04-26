@@ -124,6 +124,12 @@ void WalkerEnemy::onCollision(Collider * _this, Collider * _other) {
 		return;
 	}
 
+	// Check if base hit
+	if (_other->getGameObject()->isObjectTag("BaseTree")) {
+		GameStateManager::instantiate(&Explosion(getPosition(), 1, "one")); // explosion
+		death();
+	}
+
 	int id = _this->getID();
 	if (id == EYE_COLLIDER_ID) {
 		if (_other->getGameObject()->getObjectTag() == "Arrow") {
@@ -151,7 +157,7 @@ void WalkerEnemy::onCollision(Collider * _this, Collider * _other) {
 		}
 	}
 	if (id == LEG_COLLIDER_ID) {
-		if (_other->getGameObject()->getObjectTag() == "Arrow") {
+		if (_other->getGameObject()->getObjectTag() == "Arrow" && m_walkState != WALK_STATE::DESTROYED) {
 			auto arrow = dynamic_cast<Projectile*>(_other->getGameObject());
 
 			if (!arrow->isStatic()) {
@@ -178,7 +184,7 @@ void WalkerEnemy::setPosition(sf::Vector2f _pos) {
 	m_sprite.setPosition(_pos);
 	m_bodyController.setPosition(_pos);
 	for (auto col : m_colliders) {
-		col->setPosition(_pos);
+		if (col != nullptr) { col->setPosition(_pos); };
 	}
 }
 
@@ -187,6 +193,10 @@ void WalkerEnemy::destroyLegs() {
 	m_walkState = WALK_STATE::DESTROYED;
 	m_destructionState = DESTRUCTION_STATE::START;
 	m_counter = 0.f;
+
+	// Disable leg collider
+	PhysicsEngine::getInstance().deleteCollider(m_colliders[LEG_COLLIDER_ID]);
+	m_colliders[LEG_COLLIDER_ID] = nullptr;
 }
 
 void WalkerEnemy::legDestroySequence(float _dt) {

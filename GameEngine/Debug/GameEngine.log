@@ -1,10 +1,8 @@
 ﻿  Application.cpp
 d:\code\games\conceptgame001\gameengine\display.h(10): warning C4244: 'initializing': conversion from 'float' to 'const uint16_t', possible loss of data
-d:\code\games\conceptgame001\gameengine\util.h(15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-d:\code\games\conceptgame001\gameengine\util.h(24): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-d:\code\games\conceptgame001\gameengine\util.h(30): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-  Generating Code...
-  Compiling...
+d:\code\games\conceptgame001\gameengine\util.h(18): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+d:\code\games\conceptgame001\gameengine\util.h(30): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+d:\code\games\conceptgame001\gameengine\util.h(36): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
   PhysicsEngine.cpp
 d:\code\games\conceptgame001\gameengine\display.h(10): warning C4244: 'initializing': conversion from 'float' to 'const uint16_t', possible loss of data
 d:\code\games\conceptgame001\gameengine\physicsengine.cpp(174): warning C4018: '<': signed/unsigned mismatch

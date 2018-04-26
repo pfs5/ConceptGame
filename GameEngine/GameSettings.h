@@ -12,4 +12,7 @@ namespace GameSettings {
 	// Physics
 	const float GLOBAL_SCALE = 1e2;	// how many meters is one unit in the game (screen)
 	const float GRAVITY = 9.81f * GLOBAL_SCALE;
+
+	// Game
+	const float MAX_HEALTH_POINTS = 100.f;
 }

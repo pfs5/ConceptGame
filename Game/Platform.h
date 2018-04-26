@@ -28,7 +28,7 @@ class Platform : public GameObject {
 	const float m_enableDelay = 1.f;
 
 	const float m_responseVelocity = 200.f;
-	const float m_responseDamping = 200.f;
+	const float m_responseDamping = 300.f;
 
 	// parameters for responding to player jump
 	const float m_jumpResponseWidth = 110.f;

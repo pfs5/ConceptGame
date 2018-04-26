@@ -10,6 +10,9 @@
 namespace Util {
 	static bool isInitialized = false;
 	
+	/**
+		Random float in [0, 1] range
+	**/
 	inline float randomFloat() {
 		if (!isInitialized) {
 			srand(time(nullptr));
@@ -19,6 +22,9 @@ namespace Util {
 		return static_cast<float>(rand()) / RAND_MAX;
 	}
 	
+	/**
+		Random integer in [_min, _max] range
+	**/
 	inline int randomInt(int _min, int _max) {
 		if (!isInitialized) {
 			srand(time(nullptr));

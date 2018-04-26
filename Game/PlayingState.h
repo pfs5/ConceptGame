@@ -3,6 +3,8 @@
 #include "PhysicsEngine.h"
 #include "Map.h"
 
+//#define DEBUG_MODE
+
 class PlayingState : public GameState {
 	std::vector<std::vector<GameObject*>> m_gameObjects;
 
@@ -15,6 +17,9 @@ class PlayingState : public GameState {
 
 	// level
 	Map * m_map;
+
+	// DEBUG
+	sf::Vector2f VIEW_OFFSET;
 
 	const float VERTICAL_VIEW_OFFSET = 200.f;
 public:

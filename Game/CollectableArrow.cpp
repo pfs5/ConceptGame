@@ -32,6 +32,10 @@ CollectableArrow::CollectableArrow(ARROW_DIRECTION _dir) : m_direction{ _dir } {
 	setActive(false);
 }
 
+void CollectableArrow::attachObserver(CollectableArrowObserver * _o) {
+	m_observers.push_back(_o);
+}
+
 void CollectableArrow::update(float _dt) {
 	m_controller.update(_dt);
 }
@@ -56,6 +60,7 @@ void CollectableArrow::onCollision(Collider * _this, Collider * _other) {
 
 	// Destroy on player collision
 	if (_other->getGameObject()->isObjectTag("Main")) {
+		notifyObservers();
 		GameStateManager::destroyObject(this);
 	}
 }
@@ -71,5 +76,11 @@ void CollectableArrow::setPosition(sf::Vector2f _pos) {
 
 	for (auto &collider : m_colliders) {
 		collider->setPosition(_pos);
+	}
+}
+
+void CollectableArrow::notifyObservers() {
+	for (auto &o : m_observers) {
+		o->notify();
 	}
 }

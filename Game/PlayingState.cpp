@@ -19,6 +19,7 @@
 #include "SwarmEnemy.h"
 #include "WalkerEnemy.h"
 #include "GameManager.h"
+#include "BaseTree.h"
 
 #include <SFML/Window.hpp>
 #include <algorithm>
@@ -75,7 +76,7 @@ PlayingState::PlayingState() {
 	//TEST_initEnemies(10, m_gameObjects);
 
 	// ### Game manager ###
-	auto gameManager = new GameManager();
+	auto gameManager = GameManager::getInstance();
 	m_gameObjects[0].push_back(gameManager);
 
 	// ### ENEMY TESTING ###
@@ -85,6 +86,11 @@ PlayingState::PlayingState() {
 
 	// ### Environment ###
 	sf::Vector2f winSize = VectorOperations::utof(Display::getWindow().getSize());
+
+	// Base tree
+	GameObject * baseTree = new BaseTree();
+	baseTree->setPosition(sf::Vector2f{1500.f, 0.f});
+	m_gameObjects[0].push_back(baseTree);
 
 	// Floor
 	GameObject * floor = new CubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ winSize.x / 2, 826 }, true, false, sf::Color::Black);
@@ -209,6 +215,18 @@ void PlayingState::destroyObject(GameObject * _gameObject) {
 }
 
 void PlayingState::updateView(float _dt) {
+#ifdef DEBUG_MODE
+	float deltaX = 0;
+	float deltaY = 0;
+	float speed = 1.f;
+	if (Input::getKey(Input::J))	deltaX -= speed;
+	if (Input::getKey(Input::L))	deltaX += speed;
+	if (Input::getKey(Input::K))	deltaY += speed;
+	if (Input::getKey(Input::I))	deltaY -= speed;
+
+	VIEW_OFFSET += sf::Vector2f{ deltaX, deltaY };
+#endif
+
 	// Set new center
 	auto winSize = Display::getWindow().getSize();
 	float minHeight = Display::getWindow().getSize().y / 2.f + 100;
@@ -227,8 +245,10 @@ void PlayingState::updateView(float _dt) {
 
 	// Lerp towards target
 	auto centerDelta = (center - m_view.getCenter()) * _dt * m_lerpSpeed;
-	m_view.setCenter(m_view.getCenter() + centerDelta);
+	m_view.setCenter(m_view.getCenter() + centerDelta + VIEW_OFFSET);
 
+#ifndef DEBUG_MODE
 	auto sizeDelta = (size - m_view.getSize()) * _dt * m_lerpSpeed;
 	m_view.setSize(m_view.getSize() + sizeDelta);
+#endif
 }
