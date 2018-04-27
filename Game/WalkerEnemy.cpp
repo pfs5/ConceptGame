@@ -148,7 +148,6 @@ void WalkerEnemy::onCollision(Collider * _this, Collider * _other) {
 	if (id == BODY_COLLIDER_ID) {
 		if (m_walkState == WALK_STATE::STATIC && _other->getGameObject()->getObjectTag() == "Floor") {
 			m_walkState = WALK_STATE::DRIVE;
-			std::cout << _other->getGameObject()->getObjectTag() << std::endl;
 		}
 
 		if (_other->getGameObject()->getObjectTag() == "Arrow") {

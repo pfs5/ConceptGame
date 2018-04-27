@@ -164,6 +164,7 @@
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="Grass.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="Particles.h" />
@@ -218,6 +219,9 @@
     </ClCompile>
     <ClCompile Include="GameManager.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Grass.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="MenuState.cpp">

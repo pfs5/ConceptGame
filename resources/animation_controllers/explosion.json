@@ -17,6 +17,12 @@
 			"frames" : [1,1,1,1],
 			"scale" : 8,
 			"looping" : false
+		},
+		{
+			"name" : "four",
+			"frames" : [1,1,1],
+			"scale" : 4,
+			"looping" : false
 		}
 	],
 

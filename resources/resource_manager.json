@@ -49,6 +49,11 @@
 			"name": "flat_level_fg",
 			"path": "flat_level_fg.png"
 		},
+		{
+			"name": "flat_level_base",
+			"path": "flat_level_base.png"
+		},
+
 
 
 		{
@@ -213,6 +218,10 @@
 			"name": "explosion_three",
 			"path": "explosion_three.png"
 		},
+		{
+			"name": "explosion_four",
+			"path": "explosion_four.png"
+		},
 
 		{
 			"name": "walker_enemy_walk_right",
@@ -231,6 +240,15 @@
 		{
 			"name": "ice_smoke",
 			"path": "ice_smoke.png"
+		},
+
+		{
+			"name": "grass_idle1",
+			"path": "grass_idle1.png"
+		},
+		{
+			"name": "grass_idle2",
+			"path": "grass_idle2.png"
 		}
 	]
 }

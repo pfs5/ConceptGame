@@ -7,7 +7,6 @@ Explosion::Explosion(sf::Vector2f _position, float _size, std::string _name) :
 	m_controller.load("explosion");
 	m_controller.playAnimation(_name);
 	setPosition(_position);
-
 }
 
 Explosion::~Explosion() {

@@ -1,0 +1,19 @@
+{
+	"animations": [
+		{
+			"name" : "idle1",
+			"frames" : [1, 1, 1, 1, 1],
+			"scale" : 10,
+			"looping" : false
+		}, 
+		{
+			"name" : "idle2",
+			"frames" : [1, 1, 1, 1, 1],
+			"scale" : 10,
+			"looping" : false
+		}
+	],
+
+	"transitions": [
+	]
+}

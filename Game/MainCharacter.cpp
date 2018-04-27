@@ -9,6 +9,7 @@
 #include "ChainedProjectile.h"
 #include "VectorOperations.h"
 #include "Particles.h"
+#include "Explosion.h"
 #include "Util.h"
 
 #include <cmath>
@@ -195,8 +196,12 @@ void MainCharacter::extraGravity(float _dt) {
 void MainCharacter::jump(float _dt) {
 	if (m_characterState == CHARACTER_STATE::IDLE) {
 		if (Input::getKeyDown(Input::SPACE)) {
+			// Jump
 			m_rigidBody->setVelocity(sf::Vector2f{ 0.f, -m_jumpVelocity });
 			m_characterState = CHARACTER_STATE::JUMPING;
+
+			// Create poof
+			GameStateManager::instantiate(&Explosion(getPosition() + sf::Vector2f{0.f, 30.f}, 1, "four"), 1);
 
 			// Destroy jumped on arrow
 			if (m_arrowInCollision != nullptr) {

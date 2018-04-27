@@ -15,4 +15,5 @@ namespace GameSettings {
 
 	// Game
 	const float MAX_HEALTH_POINTS = 100.f;
+	const float WALKER_DAMAGE = 10.f;
 }

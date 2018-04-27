@@ -53,8 +53,9 @@ void Projectile::onCollision(Collider * _this, Collider * _other) {
 		destroyObject();
 	}
 	
-	// Stick into everything but the player character or other arrows
-	if (_other->getGameObject()->getObjectTag() != "Main" 
+	// Stick into everything but the player character or other arrows or grass
+	if (!_other->getGameObject()->isObjectTag("Main")
+		&& !_other->getGameObject()->isObjectTag("Grass")
 		&& _other->getGameObject()->getObjectLayer() != getObjectLayer()) {
 		// Stop
 		m_rigidBody->setVelocity(sf::Vector2f{ 0.f, 0.f });

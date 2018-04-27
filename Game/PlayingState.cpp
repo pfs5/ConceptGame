@@ -20,6 +20,8 @@
 #include "WalkerEnemy.h"
 #include "GameManager.h"
 #include "BaseTree.h"
+#include "Grass.h"
+#include "Util.h"
 
 #include <SFML/Window.hpp>
 #include <algorithm>
@@ -81,7 +83,7 @@ PlayingState::PlayingState() {
 
 	// ### ENEMY TESTING ###
 	auto walker = new WalkerEnemy();
-	walker->setPosition(sf::Vector2f{300, 600});
+	walker->setPosition(sf::Vector2f{ 300, 600 });
 	m_gameObjects[0].push_back(walker);
 
 	// ### Environment ###
@@ -89,7 +91,7 @@ PlayingState::PlayingState() {
 
 	// Base tree
 	GameObject * baseTree = new BaseTree();
-	baseTree->setPosition(sf::Vector2f{1500.f, 0.f});
+	baseTree->setPosition(sf::Vector2f{ 1580.f, 0.f });
 	m_gameObjects[0].push_back(baseTree);
 
 	// Floor
@@ -98,6 +100,18 @@ PlayingState::PlayingState() {
 	floor->setObjectTag("Floor");
 	m_gameObjects[0].push_back(floor);
 
+	// Grass
+	float grassPosition = 100.f;
+	float grassOffset = 80.f;
+	int grassCount = 18;
+	for (int i = 0; i < grassCount; ++i) {
+		auto grass = new Grass();
+		float randOffsetX = Util::randomFloat() * 20.f - 10.f;
+		float randOffsetY = Util::randomFloat() * 10.f - 5.f;
+		grass->setPosition(sf::Vector2f{ grassPosition + grassOffset * i + randOffsetX, 795.f + randOffsetY});
+		m_gameObjects[0].push_back(grass);
+	}
+	
 	// Ceiling
 	GameObject * ceil = new CubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ winSize.x / 2, -1000 }, true, false, sf::Color::Black);
 	ceil->setObjectTag("Wall");
@@ -229,7 +243,7 @@ void PlayingState::updateView(float _dt) {
 
 	// Set new center
 	auto winSize = Display::getWindow().getSize();
-	float minHeight = Display::getWindow().getSize().y / 2.f + 100;
+	float minHeight = Display::getWindow().getSize().y / 2.f + 80;
 	float floorDistance = minHeight * 2 - m_centeredObject->getPosition().y;
 	
 	float height = fmaxf(floorDistance - minHeight, 0);
@@ -241,7 +255,7 @@ void PlayingState::updateView(float _dt) {
 	auto center = m_view.getCenter();
 	center.y = minHeight - cameraHeight;
 
-	auto size = sf::Vector2f{ static_cast<float>(winSize.x), static_cast<float>(winSize.y)} *scaling;
+	auto size = sf::Vector2f{ static_cast<float>(winSize.x) * 1.1f, static_cast<float>(winSize.y)} *scaling;
 
 	// Lerp towards target
 	auto centerDelta = (center - m_view.getCenter()) * _dt * m_lerpSpeed;
