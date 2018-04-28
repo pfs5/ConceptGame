@@ -31,7 +31,7 @@ class MainCharacter : public GameObject {
 
 #pragma region Parameters
 	const float m_speed = 2000.f / 4.f;	//500
-	const float m_jumpVelocity = 600.f;
+	const float m_jumpVelocity = 650.f;
 	const float m_landingGravityMultiplier = 1.5f;
 	const float m_maxLandSpeed = 1200.f;
 
@@ -47,6 +47,7 @@ class MainCharacter : public GameObject {
 	const float m_bowReleaseSpeed = 20.f;	// percent of full shot time per second
 
 	const int m_maxArrows = 5;
+	const int m_initalArrows = 1;
 
 	const float m_blinkingFrequency = 4.f;	// how often does the character blink in secs
 	const float m_blinkDuraction = 0.25f;	// duration of a blink in secs

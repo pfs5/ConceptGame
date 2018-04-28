@@ -53,7 +53,7 @@ MainCharacter::MainCharacter():
 	// Init transform
 	setPosition(sf::Vector2f{ 700.f, 20.f });
 
-	m_numberOfArrows = m_maxArrows;
+	m_numberOfArrows = m_initalArrows;
 }
 
 MainCharacter::~MainCharacter() {

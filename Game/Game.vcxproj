@@ -162,6 +162,7 @@
     <ClInclude Include="CubeObject.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyManager.h" />
+    <ClInclude Include="EnemyObserver.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Grass.h" />

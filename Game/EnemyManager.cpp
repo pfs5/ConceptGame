@@ -7,7 +7,15 @@
 #include "GameSettings.h"
 
 EnemyManager::EnemyManager(GameObject * _player) :
-	m_player{ _player } {
+	m_player{ _player },
+	m_state{ MANAGER_STATE::SPAWNING },
+	m_currentWave {0},
+	m_activeEnemies{ 0 }, 
+	m_timer{ 0.f } {
+
+	initWaves();
+
+	m_timer = m_spawnPeriods[m_currentWave];
 
 	// Init shape
 	m_spawnPositionVisual.setSize(sf::Vector2f{25, 25});
@@ -19,25 +27,27 @@ EnemyManager::EnemyManager(GameObject * _player) :
 EnemyManager::~EnemyManager() {
 }
 
-void EnemyManager::spawnBasicEnemy(BasicEnemy::ENEMY_TYPE _type) {
-	Debug::log("Spawning enemy");
-
-	int position = Util::randomInt(0, m_spawnPositions.size() - 1);
-
-	std::cout << "position = " << position << std::endl;
-
-	GameObject * newEnemy = GameStateManager::instantiate(&BasicEnemy(_type, m_basicEnemySpeeds[0]));
-	newEnemy->setPosition(m_spawnPositions[position]);
-	newEnemy->setActive(true);
-	dynamic_cast<BasicEnemy *>(newEnemy)->setPlayerRef(m_player);
-}
+//void EnemyManager::spawnBasicEnemy(BasicEnemy::ENEMY_TYPE _type) {
+//	Debug::log("Spawning enemy");
+//
+//	int position = Util::randomInt(0, m_spawnPositions.size() - 1);
+//
+//	std::cout << "position = " << position << std::endl;
+//
+//	GameObject * newEnemy = GameStateManager::instantiate(&BasicEnemy(_type, m_basicEnemySpeeds[0]));
+//	newEnemy->setPosition(m_spawnPositions[position]);
+//	newEnemy->setActive(true);
+//	dynamic_cast<BasicEnemy *>(newEnemy)->setPlayerRef(m_player);
+//}
 
 void EnemyManager::update(float _dt) {
+	spawnEnemies(_dt);
+
 	if (Input::getKeyDown(Input::Numpad5)) {
 		// Spawn walker
 		Debug::log("Spawning walker");
 		auto walker = GameStateManager::instantiate(&WalkerEnemy());
-		walker->setPosition(m_spawnPositions[0]);
+		walker->setPosition(m_spawnPosition);
 		walker->setActive(true);
 	}
 
@@ -53,12 +63,12 @@ void EnemyManager::update(float _dt) {
 }
 
 void EnemyManager::draw() {
-	if (GameSettings::SHOW_DEBUG_VISUALS) {
-		for (auto pos : m_spawnPositions) {
-			m_spawnPositionVisual.setPosition(pos);
-			Display::draw(m_spawnPositionVisual);
-		}
-	}
+	//if (GameSettings::SHOW_DEBUG_VISUALS) {
+	//	for (auto pos : m_spawnPositions) {
+	//		m_spawnPositionVisual.setPosition(pos);
+	//		Display::draw(m_spawnPositionVisual);
+	//	}
+	//}
 }
 
 void EnemyManager::onCollision(Collider * _this, Collider * _other) {
@@ -69,4 +79,63 @@ GameObject * EnemyManager::clone() {
 }
 
 void EnemyManager::setPosition(sf::Vector2f _pos) {
+}
+
+void EnemyManager::initWaves() {
+	// Max enemies
+	m_maxEnemies = { 5, 10, 10, 15, 20 };
+
+	// Spawn periods
+	m_spawnPeriods = { 15.f, 10.f, 8.f, 5.f, 5.f };
+}
+
+void EnemyManager::spawnEnemies(float _dt) {
+	m_timer += _dt;
+
+	switch (m_state) {
+		case MANAGER_STATE::SPAWNING: {
+			if (m_timer > m_spawnPeriods[m_currentWave]) {
+				// Spawn enemy
+				spawnEnemy();
+				
+				m_activeEnemies++;
+				m_timer = 0.f;
+				if (--m_maxEnemies[m_currentWave] == 0) {
+					m_state = MANAGER_STATE::WAITING;
+				}
+
+			}
+			break;
+		}
+		case MANAGER_STATE::WAITING: {
+			// Wait for all enemies
+			if (m_activeEnemies == 0) {
+				m_state = MANAGER_STATE::SWITCHING_WAVE;
+				m_timer = 0.f;
+			}
+			break;
+		}
+
+		case MANAGER_STATE::SWITCHING_WAVE: {
+			if (m_timer > INTER_WAVE_DELAY) {
+				m_currentWave++;
+				std::cout << "Wave = " << m_currentWave << std::endl;
+			}
+			break;
+		}
+	}
+
+}
+
+void EnemyManager::spawnEnemy() {
+	std::cout << "Spawning enemy" << std::endl;
+	auto walker = GameStateManager::instantiate(&WalkerEnemy());
+	walker->setPosition(m_spawnPosition);
+	walker->setActive(true);
+
+	dynamic_cast<Enemy*>(walker)->attachObserver(this);
+}
+
+void EnemyManager::notify() {
+	m_activeEnemies--;
 }

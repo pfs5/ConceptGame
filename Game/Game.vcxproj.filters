@@ -120,6 +120,9 @@
     <ClInclude Include="Grass.h">
       <Filter>Header Files\objects</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyObserver.h">
+      <Filter>Header Files\enemies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CubeObject.cpp">

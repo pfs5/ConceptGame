@@ -19,6 +19,7 @@ class GameManager : public GameObject, CollectableArrowObserver {
 	};
 
 	// State
+	bool m_isInitialized;
 	int m_activeCollectableArrows;
 
 	float m_healthPoints;
@@ -26,6 +27,7 @@ class GameManager : public GameObject, CollectableArrowObserver {
 	// Parameters
 	const float MAX_ARROW_OFFSET = 200.f;
 	const int MIN_ARROWS_IN_SCENE = 3;
+	const int INITIAL_ARROWS_IN_SCENE = 10;
 public:
 	GameManager();
 
@@ -50,6 +52,7 @@ public:
 
 private:
 	void spawnArrow(sf::Vector2f _pos, CollectableArrow::ARROW_DIRECTION _dir);
+	void spawnArrows(int _numberOfArrows);
 
 	// Inherited via CollectableArrowObserver
 	virtual void notify() override;

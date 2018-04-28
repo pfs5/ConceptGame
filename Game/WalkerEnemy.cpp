@@ -21,8 +21,15 @@ WalkerEnemy::WalkerEnemy() : m_walkState{WALK_STATE::STEP_ONE} {
 	auto eyeCollider = PhysicsEngine::getInstance().createCollider(this);
 	eyeCollider->setID(EYE_COLLIDER_ID);
 	eyeCollider->setSize(sf::Vector2f{ 50.f, 20.f });
-	eyeCollider->setOffset(sf::Vector2f{ 10.f, -30.f });
+	eyeCollider->setOffset(EYE_COL_OFFSET_1);
 	m_colliders.push_back(eyeCollider);
+
+	// Wheel collider
+	auto wheelCollider = PhysicsEngine::getInstance().createCollider(this);
+	wheelCollider->setID(WHEEL_COLLIDER_ID);
+	wheelCollider->setSize(sf::Vector2f{ 50.f, 30.f });
+	wheelCollider->setOffset(WHEEL_COL_OFFSET_1);
+	m_colliders.push_back(wheelCollider);
 
 	// Body collider
 	auto bodyCollider = PhysicsEngine::getInstance().createCollider(this);
@@ -61,7 +68,7 @@ void WalkerEnemy::update(float _dt) {
 	m_counter += _dt;
 
 	float speed = .4f * 2.f;
-	int scale = 10;
+	int scale = 5;
 
 	switch (m_walkState) {
 		case WALK_STATE::STEP_ONE: {
@@ -69,12 +76,14 @@ void WalkerEnemy::update(float _dt) {
 
 			// move eye collider
 			float offset = 10.f / (7.f / 60.f * scale) * m_counter;
-			m_colliders[EYE_COLLIDER_ID]->setOffset(sf::Vector2f{ 10.f, -20.f - offset });
+			m_colliders[EYE_COLLIDER_ID]->setOffset(EYE_COL_OFFSET_2 - sf::Vector2f{0, offset });
+			m_colliders[WHEEL_COLLIDER_ID]->setOffset(WHEEL_COL_OFFSET_2 - sf::Vector2f{ 0, offset });
 
 			if (m_counter > 7.f / 60.f * scale) {
 				m_walkState = WALK_STATE::HOLD_ONE;
 
-				m_colliders[EYE_COLLIDER_ID]->setOffset(sf::Vector2f{ 10.f, -20.f });
+				m_colliders[EYE_COLLIDER_ID]->setOffset(EYE_COL_OFFSET_2);
+				m_colliders[WHEEL_COLLIDER_ID]->setOffset(WHEEL_COL_OFFSET_2);
 			}
 
 			break;
@@ -82,18 +91,21 @@ void WalkerEnemy::update(float _dt) {
 		case WALK_STATE::HOLD_ONE:
 			if (m_counter > 11.f / 60.f * scale) {
 				m_walkState = WALK_STATE::STEP_TWO;
-				m_colliders[EYE_COLLIDER_ID]->setOffset(sf::Vector2f{ 10.f, -30.f });
+				m_colliders[EYE_COLLIDER_ID]->setOffset(EYE_COL_OFFSET_1);
+				m_colliders[WHEEL_COLLIDER_ID]->setOffset(WHEEL_COL_OFFSET_1);
 			}
 			break;
 		case WALK_STATE::STEP_TWO: {
 			move(sf::Vector2f{ speed, 0.f });
 			// move eye collider
 			float offset = 10.f / (7.f / 60.f * scale) * (m_counter - 10.f / 60.f * scale);
-			m_colliders[EYE_COLLIDER_ID]->setOffset(sf::Vector2f{ 10.f, -20.f - offset });
+			m_colliders[EYE_COLLIDER_ID]->setOffset(EYE_COL_OFFSET_2 - sf::Vector2f{ 0, offset });
+			m_colliders[WHEEL_COLLIDER_ID]->setOffset(WHEEL_COL_OFFSET_2 - sf::Vector2f{ 0, offset });
 
 			if (m_counter > 18.f / 60.f * scale) {
 				m_walkState = WALK_STATE::HOLD_TWO;
-				m_colliders[EYE_COLLIDER_ID]->setOffset(sf::Vector2f{ 10.f, -20.f });
+				m_colliders[EYE_COLLIDER_ID]->setOffset(EYE_COL_OFFSET_2);
+				m_colliders[WHEEL_COLLIDER_ID]->setOffset(WHEEL_COL_OFFSET_2);
 			}
 			break;
 		}
@@ -131,13 +143,13 @@ void WalkerEnemy::onCollision(Collider * _this, Collider * _other) {
 	}
 
 	int id = _this->getID();
-	if (id == EYE_COLLIDER_ID) {
+	if (id == EYE_COLLIDER_ID|| id == WHEEL_COLLIDER_ID) {
 		if (_other->getGameObject()->getObjectTag() == "Arrow") {
 			auto arrow = dynamic_cast<Projectile*>(_other->getGameObject());
 
 			if (!arrow->isStatic()) {
 				// Get hit
-				GameStateManager::instantiate(&Explosion(_other->getGameObject()->getPosition() - sf::Vector2f{100.f, 0.f}, 1, "one")); // explosion
+				GameStateManager::instantiate(&Explosion(_other->getGameObject()->getPosition(), 1, "one")); // explosion
 				arrow->destroyArrow();
 
 				death();
@@ -248,6 +260,18 @@ void WalkerEnemy::legDestroySequence(float _dt) {
 }
 
 void WalkerEnemy::death() {
+	notifyObservers();
+
 	// Destroy enemy
 	GameStateManager::destroyObject(this);
+}
+
+void WalkerEnemy::notifyObservers() {
+	for (auto &o : m_observers) {
+		o->notify();
+	}
+}
+
+void WalkerEnemy::attachObserver(EnemyObserver * _o) {
+	m_observers.push_back(_o);
 }

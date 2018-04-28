@@ -81,11 +81,6 @@ PlayingState::PlayingState() {
 	auto gameManager = GameManager::getInstance();
 	m_gameObjects[0].push_back(gameManager);
 
-	// ### ENEMY TESTING ###
-	auto walker = new WalkerEnemy();
-	walker->setPosition(sf::Vector2f{ 300, 600 });
-	m_gameObjects[0].push_back(walker);
-
 	// ### Environment ###
 	sf::Vector2f winSize = VectorOperations::utof(Display::getWindow().getSize());
 
@@ -95,7 +90,7 @@ PlayingState::PlayingState() {
 	m_gameObjects[0].push_back(baseTree);
 
 	// Floor
-	GameObject * floor = new CubeObject(sf::Vector2f{ 2000, 50 }, sf::Vector2f{ winSize.x / 2, 826 }, true, false, sf::Color::Black);
+	GameObject * floor = new CubeObject(sf::Vector2f{ 4000, 50 }, sf::Vector2f{ winSize.x / 2, 826 }, true, false, sf::Color::Black);
 	//GameObject * floor = new TexturedCubeObject(sf::Vector2f{ 4000, 50 }, sf::Vector2f{ winSize.x / 2, 826 }, true, false, sf::Color::Black);
 	floor->setObjectTag("Floor");
 	m_gameObjects[0].push_back(floor);

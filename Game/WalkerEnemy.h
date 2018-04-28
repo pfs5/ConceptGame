@@ -5,9 +5,10 @@
 
 class WalkerEnemy : public GameObject, public Enemy {
 	const int EYE_COLLIDER_ID =		0;
-	const int BODY_COLLIDER_ID =	1;
-	const int LEG_COLLIDER_ID =		2;
-	const int BASE_COLLIDER_ID =	3;
+	const int WHEEL_COLLIDER_ID =	1;
+	const int BODY_COLLIDER_ID =	2;
+	const int LEG_COLLIDER_ID =		3;
+	const int BASE_COLLIDER_ID =	4;
 
 	enum WALK_STATE {
 		STEP_ONE,
@@ -27,6 +28,8 @@ class WalkerEnemy : public GameObject, public Enemy {
 		END
 	};
 
+	std::vector<EnemyObserver *> m_observers;
+
 	AnimationController m_bodyController;
 
 	sf::Sprite m_sprite;
@@ -36,6 +39,11 @@ class WalkerEnemy : public GameObject, public Enemy {
 	float m_counter = 0.f;
 	
 	const float DRIVE_SPEED = 500.f;
+	const sf::Vector2f EYE_COL_OFFSET_1 = sf::Vector2f{ 10.f, -30.f };
+	const sf::Vector2f EYE_COL_OFFSET_2 = sf::Vector2f{ 10.f, -20.f };
+
+	const sf::Vector2f WHEEL_COL_OFFSET_1 = sf::Vector2f{ -20.f, -15.f };
+	const sf::Vector2f WHEEL_COL_OFFSET_2 = sf::Vector2f{ -20.f, -5.f };
 public:
 	WalkerEnemy();
 	~WalkerEnemy();
@@ -51,4 +59,9 @@ private:
 	void destroyLegs();
 	void legDestroySequence(float _dt);
 	void death();
+
+	void notifyObservers();
+
+	// Inherited via Enemy
+	virtual void attachObserver(EnemyObserver * _o) override;
 };
