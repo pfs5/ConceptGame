@@ -10,6 +10,7 @@
 #include "VectorOperations.h"
 #include "Particles.h"
 #include "Explosion.h"
+#include "ResourceManager.h"
 #include "Util.h"
 
 #include <cmath>
@@ -39,6 +40,11 @@ MainCharacter::MainCharacter():
 	m_bowController.load("archer_guy_bow", false);
 	m_arrowsController.load("archer_guy_arrows");
 	m_eyesController.load("archer_guy_eyes");
+
+	// Init audio
+	m_jumpSound.setBuffer(*ResourceManager::getInstance().getSound("archer_guy_jump"));
+	m_bowDrawSound.setBuffer(*ResourceManager::getInstance().getSound("bow_draw"));
+	m_bowShootSound.setBuffer(*ResourceManager::getInstance().getSound("bow_shoot"));
 
 	// Create rigid body
 	Collider * collider = PhysicsEngine::getInstance().createCollider(this);
@@ -200,6 +206,9 @@ void MainCharacter::jump(float _dt) {
 			m_rigidBody->setVelocity(sf::Vector2f{ 0.f, -m_jumpVelocity });
 			m_characterState = CHARACTER_STATE::JUMPING;
 
+			// Play audio
+			m_jumpSound.play();
+
 			// Create poof
 			GameStateManager::instantiate(&Explosion(getPosition() + sf::Vector2f{0.f, 30.f}, 1, "four"), 1);
 
@@ -240,6 +249,9 @@ void MainCharacter::shootCharge(float _dt) {
 
 			m_currentShootingPower = m_minShootingSpeed;
 			m_shootingState = SHOOTING_STATE::CHARGING_NORMAL;
+
+			// Play audio
+			m_bowDrawSound.play();
 		}
 	}
 	
@@ -262,6 +274,9 @@ void MainCharacter::shootCharge(float _dt) {
 
 	// Release normal shot
 	if (Input::getKeyUp(Input::X) && m_shootingState == SHOOTING_STATE::CHARGING_NORMAL) {
+		// Play audio
+		m_bowShootSound.play();
+
 		shoot(m_direction, m_currentShootingPower);
 		m_shootingState = SHOOTING_STATE::BOW_RELEASE;
 	}

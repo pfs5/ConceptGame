@@ -1,6 +1,7 @@
 #include "Grass.h"
 #include "PhysicsEngine.h"
 #include "Util.h"
+#include "ResourceManager.h"
 #include "Debug.h"
 
 Grass::Grass() {
@@ -8,6 +9,7 @@ Grass::Grass() {
 
 	// Load
 	m_controller.load("grass", false);
+	m_grassSound.setBuffer(*ResourceManager::getInstance().getSound("grass_1"));
 
 	// Collider
 	auto collider = PhysicsEngine::getInstance().createCollider(this);
@@ -35,6 +37,9 @@ void Grass::onCollision(Collider * _this, Collider * _other) {
 			int anim = Util::randomInt(0, 1);
 			std::string animationName = anim == 0 ? "idle1" : "idle2";
 			m_controller.playAnimation(animationName);
+
+			// Play audio
+			m_grassSound.play();
 		}
 	}
 }

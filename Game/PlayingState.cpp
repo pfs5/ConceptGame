@@ -22,6 +22,7 @@
 #include "BaseTree.h"
 #include "Grass.h"
 #include "Util.h"
+#include "ResourceManager.h"
 
 #include <SFML/Window.hpp>
 #include <algorithm>
@@ -128,6 +129,9 @@ PlayingState::PlayingState() {
 
 	// ### Enemies ###
 	m_gameObjects[0].push_back(new EnemyManager(mainChar));
+
+	// ### Music ###
+	ResourceManager::getInstance().getMusic("forest_background")->play();
 }
 
 

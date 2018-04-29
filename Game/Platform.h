@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include <SFML/Audio.hpp>
 class Platform : public GameObject {
 	enum PLATFORM_STATE {
 		ACTIVE,
@@ -12,7 +13,11 @@ class Platform : public GameObject {
 	PLATFORM_STATE m_state;
 	float m_alpha;
 
+	// Visuals
 	sf::Sprite m_sprite;
+
+	// Audio
+	sf::Sound m_landSound;
 
 	// Spring physics
 	float m_velocity;

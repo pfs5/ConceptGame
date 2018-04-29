@@ -17,6 +17,9 @@ Platform::Platform(const sf::Vector2f & _position) :
 	m_sprite.setTexture(*tex);
 	m_sprite.setOrigin(200, 195);
 
+	// Audio
+	m_landSound.setBuffer(*ResourceManager::getInstance().getSound("platform_land"));
+
 	// Colliders
 	Collider * collider = PhysicsEngine::getInstance().createCollider(this);
 	collider->setSize(size);
@@ -118,8 +121,12 @@ void Platform::onCollision(Collider * _this, Collider * _other) {
 	if (_other->getGameObject()->isObjectTag("Main") && m_state == PLATFORM_STATE::ACTIVE) {
 		sf::Vector2f playerDistance = _other->getGameObject()->getPosition() - getPosition();
 		if (FloatOperations::compare(playerDistance.y, m_jumpResponseHeight) == 0 && fabsf(playerDistance.x) <= m_jumpResponseWidth) {
+			// Bounce platform
 			m_state = PLATFORM_STATE::TRIGGERED;
 			m_velocity = m_responseVelocity;
+
+			// Play sound
+			m_landSound.play();
 		}
 	}
 }

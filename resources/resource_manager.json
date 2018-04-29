@@ -250,5 +250,35 @@
 			"name": "grass_idle2",
 			"path": "grass_idle2.png"
 		}
+	],
+
+	"sounds" : [
+		{
+			"name": "archer_guy_jump",
+			"path": "archer_guy_jump.ogg"
+		},
+		{
+			"name": "platform_land",
+			"path": "platform_land.ogg"
+		},
+		{
+			"name": "grass_1",
+			"path": "grass_1.ogg"
+		},
+		{
+			"name": "bow_draw",
+			"path": "bow_draw.ogg"
+		},
+		{
+			"name": "bow_shoot",
+			"path": "bow_shoot.ogg"
+		}
+	],
+
+	"music" : [
+		{
+			"name": "forest_background",
+			"path": "forest_background.ogg"
+		}
 	]
 }

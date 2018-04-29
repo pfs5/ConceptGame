@@ -14,6 +14,7 @@ class EnemyManager : public GameObject, EnemyObserver {
 
 	// State
 	MANAGER_STATE m_state;
+	bool m_started;
 
 	int m_currentWave;
 	int m_activeEnemies;

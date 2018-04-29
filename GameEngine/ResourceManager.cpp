@@ -20,6 +20,24 @@ sf::Texture * ResourceManager::getTexture(std::string _textureName) {
 	}
 }
 
+sf::SoundBuffer * ResourceManager::getSound(std::string _soundName) {
+	try {
+		return m_sounds.at(_soundName);
+	}
+	catch (std::out_of_range e) {
+		return nullptr;
+	}
+}
+
+sf::Music * ResourceManager::getMusic(std::string _musicName) {
+	try {
+		return m_music.at(_musicName);
+	}
+	catch (std::out_of_range e) {
+		return nullptr;
+	}
+}
+
 std::map<std::string, sf::Font*> ResourceManager::loadFonts() {
 	std::map<std::string, sf::Font*> fonts;
 
@@ -72,4 +90,58 @@ sf::Texture * ResourceManager::loadTexture(const std::string & _fileName) {
 	}
 
 	return t;
+}
+
+std::map<std::string, sf::SoundBuffer*> ResourceManager::loadSounds() {
+	std::map<std::string, sf::SoundBuffer*> sounds;
+
+	// Load sounds
+	std::ifstream file{ RESOURCE_MANAGER_DATA };
+	if (file.is_open()) {
+		nlohmann::json data;
+		file >> data;
+		for (auto sound : data["sounds"]) {
+			sounds.emplace(sound["name"], loadSound(sound["path"]));
+		}
+
+		file.close();
+	}
+
+	return sounds;
+}
+
+sf::SoundBuffer * ResourceManager::loadSound(const std::string & _fileName) {
+	sf::SoundBuffer * b = new sf::SoundBuffer();
+	if (!b->loadFromFile(AUDIO_FOLDER + _fileName)) {
+		Debug::logError("Error load audio " + _fileName);
+	}
+
+	return b;
+}
+
+std::map<std::string, sf::Music*> ResourceManager::loadMusic() {
+	std::map<std::string, sf::Music*> music;
+
+	// Load sounds
+	std::ifstream file{ RESOURCE_MANAGER_DATA };
+	if (file.is_open()) {
+		nlohmann::json data;
+		file >> data;
+		for (auto sound : data["music"]) {
+			music.emplace(sound["name"], loadMusicFile(sound["path"]));
+		}
+
+		file.close();
+	}
+
+	return music;
+}
+
+sf::Music * ResourceManager::loadMusicFile(const std::string & _fileName) {
+	sf::Music * m = new sf::Music();
+	if (!m->openFromFile(AUDIO_FOLDER + _fileName)) {
+		Debug::logError("Error load audio " + _fileName);
+	}
+
+	return m;
 }

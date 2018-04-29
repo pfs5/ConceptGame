@@ -3,6 +3,7 @@
 #include "Display.h"
 #include "AnimationController.h"
 #include "ChainedProjectile.h"
+#include <SFML/Audio.hpp>
 
 class MainCharacter : public GameObject {
 	// Character state
@@ -59,6 +60,11 @@ class MainCharacter : public GameObject {
 	AnimationController m_bowController;
 	AnimationController m_arrowsController;
 	AnimationController m_eyesController;
+
+	// Audio
+	sf::Sound m_jumpSound;
+	sf::Sound m_bowDrawSound;
+	sf::Sound m_bowShootSound;
 
 	// Movement
 	int m_direction;
