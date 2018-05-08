@@ -22,12 +22,15 @@ class GameManager : public GameObject, CollectableArrowObserver {
 	bool m_isInitialized;
 	int m_activeCollectableArrows;
 
+	float m_arrowSpawnTimer;
+
 	float m_healthPoints;
 
 	// Parameters
 	const float MAX_ARROW_OFFSET = 200.f;
 	const int MIN_ARROWS_IN_SCENE = 3;
 	const int INITIAL_ARROWS_IN_SCENE = 10;
+	const float ARROW_SPAWN_DELAY = 0.5f;
 public:
 	GameManager();
 

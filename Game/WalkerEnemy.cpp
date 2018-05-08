@@ -12,6 +12,10 @@ WalkerEnemy::WalkerEnemy() : m_walkState{WALK_STATE::STEP_ONE} {
 	setObjectLayer("WalkerEnemy");
 	setObjectTag("Enemy");
 
+	// Load audio
+	m_moveSound.setBuffer(*ResourceManager::getInstance().getSound("walker_move"));
+	m_stepSound.setBuffer(*ResourceManager::getInstance().getSound("walker_step"));
+
 	//auto tex = ResourceManager::getInstance().getTexture("walker_enemy");
 	//tex->setSmooth(true);
 	//m_sprite.setTexture(*tex);
@@ -80,6 +84,9 @@ void WalkerEnemy::update(float _dt) {
 			m_colliders[WHEEL_COLLIDER_ID]->setOffset(WHEEL_COL_OFFSET_2 - sf::Vector2f{ 0, offset });
 
 			if (m_counter > 7.f / 60.f * scale) {
+				m_moveSound.stop();
+				m_stepSound.play();
+
 				m_walkState = WALK_STATE::HOLD_ONE;
 
 				m_colliders[EYE_COLLIDER_ID]->setOffset(EYE_COL_OFFSET_2);
@@ -90,6 +97,8 @@ void WalkerEnemy::update(float _dt) {
 		}
 		case WALK_STATE::HOLD_ONE:
 			if (m_counter > 11.f / 60.f * scale) {
+				//m_moveSound.play();
+				
 				m_walkState = WALK_STATE::STEP_TWO;
 				m_colliders[EYE_COLLIDER_ID]->setOffset(EYE_COL_OFFSET_1);
 				m_colliders[WHEEL_COLLIDER_ID]->setOffset(WHEEL_COL_OFFSET_1);
@@ -103,6 +112,9 @@ void WalkerEnemy::update(float _dt) {
 			m_colliders[WHEEL_COLLIDER_ID]->setOffset(WHEEL_COL_OFFSET_2 - sf::Vector2f{ 0, offset });
 
 			if (m_counter > 18.f / 60.f * scale) {
+				m_moveSound.stop();
+				m_stepSound.play();
+
 				m_walkState = WALK_STATE::HOLD_TWO;
 				m_colliders[EYE_COLLIDER_ID]->setOffset(EYE_COL_OFFSET_2);
 				m_colliders[WHEEL_COLLIDER_ID]->setOffset(WHEEL_COL_OFFSET_2);
@@ -111,6 +123,8 @@ void WalkerEnemy::update(float _dt) {
 		}
 		case WALK_STATE::HOLD_TWO:
 			if (!m_bodyController.isPlaying()) {
+				//m_moveSound.play();
+
 				m_walkState = WALK_STATE::STEP_ONE;
 				m_counter = 0.f;
 				m_bodyController.playAnimation("walk_right");

@@ -24,6 +24,32 @@
 
 	"textures" : [
 		{
+			"name": "splash1",
+			"path": "splash1.png"
+		},
+		{
+			"name": "splash2",
+			"path": "splash2.png"
+		},
+		{
+			"name": "splash3",
+			"path": "splash3.png"
+		},
+		{
+			"name": "splash4",
+			"path": "splash4.png"
+		},
+
+		{
+			"name": "menu",
+			"path": "menu.png"
+		},
+		{
+			"name": "menu_selector",
+			"path": "menu_selector.png"
+		},
+
+		{
 			"name": "title",
 			"path": "title.png"
 		},	
@@ -272,6 +298,32 @@
 		{
 			"name": "bow_shoot",
 			"path": "bow_shoot.ogg"
+		},
+		{
+			"name": "arrow_hit",
+			"path": "arrow_hit.ogg"
+		},
+		{
+			"name": "arrow_shoot",
+			"path": "arrow_shoot.ogg"
+		},
+		{
+			"name": "arrow_collect",
+			"path": "arrow_collect.ogg"
+		},
+		{
+			"name": "arrow_break",
+			"path": "arrow_break.ogg"
+		},
+
+
+		{
+			"name": "walker_move",
+			"path": "walker_move.ogg"
+		},
+		{
+			"name": "walker_step",
+			"path": "walker_step.ogg"
 		}
 	],
 
@@ -279,6 +331,10 @@
 		{
 			"name": "forest_background",
 			"path": "forest_background.ogg"
+		},
+		{
+			"name": "soundtrack",
+			"path": "soundtrack.ogg"
 		}
 	]
 }

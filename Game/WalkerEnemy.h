@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Enemy.h"
 #include "AnimationController.h"
+#include <SFML/Audio.hpp>
 
 class WalkerEnemy : public GameObject, public Enemy {
 	const int EYE_COLLIDER_ID =		0;
@@ -32,7 +33,12 @@ class WalkerEnemy : public GameObject, public Enemy {
 
 	AnimationController m_bodyController;
 
+	// Visuals
 	sf::Sprite m_sprite;
+
+	// Audio
+	sf::Sound m_moveSound;
+	sf::Sound m_stepSound;
 
 	WALK_STATE m_walkState;
 	DESTRUCTION_STATE m_destructionState;

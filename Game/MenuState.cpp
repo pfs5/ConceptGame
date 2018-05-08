@@ -5,9 +5,11 @@
 #include "Display.h"
 #include "Input.h"
 
-MenuState::MenuState() : m_alpha{ 2 }, m_fadeSpeed{ 100 }, m_isFading { true } {
-	m_sprite.setTexture(*ResourceManager::getInstance().getTexture("title2"));
-	m_sprite.setColor(sf::Color{ 255, 255, 255, uint8_t(m_alpha) });
+MenuState::MenuState() : m_currentSelection{ 0 } {
+	m_sprite.setTexture(*ResourceManager::getInstance().getTexture("menu"));
+	m_selectorSprite.setTexture(*ResourceManager::getInstance().getTexture("menu_selector"));
+
+	m_selectorSprite.setColor(sf::Color{ 255, 255, 255, SELECTOR_OPACITY });
 
 	m_playscene = new PlayingState;
 }
@@ -17,29 +19,25 @@ MenuState::~MenuState() {
 }
 
 void MenuState::update(float _dt) {
-	if (m_isFading) {
-		if (m_alpha < 255) {
-			if (m_alpha < 1) {
-				GameStateManager::pushGameState(m_playscene);
-				return;
-			}
-			
-			m_alpha = fmaxf(m_alpha + _dt * m_fadeSpeed, 0);
-			m_sprite.setColor(sf::Color{ 255, 255, 255, uint8_t(m_alpha) });
-		} else {
-			m_isFading = false;
-		}
+	m_selectorSprite.setPosition(sf::Vector2f{0.f, SELECTOR_HEIGHT + SELECTOR_DELTA * m_currentSelection});
+
+	// Inputs
+	if (Input::getKeyDown(Input::UARROW)) {
+		m_currentSelection = (m_currentSelection - 1 + MENU_ITEMS) % MENU_ITEMS;
 	}
-	
+
+	if (Input::getKeyDown(Input::DARROW)) {
+		m_currentSelection = (m_currentSelection + 1) % MENU_ITEMS;
+	}
+
 	if (Input::getKeyDown(Input::ENTER)) {
-		m_fadeSpeed *= -2;
-		m_alpha = fminf(m_alpha, 254);
-		m_isFading = true;
+		selectMenuItem();
 	}
 }
 
 void MenuState::draw() {
 	Display::draw(m_sprite);
+	Display::draw(m_selectorSprite);
 }
 
 GameObject * MenuState::instantiateObject(GameObject * _gameObject) {
@@ -47,4 +45,26 @@ GameObject * MenuState::instantiateObject(GameObject * _gameObject) {
 }
 
 void MenuState::destroyObject(GameObject * _gameObject) {
+}
+
+void MenuState::selectMenuItem() {
+	switch (m_currentSelection) {
+	case 0:
+		// Start game
+		GameStateManager::pushGameState(m_playscene);
+		break;
+
+	case 1:
+		// Do nothing :D
+		break;
+
+	case 2:
+		// Exit game
+		exitGame();
+		break;
+	}
+}
+
+void MenuState::exitGame() {
+	exit(0);
 }

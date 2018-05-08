@@ -57,7 +57,7 @@ void TEST_initEnemies(int count, std::vector<std::vector<GameObject*>> &gameObje
 
 }
 
-PlayingState::PlayingState() {
+PlayingState::PlayingState() : m_gameStarted{ false } {
 	// ### Game objects setup ###
 	for (int i = 0; i < GameStateManager::objectLayers; ++i) {
 		m_gameObjects.push_back(std::vector<GameObject*>());
@@ -129,9 +129,6 @@ PlayingState::PlayingState() {
 
 	// ### Enemies ###
 	m_gameObjects[0].push_back(new EnemyManager(mainChar));
-
-	// ### Music ###
-	ResourceManager::getInstance().getMusic("forest_background")->play();
 }
 
 
@@ -148,6 +145,11 @@ PlayingState::~PlayingState() {
 }
 
 void PlayingState::update(float _dt) {
+	if (!m_gameStarted) {
+		m_gameStarted = true;
+		startGame();
+	}
+
 	for (int i = m_gameObjects.size() - 1; i >= 0; --i) {
 		for (GameObject * g : m_gameObjects[i]) {
 			if (g->isActive()) {
@@ -225,6 +227,10 @@ GameObject * PlayingState::instantiateObject(GameObject * _gameObject) {
 
 void PlayingState::destroyObject(GameObject * _gameObject) {
 	_gameObject->setActive(false);
+}
+
+void PlayingState::startGame() {
+	ResourceManager::getInstance().getMusic("soundtrack")->play();
 }
 
 void PlayingState::updateView(float _dt) {

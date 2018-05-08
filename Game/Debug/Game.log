@@ -1,7 +1,6 @@
-﻿  MainCharacter.cpp
+﻿  Source.cpp
+  SplashState.cpp
 d:\code\games\conceptgame001\gameengine\display.h(10): warning C4244: 'initializing': conversion from 'float' to 'const uint16_t', possible loss of data
-d:\code\games\conceptgame001\gameengine\floatoperations.h(5): warning C4305: 'initializing': truncation from 'double' to 'float'
-d:\code\games\conceptgame001\gameengine\util.h(18): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-d:\code\games\conceptgame001\gameengine\util.h(30): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-d:\code\games\conceptgame001\gameengine\util.h(36): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+d:\code\games\conceptgame001\game\splashstate.cpp(32): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+  Generating Code...
   Game.vcxproj -> D:\Code\Games\ConceptGame001\Debug\Game.exe

@@ -3,6 +3,7 @@
 #include "Display.h"
 #include "Debug.h"
 #include "GameStateManager.h"
+#include "ResourceManager.h"
 
 Projectile::Projectile(int _direction) : m_direction(_direction) {
 	m_objectTag = "Arrow";
@@ -11,6 +12,8 @@ Projectile::Projectile(int _direction) : m_direction(_direction) {
 	m_controller.load("arrow");
 	std::string animation = _direction > 0 ? "idle_right" : "idle_left";
 	m_controller.playAnimation(animation);
+
+	m_hitSound.setBuffer(*ResourceManager::getInstance().getSound("arrow_hit"));
 
 	Collider * c = PhysicsEngine::getInstance().createCollider(this);
 	c->setSize(sf::Vector2f{50, 10});
@@ -56,11 +59,15 @@ void Projectile::onCollision(Collider * _this, Collider * _other) {
 	// Stick into everything but the player character or other arrows or grass
 	if (!_other->getGameObject()->isObjectTag("Main")
 		&& !_other->getGameObject()->isObjectTag("Grass")
-		&& _other->getGameObject()->getObjectLayer() != getObjectLayer()) {
+		&& _other->getGameObject()->getObjectLayer() != getObjectLayer()
+		&& !m_isStatic) {
 		// Stop
 		m_rigidBody->setVelocity(sf::Vector2f{ 0.f, 0.f });
 
 		m_controller.setTrigger("hit");
+
+		// play audio
+		m_hitSound.play();
 
 		m_isStatic = true;
 	}

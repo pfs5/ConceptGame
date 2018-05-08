@@ -45,6 +45,8 @@ MainCharacter::MainCharacter():
 	m_jumpSound.setBuffer(*ResourceManager::getInstance().getSound("archer_guy_jump"));
 	m_bowDrawSound.setBuffer(*ResourceManager::getInstance().getSound("bow_draw"));
 	m_bowShootSound.setBuffer(*ResourceManager::getInstance().getSound("bow_shoot"));
+	m_collectSound.setBuffer(*ResourceManager::getInstance().getSound("arrow_collect"));
+	m_arrowBreakSound.setBuffer(*ResourceManager::getInstance().getSound("arrow_break"));
 
 	// Create rigid body
 	Collider * collider = PhysicsEngine::getInstance().createCollider(this);
@@ -118,6 +120,7 @@ void MainCharacter::onCollision(Collider * _this, Collider * _other) {
 
 	// Arrow pickup
 	if (otherGameObject->isObjectTag("CollectableArrow")) {
+		m_collectSound.play();
 		m_numberOfArrows++;
 	}
 }
@@ -217,6 +220,8 @@ void MainCharacter::jump(float _dt) {
 				Projectile * proj = dynamic_cast<Projectile*>(m_arrowInCollision);
 
 				if (proj != nullptr) {
+					// break arrow
+					m_arrowBreakSound.play();
 					proj->breakArrow();
 					m_arrowInCollision = nullptr;
 				}

@@ -18,6 +18,8 @@ class PlayingState : public GameState {
 	// level
 	Map * m_map;
 
+	bool m_gameStarted;
+
 	// DEBUG
 	sf::Vector2f VIEW_OFFSET;
 
@@ -35,6 +37,7 @@ public:
 	virtual void destroyObject(GameObject * _gameObject) override;
 
 private:
+	void startGame();
 	void updateView(float _dt);
 };
 

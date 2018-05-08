@@ -3,8 +3,10 @@
 #include "PhysicsEngine.h"
 #include "GameStateManager.h"
 #include "Debug.h"
+#include "ResourceManager.h"
+#include "Util.h"
 
-CollectableArrow::CollectableArrow(ARROW_DIRECTION _dir) : m_direction{ _dir } {
+CollectableArrow::CollectableArrow(ARROW_DIRECTION _dir) : m_direction{ _dir }, m_isStuck{ false }, m_wasShot{ false } {
 	setObjectTag("CollectableArrow");
 
 	// Init controller
@@ -15,6 +17,13 @@ CollectableArrow::CollectableArrow(ARROW_DIRECTION _dir) : m_direction{ _dir } {
 	m_shape.setSize(sf::Vector2f{10.f, 50.f});
 	m_shape.setOrigin(sf::Vector2f{ 5.f, 25.f });
 	m_shape.setRotation(_dir == ARROW_DIRECTION::LEFT ? 30 : -30);
+
+	// Init audio
+	m_hitSound.setBuffer(*ResourceManager::getInstance().getSound("arrow_hit"));
+	m_shootSound.setBuffer(*ResourceManager::getInstance().getSound("arrow_shoot"));
+
+	float pitchOffset = (Util::randomFloat() * MAX_PITCH_OFFSET * 2) - MAX_PITCH_OFFSET;
+	m_hitSound.setPitch(1.f + pitchOffset);
 
 	Collider * c = PhysicsEngine::getInstance().createCollider(this);
 	c->setSize(sf::Vector2f{ 25.f, 20.f });
@@ -37,6 +46,11 @@ void CollectableArrow::attachObserver(CollectableArrowObserver * _o) {
 }
 
 void CollectableArrow::update(float _dt) {
+	if (!m_wasShot) {
+		m_wasShot = true;
+		m_shootSound.play();
+	}
+
 	m_controller.update(_dt);
 }
 
@@ -47,15 +61,20 @@ void CollectableArrow::draw() {
 
 void CollectableArrow::onCollision(Collider * _this, Collider * _other) {
 	// Stop on collision
-	if (_other->getGameObject()->isObjectTag("Floor") || 
+	if ((_other->getGameObject()->isObjectTag("Floor") || 
 		_other->getGameObject()->isObjectTag("Platform") ||
-		_other->getGameObject()->isObjectTag("Wall")) {
+		_other->getGameObject()->isObjectTag("Wall")) &&
+		!m_isStuck) {
+		m_isStuck = true;
 
 		m_rigidBody->setVelocity(sf::Vector2f{0.f, 0.f});
 		for (auto &col : m_colliders) {
 			col->setStatic(true);
 			col->setTrigger(true);
 		}
+
+		// play audio
+		m_hitSound.play();
 	}
 
 	// Destroy on player collision

@@ -9,7 +9,7 @@
 EnemyManager::EnemyManager(GameObject * _player) :
 	m_player{ _player },
 	m_state{ MANAGER_STATE::SPAWNING },
-	m_started {false},
+	m_started {true},
 	m_currentWave {0},
 	m_activeEnemies{ 0 }, 
 	m_timer{ 0.f } {
@@ -43,7 +43,7 @@ EnemyManager::~EnemyManager() {
 
 void EnemyManager::update(float _dt) {
 	// DEBUG
-	if (Input::getKeyDown(Input::Num7)) {
+	if (Input::getKeyDown(Input::Numpad7)) {
 		m_started = true;
 		Debug::log("[Enemy manager] Starting wave 0.");
 	}

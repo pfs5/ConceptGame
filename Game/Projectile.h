@@ -1,9 +1,14 @@
 #pragma once
 #include "GameObject.h"
 #include "AnimationController.h"
+
+#include <SFML/Audio.hpp>
 class Projectile : public GameObject{
 	// Visuals
 	AnimationController m_controller;
+
+	// Audio
+	sf::Sound m_hitSound;
 
 	// Game
 	bool m_isStatic = false;

@@ -8,7 +8,12 @@
 GameManager::GameManager() : 
 	m_isInitialized {false},
 	m_activeCollectableArrows{ 0 },
-	m_healthPoints{ GameSettings::MAX_HEALTH_POINTS } {
+	m_healthPoints{ GameSettings::MAX_HEALTH_POINTS },
+	m_arrowSpawnTimer{ ARROW_SPAWN_DELAY * 2.f } {
+	
+	std::cout << m_arrowSpawnTimer << std::endl;
+
+	//m_arrowSpawnTimer = ARROW_SPAWN_DELAY * 2.f;
 }
 
 void GameManager::spawnArrow(sf::Vector2f _pos, CollectableArrow::ARROW_DIRECTION _dir) {
@@ -23,7 +28,7 @@ void GameManager::spawnArrow(sf::Vector2f _pos, CollectableArrow::ARROW_DIRECTIO
 }
 
 void GameManager::spawnArrows(int _numberOfArrows) {
-	while (m_activeCollectableArrows < _numberOfArrows) {
+	while (m_activeCollectableArrows < _numberOfArrows && m_arrowSpawnTimer > ARROW_SPAWN_DELAY) {
 		// Spawn random arrow
 		CollectableArrow::ARROW_DIRECTION direction = Util::randomFloat() < 0.5f ?
 			CollectableArrow::ARROW_DIRECTION::LEFT : CollectableArrow::ARROW_DIRECTION::RIGHT;
@@ -48,6 +53,7 @@ void GameManager::spawnArrows(int _numberOfArrows) {
 
 void GameManager::notify() {
 	m_activeCollectableArrows--;
+	m_arrowSpawnTimer = 0.f;
 }
 
 void GameManager::update(float _dt) {
@@ -55,6 +61,8 @@ void GameManager::update(float _dt) {
 		m_isInitialized = true;
 		spawnArrows(INITIAL_ARROWS_IN_SCENE);
 	}
+
+	m_arrowSpawnTimer += _dt;
 
 	// Arrow spawning
 	spawnArrows(MIN_ARROWS_IN_SCENE);

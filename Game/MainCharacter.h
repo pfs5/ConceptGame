@@ -65,6 +65,8 @@ class MainCharacter : public GameObject {
 	sf::Sound m_jumpSound;
 	sf::Sound m_bowDrawSound;
 	sf::Sound m_bowShootSound;
+	sf::Sound m_collectSound;
+	sf::Sound m_arrowBreakSound;
 
 	// Movement
 	int m_direction;

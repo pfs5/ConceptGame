@@ -1,6 +1,8 @@
 #pragma once
 #include "GameObject.h"
 #include "AnimationController.h"
+
+#include <SFML/Audio.hpp>
 class CollectableArrowObserver {
 public:
 	virtual void notify() = 0;
@@ -14,11 +16,20 @@ private:
 	sf::RectangleShape m_shape;
 	AnimationController m_controller;
 
+	// Audio
+	sf::Sound m_hitSound;
+	sf::Sound m_shootSound;
+
 	// State
 	ARROW_DIRECTION m_direction;
+	bool m_isStuck;
+	bool m_wasShot;
 
 	// Observers
 	std::vector<CollectableArrowObserver*> m_observers;
+
+	// Parameters
+	const float MAX_PITCH_OFFSET = 0.1f;
 public:
 	CollectableArrow(ARROW_DIRECTION _dir);
 
